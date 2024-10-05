@@ -40,7 +40,7 @@ public class MySpaceTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testConstructorWithInvalidCol2() {
-    new MySpace(0, 0, 3, -3, "Kitchen");  // Testing for col2 < col1
+    new MySpace(0, 0, 3, -3, "Kitchen");
   }
 
   @Test(expected = IllegalArgumentException.class)
