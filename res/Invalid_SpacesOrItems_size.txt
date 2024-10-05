@@ -1,0 +1,42 @@
+36 30 Leo's World
+50 Doctor Unlucky
+19
+26 13 27 17 Foyer
+21 26 35 29 Green House
+25 19 35 25 Hedge Maze
+17  3 21 10 Kitchen
+ 0  3  5  8 Lancaster Room
+ 4 21  9 27 Library
+10 21 14 26 Trophy Room
+22  5 23 12 Wine Cellar
+30  7 35 11 Winter Garden
+21 19 24 25 Armory
+ 2  9  9 14 Lilac Room
+ 2 15  9 20 Master Suite
+ 0 21  3 28 Nursery
+10  5 16 10 Parlor
+28 12 35 18 Piazza
+ 6  3  9  8 Servants' Quarters
+10 11 11 20 Tennessee Room
+15 21 20 28 Billiard Room
+28  0 34  6 Carriage House
+19
+12 2 Shoe Horn
+4 2 Crepe Pan
+0 3 Revolver
+8 3 Sharp Knife
+16 2 Broom Stick
+6 2 Trowel
+15 3 Civil War Cannon
+2 4 Big Red Hammer
+2 4 Chain Saw
+6 2 Pinking Shears
+1 2 Billiard Cue
+13 2 Bad Cream
+16 2 Rat Poison
+11 2 Tight Hat
+9 3 Silken Cord
+18 3 Duck Decoy
+16 2 Piece of Rope
+18 2 Monkey Hand
+8 3 Loud Noise
