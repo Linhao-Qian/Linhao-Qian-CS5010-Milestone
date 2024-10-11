@@ -1,6 +1,5 @@
 package character;
 
-import java.util.Objects;
 import world.MyWorld;
 
 /**
@@ -64,13 +63,13 @@ public class TargetCharacter implements Character {
     if (!(o instanceof TargetCharacter)) {
       return false;
     }
-    TargetCharacter that = (TargetCharacter) o;
-    return this.name.equals(that.name) && this.health == that.health;
+    Character that = (TargetCharacter) o;
+    return this.name.equals(that.getName());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, health);
+    return name.hashCode();
   }
   
   @Override

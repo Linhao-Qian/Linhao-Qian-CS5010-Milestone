@@ -15,37 +15,27 @@ public class MyItemTest {
 
   @Before
   public void setUp() {
-    item = new MyItem("Revolver", 0, 3);
+    item = new MyItem("Revolver", 3);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testConstructorWithNullName() {
-    new MyItem(null, 0, 3);
+    new MyItem(null, 3);
   }
   
   @Test(expected = IllegalArgumentException.class)
   public void testConstructorWithEmptyName() {
-    new MyItem("", 0, 3);
+    new MyItem("", 3);
   }
-
-  @Test(expected = IllegalArgumentException.class)
-  public void testConstructorWithInvalidPosition() {
-    new MyItem("Revolver", -1, 3);
-  }
-
+  
   @Test(expected = IllegalArgumentException.class)
   public void testConstructorWithInvalidDamage() {
-    new MyItem("Revolver", 0, 0);
+    new MyItem("Revolver", 0);
   }
 
   @Test
   public void testGetName() {
     assertEquals("Revolver", item.getName());
-  }
-
-  @Test
-  public void testGetPosition() {
-    assertEquals(0, item.getPosition());
   }
 
   @Test

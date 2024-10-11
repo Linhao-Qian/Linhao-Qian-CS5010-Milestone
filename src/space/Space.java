@@ -34,9 +34,30 @@ public interface Space {
   List<Item> getItems();
   
   /**
+   * Return the neighbors of the space.
+   *
+   * @return the neighbors of the space
+   */
+  List<Space> getNeighbors();
+  
+  /**
    * Add an item to the space's item list.
    * 
    * @param item   the item which needs to be added to the space
    */
   void addItem(Item item);
+  
+  /**
+   * Remove an item from the space's item list.
+   * 
+   * @param item   the item which needs to be removed from the space
+   */
+  void removeItem(Item item);
+  
+  /**
+   * Add a neighbor to the space's neighbor list.
+   * 
+   * @param space   the space which is adjacent to current space
+   */
+  void addNeighbor(Space space);
 }

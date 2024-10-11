@@ -1,7 +1,6 @@
 package world;
 
 import character.Character;
-import item.Item;
 import java.awt.image.BufferedImage;
 import java.util.List;
 import space.Space;
@@ -40,12 +39,12 @@ public interface World {
   List<Space> getSpaces();
   
   /**
-   * Return the items in the world. Each world has a number of items,
-   * and each item can cause a certain amount of damage to the target character.
+   * Display the information of a specified space.
    *
-   * @return the items in the world
+   * @param space   the space of which information needs to be displayed
+   * @return the space's information
    */
-  List<Item> getItems();
+  String displaySpaceInformation(Space space);
   
   /**
    * Return the position of the target character.

@@ -2,13 +2,18 @@ package world;
 
 import character.TargetCharacter;
 import item.Item;
+import item.MyItem;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Scanner;
+
 import space.MySpace;
 import space.Space;
 
@@ -22,64 +27,100 @@ public class MyWorld implements World {
   private final int cols;
   private final TargetCharacter targetCharacter;
   private final List<Space> spaces;
-  private final List<Item> items;
   private int targetCharacterPosition;
+  
+  private final String SEPARATOR = "\n----------------------------------------------------------------------------------\n";
 
   /**
    * Constructs a MyWorld object, which has a name, a number of rows, a number of columns,
    * a target character, a list of spaces and a list of items.
    * 
-   * @param name              the name of the world
-   * @param rows              number of the rows
-   * @param cols              number of the columns
-   * @param targetCharacter   the target character
-   * @param spaces            the list of the spaces in the world
-   * @param items             the list of the items in the world
+   * @param reader   the input reader
    * @throws IllegalArgumentException   if the name is null or empty, the spaces or items size
    *                                    is less than 20, the world size is not positive, the item
    *                                    position is invalid, the space boundary is out of the
    *                                    world, or the spaces overlap
    */
-  public MyWorld(String name, int rows, int cols, TargetCharacter targetCharacter,
-      List<Space> spaces, List<Item> items) throws IllegalArgumentException {
-    if (name == null || name.isEmpty()) {
-      throw new IllegalArgumentException("The name of the world can't be empty!");
-    }
-    if (spaces.size() < 20) {
-      throw new IllegalArgumentException("A world should consist of at least 20 spaces.");
-    }
-    if (items.size() < 20) {
-      throw new IllegalArgumentException("A world should consist of at least 20 items.");
-    }
+  public MyWorld(Readable reader) throws IllegalArgumentException {
+    Scanner scan = new Scanner(reader);
+    
+    // Read the world information.
+    String[] worldInfo = scan.nextLine().split(" ", 3);
+    this.rows = Integer.parseInt(worldInfo[0]);
+    this.cols = Integer.parseInt(worldInfo[1]);
     if (rows <= 0 || cols <= 0) {
+      scan.close();
       throw new IllegalArgumentException("Invalid world size");
     }
-    for (Item item : items) {
-      if (item.getPosition() >= spaces.size()) {
-        throw new IllegalArgumentException("Invalid item position");
-      }
+    this.name = worldInfo[2];
+    if (name == null || name.isEmpty()) {
+      scan.close();
+      throw new IllegalArgumentException("The name of the world can't be empty!");
     }
-    for (int i = 0; i < spaces.size(); i++) {
+    
+    // Read the target character information.
+    String[] targetCharacterInfo = scan.nextLine().split(" ", 2);
+    int health = Integer.parseInt(targetCharacterInfo[0]);
+    String targetCharacterName = targetCharacterInfo[1];
+    this.targetCharacter = new TargetCharacter(targetCharacterName, health);
+    
+    // Read the spaces information.
+    int spaceNum = Integer.parseInt(scan.nextLine());
+    if (spaceNum < 20) {
+      scan.close();
+      throw new IllegalArgumentException("A world should consist of at least 20 spaces.");
+    }
+    this.spaces = new ArrayList<>();
+    for (int i = 0; i < spaceNum; i++) {
+      String[] spaceInfo = scan.nextLine().trim().split("\\s+", 5);
+      int row1 = Integer.parseInt(spaceInfo[0]);
+      int col1 = Integer.parseInt(spaceInfo[1]);
+      int row2 = Integer.parseInt(spaceInfo[2]);
+      int col2 = Integer.parseInt(spaceInfo[3]);
+      String spaceName = spaceInfo[4];
+      spaces.add(new MySpace(row1, col1, row2, col2, spaceName));
+    }
+    for (int i = 0; i < spaceNum; i++) {
       Space space1 = spaces.get(i);
+      // get and store the neighbor information of each space
+      this.getNeighbors(space1).forEach(space1::addNeighbor);
       // check if the space's row2 or col2 is beyond the world boundary
       if (space1.getPosition()[2] >= rows || space1.getPosition()[3] >= cols) {
+        scan.close();
         throw new IllegalArgumentException("Space boundary is out of the world");
       }
       // check if any two spaces overlap
       for (int j = i + 1; j < spaces.size(); j++) {
         Space space2 = spaces.get(j);
         if (areSpacesOverlapping(space1, space2)) {
-          throw new IllegalArgumentException(
-              "Spaces overlap: " + space1.getName() + " and " + space2.getName());
+          scan.close();
+          throw new IllegalArgumentException(String.format("Spaces overlap: %s and %s", space1.getName(), space2.getName()));
         }
       }
     }
-    this.name = name;
-    this.rows = rows;
-    this.cols = cols;
-    this.targetCharacter = targetCharacter;
-    this.spaces = spaces;
-    this.items = items;
+    
+    // Read the items information.
+    int itemNum = Integer.parseInt(scan.nextLine());
+    if (itemNum < 20) {
+      scan.close();
+      throw new IllegalArgumentException("A world should consist of at least 20 items.");
+    }
+    for (int i = 0; i < itemNum; i++) {
+      String[] itemInfo = scan.nextLine().split("\\s+", 3);
+      int position = Integer.parseInt(itemInfo[0]);
+      if (position >= spaceNum || position < 0) {
+        scan.close();
+        throw new IllegalArgumentException("Invalid item position");
+      }
+      int damage = Integer.parseInt(itemInfo[1]);
+      String itemName = itemInfo[2];
+      Item item = new MyItem(itemName, damage);
+      spaces.get(position).addItem(item);
+    }
+    
+    // Close the scanner.
+    scan.close();
+    
     this.targetCharacterPosition = 0;
   }
 
@@ -113,11 +154,6 @@ public class MyWorld implements World {
   public List<Space> getSpaces() {
     return new ArrayList<>(spaces);
   }
-
-  @Override
-  public List<Item> getItems() {
-    return new ArrayList<>(items);
-  }
   
   @Override
   public int getTargetCharacterPosition() {
@@ -148,6 +184,16 @@ public class MyWorld implements World {
     return neighbors;
   }
 
+  @Override
+  public String displaySpaceInformation(Space space) {
+    StringBuilder sb = new StringBuilder(space.toString());
+    if (targetCharacterPosition == spaces.indexOf(space)) {
+      sb.append("\nThe target character is in this space now:\n");
+      sb.append(targetCharacter.toString());
+    }
+    return sb.toString();
+  }
+  
   @Override
   public void moveTargetCharacter() {
     if (targetCharacterPosition < spaces.size() - 1) {
@@ -217,20 +263,24 @@ public class MyWorld implements World {
     if (!(o instanceof MyWorld)) {
       return false;
     }
-    MyWorld that = (MyWorld) o;
-    return this.rows == that.rows && this.cols == that.cols
-        && this.targetCharacterPosition == that.targetCharacterPosition
-        && this.name.equals(that.name) && this.targetCharacter.equals(that.targetCharacter)
-        && this.spaces.equals(that.spaces) && this.items.equals(that.items);
+    World that = (MyWorld) o;
+    return Arrays.equals(this.getSize(), that.getSize()) && this.name.equals(that.getName())
+        && this.targetCharacter.equals(that.getTargetCharacter()) && this.spaces.equals(that.getSpaces());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, rows, cols, targetCharacter, spaces, items, targetCharacterPosition);
+    return Objects.hash(name, rows, cols, targetCharacter, spaces);
   }
   
   @Override
   public String toString() {
-    return String.format("World name: %s, Size: %d x %d", name, rows, cols);
+    StringBuilder sb = new StringBuilder(String.format("The world's name is: %s\n", name));
+    sb.append(String.format("The world's size is: %d x %d%s", rows, cols, SEPARATOR));
+    sb.append("The spaces and items information is as follows:");
+    for (int i = 0; i < spaces.size(); i++) {
+      sb.append(String.format("%s%s", SEPARATOR, displaySpaceInformation(spaces.get(i))));
+    }
+    return sb.toString();
   }
 }

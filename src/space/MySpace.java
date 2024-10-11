@@ -1,9 +1,13 @@
 package space;
 
 import item.Item;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+
 import world.MyWorld;
 
 /**
@@ -16,6 +20,7 @@ public class MySpace implements Space {
   private final int col2;
   private final String name;
   private final List<Item> items;
+  private final List<Space> neighbors;
 
   /**
    * Constructs a MySpace object, which has a name, four coordinate values and a list of items.
@@ -41,6 +46,7 @@ public class MySpace implements Space {
     this.col2 = col2;
     this.name = name;
     this.items = new ArrayList<>();
+    this.neighbors = new ArrayList<>();
   }
 
   @Override
@@ -59,8 +65,23 @@ public class MySpace implements Space {
   }
   
   @Override
+  public List<Space> getNeighbors() {
+    return new ArrayList<>(neighbors);
+  }
+  
+  @Override
   public void addItem(Item item) {
     items.add(item);
+  }
+  
+  @Override
+  public void removeItem(Item item) {
+    items.remove(item);
+  }
+  
+  @Override
+  public void addNeighbor(Space space) {
+    neighbors.add(space);
   }
   
   @Override
@@ -71,20 +92,20 @@ public class MySpace implements Space {
     if (!(o instanceof MySpace)) {
       return false;
     }
-    MySpace that = (MySpace) o;
-    return this.row1 == that.row1 && this.col1 == that.col1 && this.row2 == that.row2
-        && this.col2 == that.col2 && this.name.equals(that.name) && this.items.equals(that.items);
+    Space that = (MySpace) o;
+    return Arrays.equals(this.getPosition(), that.getPosition()) && this.name.equals(that.getName())  ;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(row1, col1, row2, col2, name, items);
+    return Objects.hash(row1, col1, row2, col2, name);
   }
   
   @Override
   public String toString() {
     return String.format(
-        "Space name: %s, Upper-left: (%d, %d), Lower-right: (%d, %d)",
-        name, row1, col1, row2, col2);
+        "Space name: %s;\nThe space has %d item(s):\n%s\nThe space has %d neighbor(s):\n%s", name,
+        items.size(), items.stream().map(item -> item.toString()).collect(Collectors.joining("\n")),
+        neighbors.size(), neighbors.stream().map(neighbor -> neighbor.getName()).collect(Collectors.joining(", ")));
   }
 }

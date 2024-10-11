@@ -10,6 +10,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import space.MySpace;
+import space.Space;
 
 /**
  * A JUnit test class for the MySpace class.
@@ -70,10 +71,35 @@ public class MySpaceTest {
 
   @Test
   public void testAddItem() {
-    Item item = new MyItem("Revolver", 0, 3);
+    Item item = new MyItem("Revolver", 3);
     space.addItem(item);
     List<Item> items = space.getItems();
     assertEquals(1, items.size());
     assertSame(item, items.get(0));
+  }
+  
+  @Test
+  public void testRemoveItem() {
+    Item item = new MyItem("Revolver", 3);
+    space.addItem(item);
+    List<Item> items = space.getItems();
+    assertEquals(1, items.size());
+    assertSame(item, items.get(0));
+    space.removeItem(item);
+    assertArrayEquals(new Item[]{}, space.getItems().toArray());
+  }
+  
+  @Test
+  public void testGetNeighbors() {
+    assertArrayEquals(new MySpace[]{}, space.getNeighbors().toArray());
+  }
+
+  @Test
+  public void testAddNeighbor() {
+    Space neighbor = new MySpace(0, 4, 3, 6, "Foyer");
+    space.addNeighbor(neighbor);
+    List<Space> neighbors = space.getNeighbors();
+    assertEquals(1, neighbors.size());
+    assertSame(neighbor, neighbors.get(0));
   }
 }
