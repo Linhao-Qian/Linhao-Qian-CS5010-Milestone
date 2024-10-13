@@ -41,6 +41,13 @@ public interface Space {
   List<Space> getNeighbors();
   
   /**
+   * Get an item of the space's item list according to its name.
+   * 
+   * @param itemName  the name of the specific item
+   */
+  Item getItem(String itemName);
+  
+  /**
    * Add an item to the space's item list.
    * 
    * @param item   the item which needs to be added to the space

@@ -1,11 +1,11 @@
 package driver;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.NoSuchElementException;
-import javax.imageio.ImageIO;
+
+import controller.GameController;
 import world.MyWorld;
 import world.World;
 
@@ -22,16 +22,26 @@ public class Driver {
    */  
   public static void main(String[] args) {
     try {
-      if (args.length == 0) {
-        System.out.println("Error: No input file provided");
+      if (args.length != 2) {
+        System.out.println("Error: Invalid command arguments");
         return;
       }
       if (!args[0].endsWith(".txt")) {
         System.out.println("Error: Invalid input file format");
         return;
       }
+      int turnLimit = Integer.parseInt(args[1]);
+      if (turnLimit < 1) {
+        System.out.println("Error: Invalid maximum number of turns allowed");
+        return;
+      }
       Readable fileReader = new FileReader(args[0]);
       World world = new MyWorld(fileReader);
+      
+      Readable reader = new InputStreamReader(System.in);
+      GameController control = new GameController(reader, System.out, turnLimit);
+      
+      control.start(world);
       
       // Print information of the initial world.
       System.out.print(world.toString());
@@ -43,15 +53,10 @@ public class Driver {
       // Print information after the target character moved to the next space.
       System.out.print(
           String.format("After moving, the target character is at:\n\n%s",
-              world.displaySpaceInformation(world.getSpaces().get(world.getTargetCharacterPosition()))));
+              world.displaySpaceInformation(world.getSpaces().get(world.getTargetCharacterPosition()).getName())));
       
-      // Use the input file name to generate the output file name, and output the world map.
-      String outputFileName = args[0].substring(0, args[0].length() - 4).concat(".png");
-      BufferedImage image = world.generateMap();
-      ImageIO.write(image, "png", new File(outputFileName));
-      System.out.println(String.format("%sThe world map is in the %s file.", SEPARATOR, outputFileName));
     } catch (IOException ioe) {
-      System.out.println(String.format("Error: %s", ioe.getMessage()));
+      System.out.println(String.format("IOException: %s", ioe.getMessage()));
     } catch (NumberFormatException nfe) {
       System.out.println(String.format("Number Format Exception: %s", nfe.getMessage()));
     } catch (IllegalArgumentException iae) {

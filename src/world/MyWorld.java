@@ -1,5 +1,6 @@
 package world;
 
+import character.Player;
 import character.TargetCharacter;
 import item.Item;
 import item.MyItem;
@@ -13,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import space.MySpace;
 import space.Space;
@@ -27,7 +29,10 @@ public class MyWorld implements World {
   private final int cols;
   private final TargetCharacter targetCharacter;
   private final List<Space> spaces;
+  private final List<Player> players;
   private int targetCharacterPosition;
+  private Player turn;
+  private int turnCount;
   
   private final String SEPARATOR = "\n----------------------------------------------------------------------------------\n";
 
@@ -89,9 +94,13 @@ public class MyWorld implements World {
         scan.close();
         throw new IllegalArgumentException("Space boundary is out of the world");
       }
-      // check if any two spaces overlap
-      for (int j = i + 1; j < spaces.size(); j++) {
+      // check if any two spaces overlap or have the same name
+      for (int j = i + 1; j < spaceNum; j++) {
         Space space2 = spaces.get(j);
+        if (space1.getName().equals(space2.getName())) {
+          scan.close();
+          throw new IllegalArgumentException(String.format("Two spaces have the same name: %s", space1.getName()));
+        }
         if (areSpacesOverlapping(space1, space2)) {
           scan.close();
           throw new IllegalArgumentException(String.format("Spaces overlap: %s and %s", space1.getName(), space2.getName()));
@@ -101,6 +110,7 @@ public class MyWorld implements World {
     
     // Read the items information.
     int itemNum = Integer.parseInt(scan.nextLine());
+    List<String> itemNames = new ArrayList<>();
     if (itemNum < 20) {
       scan.close();
       throw new IllegalArgumentException("A world should consist of at least 20 items.");
@@ -116,12 +126,21 @@ public class MyWorld implements World {
       String itemName = itemInfo[2];
       Item item = new MyItem(itemName, damage);
       spaces.get(position).addItem(item);
+      itemNames.add(itemName);
+    }
+    // check if any two items have the same name
+    List<String> newItemNames = itemNames.stream().distinct().collect(Collectors.toList());
+    if (itemNames.size() != newItemNames.size()) {
+      scan.close();
+      throw new IllegalArgumentException("There are two items with the same name.");
     }
     
     // Close the scanner.
     scan.close();
     
+    this.players = new ArrayList<>();
     this.targetCharacterPosition = 0;
+    this.turnCount = 0;
   }
 
   private boolean areSpacesOverlapping(Space space1, Space space2) {
@@ -156,6 +175,23 @@ public class MyWorld implements World {
   }
   
   @Override
+  public Space getSpace(String spaceName) {
+    return spaces.stream().filter(space -> space.getName().equals(spaceName)).findAny().orElseThrow(
+        () -> new IllegalArgumentException(String.format("The space %s does not exist", spaceName)));
+  }
+  
+  @Override
+  public List<Player> getPlayers() {
+    return new ArrayList<>(players);
+  }
+  
+  @Override
+  public Player getPlayer(String playerName) {
+    return players.stream().filter(player -> player.getName().equals(playerName)).findAny().orElseThrow(
+        () -> new IllegalArgumentException(String.format("The player %s does not exist", playerName)));
+  }
+  
+  @Override
   public int getTargetCharacterPosition() {
     return targetCharacterPosition;
   }
@@ -185,13 +221,35 @@ public class MyWorld implements World {
   }
 
   @Override
-  public String displaySpaceInformation(Space space) {
+  public String displaySpaceInformation(String spaceName) {
+    Space space = getSpace(spaceName);
     StringBuilder sb = new StringBuilder(space.toString());
     if (targetCharacterPosition == spaces.indexOf(space)) {
       sb.append("\nThe target character is in this space now:\n");
       sb.append(targetCharacter.toString());
     }
+    List<Player> spacePlayers = players.stream().filter(player -> player.getSpace().equals(space)).collect(Collectors.toList());
+    sb.append(String.format("There are %d player(s) in this space:\n", spacePlayers.size()));
+    spacePlayers.forEach(player -> sb.append(player.toString()));
     return sb.toString();
+  }
+  
+  @Override
+  public String displayPlayerInformation(String playerName) {
+    Player player = getPlayer(playerName);
+    StringBuilder sb = new StringBuilder(player.toString());
+    sb.append(String.format("The player is currently in: %s\n", player.getSpace().getName()));
+    return sb.toString();
+  }
+  
+  @Override
+  public void addPlayer(Player player) {
+    players.forEach(p -> {
+      if (p.getName().equals(player.getName())) {
+        throw new IllegalArgumentException("Cannot have two players with the same name!");
+      }
+    });
+    players.add(player);
   }
   
   @Override
@@ -203,6 +261,57 @@ public class MyWorld implements World {
     }
   }
 
+  @Override
+  public void resetTurn() {
+    this.turn = players.get(0);
+  }
+  
+  @Override
+  public Player getTurn() {
+    return this.turn;
+  }
+  
+  @Override
+  public void nextTurn() {
+    int index = players.indexOf(turn);
+    if (index < players.size() - 1) {
+      turn = players.get(index + 1);
+    } else {
+      turn = players.get(0);
+    }
+    moveTargetCharacter();
+    this.turnCount++;
+  }
+  
+  @Override
+  public int getTurnCount() {
+    return this.turnCount;
+  }
+  
+  @Override
+  public void movePlayer(String spaceName) {
+    Space space = getSpace(spaceName);
+    List<Space> neighbors = turn.getSpace().getNeighbors();
+    if (!neighbors.contains(space)) {
+      throw new UnsupportedOperationException("Cannot move to this space!");
+    }
+    turn.setSpace(space);
+  }
+  
+  @Override
+  public void pickUpItem(String itemName) {
+    Space space = turn.getSpace(); 
+    Item item = space.getItem(itemName);
+    turn.addItem(item);
+    space.removeItem(item);
+  }
+  
+  @Override
+  public String lookAround() {
+    String name = turn.getSpace().getName();
+    return String.format("%s is looking around:\n%s", name, displaySpaceInformation(name));
+  }
+  
   @Override
   public BufferedImage generateMap() {
     // Set the width and height of the image to 10 times the world's width and height.
@@ -279,7 +388,7 @@ public class MyWorld implements World {
     sb.append(String.format("The world's size is: %d x %d%s", rows, cols, SEPARATOR));
     sb.append("The spaces and items information is as follows:");
     for (int i = 0; i < spaces.size(); i++) {
-      sb.append(String.format("%s%s", SEPARATOR, displaySpaceInformation(spaces.get(i))));
+      sb.append(String.format("%s%s", SEPARATOR, displaySpaceInformation(spaces.get(i).getName())));
     }
     return sb.toString();
   }

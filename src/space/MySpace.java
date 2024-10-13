@@ -70,6 +70,12 @@ public class MySpace implements Space {
   }
   
   @Override
+  public Item getItem(String itemName) {
+    return items.stream().filter(item -> item.getName().equals(itemName)).findAny().orElseThrow(
+        () -> new IllegalArgumentException(String.format("The item %s does not exist", itemName)));
+  }
+  
+  @Override
   public void addItem(Item item) {
     items.add(item);
   }
@@ -93,7 +99,7 @@ public class MySpace implements Space {
       return false;
     }
     Space that = (MySpace) o;
-    return Arrays.equals(this.getPosition(), that.getPosition()) && this.name.equals(that.getName())  ;
+    return Arrays.equals(this.getPosition(), that.getPosition()) && this.name.equals(that.getName());
   }
 
   @Override
