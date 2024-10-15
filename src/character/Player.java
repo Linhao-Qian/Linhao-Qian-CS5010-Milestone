@@ -1,5 +1,6 @@
 package character;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,7 +12,7 @@ public abstract class Player implements Character {
   protected final String name;
   protected Space space;
   protected List<Item> items;
-  protected int itemLimit;
+  protected final int itemLimit = 2;
   
   protected Player(String name, Space space) throws IllegalArgumentException {
     if (name == null || name.isEmpty()) {
@@ -42,6 +43,10 @@ public abstract class Player implements Character {
       throw new UnsupportedOperationException("Cannot carry more items");
     }
     items.add(item);
+  }
+  
+  public List<Item> getItems() {
+    return new ArrayList<>(this.items);
   }
   
   @Override
