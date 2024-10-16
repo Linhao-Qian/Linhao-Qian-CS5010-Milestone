@@ -15,7 +15,7 @@ public class DisplaySpaceInformation implements WorldCommand {
     } catch (IOException ioe) {
       System.out.println(String.format("IOException: %s", ioe.getMessage()));
     }
-    this.spaceName = scan.next();
+    this.spaceName = scan.nextLine();
   }
   
   @Override

@@ -13,11 +13,11 @@ public class PickUpItem implements WorldCommand {
   
   public PickUpItem(Scanner scan, Appendable out) {
     try {
-      out.append("Please enter the name of the item which you want to carry :\n");
+      out.append("Please enter the name of the item which you want to carry:\n");
     } catch (IOException ioe) {
       System.out.println(String.format("IOException: %s", ioe.getMessage()));
     }
-    this.itemName = scan.next();
+    this.itemName = scan.nextLine();
   }
   
   public PickUpItem(World model) {
@@ -29,8 +29,8 @@ public class PickUpItem implements WorldCommand {
   public void execute(World model, Appendable out) throws IOException {
     model.pickUpItem(itemName);
     Player turn = model.getTurn();
-    out.append(String.format("The player %s has picked up %s from %s",
-        turn.getName(), itemName, turn.getSpace()));
+    out.append(String.format("The player %s has picked up %s from %s\n",
+        turn.getName(), itemName, turn.getSpace().getName()));
     model.nextTurn();
   }
 }

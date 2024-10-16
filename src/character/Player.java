@@ -23,6 +23,7 @@ public abstract class Player implements Character {
     }
     this.name = name;
     this.space = space;
+    this.items = new ArrayList<>();
   }
   
   @Override

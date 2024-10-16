@@ -13,8 +13,6 @@ import world.World;
  * The Driver class demonstrates how to use the model.
  */
 public class Driver {
-  private static final String SEPARATOR = "\n----------------------------------------------------------------------------------\n";
-  
   /**
    * Main is the entry method of the program.
    * 
@@ -37,24 +35,9 @@ public class Driver {
       }
       Readable fileReader = new FileReader(args[0]);
       World world = new MyWorld(fileReader);
-      
       Readable reader = new InputStreamReader(System.in);
       GameController control = new GameController(reader, System.out, turnLimit);
-      
-      control.start(world);
-      
-      // Print information of the initial world.
-      System.out.print(world.toString());
-      
-      // Move the target character.
-      System.out.println(String.format("%sNow the target character moves to the next space.", SEPARATOR));
-      world.moveTargetCharacter();
-      
-      // Print information after the target character moved to the next space.
-      System.out.print(
-          String.format("After moving, the target character is at:\n\n%s",
-              world.displaySpaceInformation(world.getSpaces().get(world.getTargetCharacterPosition()).getName())));
-      
+      control.start(world);  
     } catch (IOException ioe) {
       System.out.println(String.format("IOException: %s", ioe.getMessage()));
     } catch (NumberFormatException nfe) {

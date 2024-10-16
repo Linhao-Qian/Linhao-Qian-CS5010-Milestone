@@ -19,13 +19,13 @@ public class AddHumanPlayer implements WorldCommand {
     } catch (IOException ioe) {
       System.out.println(String.format("IOException: %s", ioe.getMessage()));
     }
-    this.name = scan.next();
+    this.name = scan.nextLine();
     try {
       out.append("Please enter the name of the space where the player is initially located:\n");
     } catch (IOException ioe) {
       System.out.println(String.format("IOException: %s", ioe.getMessage()));
     }
-    this.spaceName = scan.next();;
+    this.spaceName = scan.nextLine();;
   }
   
   @Override
@@ -33,6 +33,6 @@ public class AddHumanPlayer implements WorldCommand {
     Space space = model.getSpace(spaceName);
     Player player = new HumanControlledPlayer(name, space);
     model.addPlayer(player);
-    out.append(String.format("Successfully added the human controlled player %s", spaceName));
+    out.append(String.format("Successfully added the human controlled player %s\n", name));
   }
 }

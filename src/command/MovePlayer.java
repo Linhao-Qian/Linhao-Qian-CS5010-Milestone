@@ -16,7 +16,7 @@ public class MovePlayer implements WorldCommand {
     } catch (IOException ioe) {
       System.out.println(String.format("IOException: %s", ioe.getMessage()));
     }
-    this.spaceName = scan.next();
+    this.spaceName = scan.nextLine();
   }
   
   public MovePlayer(World model) {
@@ -27,7 +27,7 @@ public class MovePlayer implements WorldCommand {
   @Override
   public void execute(World model, Appendable out) throws IOException {
     model.movePlayer(spaceName);
-    out.append(String.format("The player %s has moved to %s", model.getTurn().getName(), spaceName));
+    out.append(String.format("The player %s has moved to %s\n", model.getTurn().getName(), spaceName));
     model.nextTurn();
   }
 }

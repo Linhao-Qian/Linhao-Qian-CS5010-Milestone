@@ -15,7 +15,7 @@ public class DisplayPlayerInformation implements WorldCommand {
     } catch (IOException ioe) {
       System.out.println(String.format("IOException: %s", ioe.getMessage()));
     }
-    this.playerName = scan.next();
+    this.playerName = scan.nextLine();
   }
   
   @Override

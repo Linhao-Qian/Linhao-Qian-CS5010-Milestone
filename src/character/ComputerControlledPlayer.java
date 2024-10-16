@@ -1,5 +1,6 @@
 package character;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -27,11 +28,19 @@ public class ComputerControlledPlayer extends Player {
   }
   
   public String getRandomOperation() {
-    String[] operations = new String[]{"automaticMovePlayer", "automaticPickUpItem", "lookAround"};
-    if (Objects.isNull(random)) {
-      return operations[operationIndex];
+    Space space = this.getSpace();
+    List<String> operations = new ArrayList<>();
+    operations.add("lookAround");
+    if (space.getNeighbors().size() > 0) {
+      operations.add("automaticMovePlayer");
     }
-    return operations[random.nextInt(3)];
+    if (space.getItems().size() > 0) {
+      operations.add("automaticPickUpItem");
+    }
+    if (Objects.isNull(random)) {
+      return operations.get(operationIndex);
+    }
+    return operations.get(random.nextInt(operations.size()));
   }
   
   public String getRandomNeighborName(List<Space> spaces) {
