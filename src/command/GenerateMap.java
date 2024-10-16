@@ -8,6 +8,9 @@ import javax.imageio.ImageIO;
 
 import world.World;
 
+/**
+ * A GenerateMap represents a command used to generate a map of the world.
+ */
 public class GenerateMap implements WorldCommand {
 
   @Override

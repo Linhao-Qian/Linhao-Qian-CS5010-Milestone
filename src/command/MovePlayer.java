@@ -6,10 +6,19 @@ import java.util.Scanner;
 import character.ComputerControlledPlayer;
 import world.World;
 
+/**
+ * A MovePlayer represents a command used to move a player.
+ */
 public class MovePlayer implements WorldCommand {
 
   private final String spaceName;
   
+  /**
+   * Constructs an MovePlayer command used for human-controlled player.
+   * 
+   * @param scan   the scanner
+   * @param out    the output stream
+   */
   public MovePlayer(Scanner scan, Appendable out) {
     try {
       out.append("Please enter the name of the space where you want to move :\n");
@@ -19,6 +28,11 @@ public class MovePlayer implements WorldCommand {
     this.spaceName = scan.nextLine();
   }
   
+  /**
+   * Constructs an MovePlayer command used for computer-controlled player.
+   * 
+   * @param model  the model of the world
+   */
   public MovePlayer(World model) {
     ComputerControlledPlayer turn = (ComputerControlledPlayer) model.getTurn();
     this.spaceName = turn.getRandomNeighborName(turn.getSpace().getNeighbors());

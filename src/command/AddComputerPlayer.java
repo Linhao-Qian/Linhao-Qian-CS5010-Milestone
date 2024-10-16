@@ -8,11 +8,20 @@ import character.Player;
 import space.Space;
 import world.World;
 
+/**
+ * An AddComputerPlayer represents a command used to add a computer-controlled player.
+ */
 public class AddComputerPlayer implements WorldCommand {
 
   private final String name;
   private final String spaceName;
   
+  /**
+   * Constructs an AddComputerPlayer command.
+   * 
+   * @param scan   the scanner
+   * @param out    the output stream
+   */
   public AddComputerPlayer(Scanner scan, Appendable out) {
     try {
       out.append("Please enter the computer controlled player name:\n");

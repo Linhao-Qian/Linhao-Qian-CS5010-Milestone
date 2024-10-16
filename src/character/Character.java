@@ -2,7 +2,7 @@ package character;
 
 /**
  * A Character represents a character in the milestone board game,
- * such as the target character.
+ * such as the target character and players.
  */
 public interface Character {
   

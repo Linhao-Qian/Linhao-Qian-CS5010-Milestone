@@ -22,6 +22,9 @@ import command.PickUpItem;
 import command.WorldCommand;
 import world.World;
 
+/**
+ * The GameController represents the controller of the game.
+ */
 public class GameController {
   private final Readable in;
   private final Appendable out;
@@ -31,6 +34,13 @@ public class GameController {
   private final Map<String, Function<Scanner, WorldCommand>> humanCommands;
   private final Map<String, Function<World, WorldCommand>> computerCommands;
   
+  /**
+   * Constructs the controller of the game.
+   * 
+   * @param in          the input stream of the controller
+   * @param out         the output stream of the controller
+   * @param turnLimit   the maximum number of turns allowed
+   */
   public GameController(Readable in, Appendable out, int turnLimit) {
     this.in = in;
     this.out = out;
@@ -68,6 +78,7 @@ public class GameController {
     out.append(model.toString());
     out.append("Now, the game starts.\n");
     try {
+      // Only four commands can be executed before the first player is added.
       while(model.getPlayers().size() < 1) {
         try {
           out.append("\nPlease enter one of the following commands:\n");
@@ -82,28 +93,35 @@ public class GameController {
             c.execute(model, out);
           }
         } catch (UnsupportedOperationException uoe) {
+          // catch the incorrect command
           out.append(uoe.getMessage());
           continue;
         } catch (IllegalArgumentException iae) {
+          // When an incorrect argument is inputed, an IllegalArgumentException will be thrown out.
           out.append(iae.getMessage());
           continue;
         }
       }
       
+      // After the first player is added, set the turn to the first player.
       model.resetTurn();
       
+      // Limit the maximum number of turns allowed.
       while(model.getTurnCount() < turnLimit) {
         try {
           out.append("\nPlease enter one of the following commands:\n");
           out.append("displaySpaceInformation\naddComputerPlayer\naddHumanPlayer\ngenerateMap\ndisplayPlayerInformation\nnextTurn\n");
           String in = scan.nextLine();
           WorldCommand c;
+          // If the input string is "nextTurn", get into the next turn, else get and execute the corresponding commands.
           if (in.equals("nextTurn")) {
             Player currentTurn = model.getTurn();
             out.append(String.format("Now, it is %s's turn\n", currentTurn.getName()));
             int currentTurnCount = model.getTurnCount();
+            // Do not skip the current turn when an incorrect argument is inputed.
             while(model.getTurnCount() == currentTurnCount) {
               try {
+                // Use different command sets according to the type of player.
                 if (currentTurn instanceof HumanControlledPlayer) {
                   out.append("\nPlease enter one of the following commands:\n");
                   out.append("movePlayer\npickUpItem\nlookAround\n");
@@ -126,6 +144,7 @@ public class GameController {
                   }
                 }
               } catch (IllegalArgumentException iae) {
+                // When an incorrect argument is inputed, an IllegalArgumentException will be thrown out.
                 out.append(iae.getMessage());
                 continue;
               }
@@ -140,14 +159,18 @@ public class GameController {
             }
           }
         } catch (UnsupportedOperationException uoe) {
+          // catch the incorrect command
           out.append(uoe.getMessage());
           continue;
         } catch (IllegalArgumentException iae) {
+          // When an incorrect argument is inputed, an IllegalArgumentException will be thrown out.
           out.append(iae.getMessage());
           continue;
         }
       }
     } catch (NoSuchElementException nee) {
+      // When a user presses on "CTRL" and "Z" simultaneously, the input stream will be terminated,
+      // and the "No line found" error will be thrown out.
       if (nee.getMessage().contains("No line found")) {
         out.append("Game over! You have end the input manually!");
       }

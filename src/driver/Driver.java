@@ -16,7 +16,7 @@ public class Driver {
   /**
    * Main is the entry method of the program.
    * 
-   * @param args   the arguments list of the entry method
+   * @param args the arguments list of the entry method
    */  
   public static void main(String[] args) {
     try {

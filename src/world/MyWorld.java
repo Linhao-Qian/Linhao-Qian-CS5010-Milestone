@@ -20,8 +20,7 @@ import space.MySpace;
 import space.Space;
 
 /**
- * A MyWorld object represents a world of the milestone board game.
- * It consists of a number of non-overlapping {@link MySpace} that are laid out on a 2D grid.
+ * A MyWorld object represents the model of the milestone board game.
  */
 public class MyWorld implements World {
   private final String name;
@@ -37,14 +36,14 @@ public class MyWorld implements World {
   private final String SEPARATOR = "\n----------------------------------------------------------------------------------\n";
 
   /**
-   * Constructs a MyWorld object, which has a name, a number of rows, a number of columns,
-   * a target character, a list of spaces and a list of items.
+   * Constructs a MyWorld model using the input file reader.
    * 
    * @param reader   the input reader
    * @throws IllegalArgumentException   if the name is null or empty, the spaces or items size
    *                                    is less than 20, the world size is not positive, the item
    *                                    position is invalid, the space boundary is out of the
-   *                                    world, or the spaces overlap
+   *                                    world, the spaces overlap, the spaces or items have the
+   *                                    same name 
    */
   public MyWorld(Readable reader) throws IllegalArgumentException {
     Scanner scan = new Scanner(reader);

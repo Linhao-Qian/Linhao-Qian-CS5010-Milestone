@@ -7,10 +7,19 @@ import character.ComputerControlledPlayer;
 import character.Player;
 import world.World;
 
+/**
+ * A PickUpItem represents a command used to pick up an item.
+ */
 public class PickUpItem implements WorldCommand {
 
   private final String itemName;
   
+  /**
+   * Constructs a PickUpItem command used for human-controlled player.
+   * 
+   * @param scan   the scanner
+   * @param out    the output stream
+   */
   public PickUpItem(Scanner scan, Appendable out) {
     try {
       out.append("Please enter the name of the item which you want to carry:\n");
@@ -20,6 +29,11 @@ public class PickUpItem implements WorldCommand {
     this.itemName = scan.nextLine();
   }
   
+  /**
+   * Constructs an PickUpItem command used for computer-controlled player.
+   * 
+   * @param model  the model of the world
+   */
   public PickUpItem(World model) {
     ComputerControlledPlayer turn = (ComputerControlledPlayer) model.getTurn();
     this.itemName = turn.getRandomItemName(turn.getSpace().getItems());
