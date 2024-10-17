@@ -417,14 +417,14 @@ public class MyWorldTest {
     world = new MyWorld(stringReader);
     assertArrayEquals(new Space[]{} ,world.getSpaces().get(20).getNeighbors().toArray());
     assertEquals("Space name: Carriage House;\nThe space has 0 item(s):\n\n"
-        + "The space has 0 neighbor(s):\n", world.displaySpaceInformation(world.getSpaces().get(20)));
+        + "The space has 0 neighbor(s):\n", world.displaySpaceInformation(world.getSpaces().get(20).getName()));
   }
 
   @Test
   public void testOneNeighbor() {
     assertArrayEquals(new Space[]{world.getSpaces().get(10)} ,world.getSpaces().get(20).getNeighbors().toArray());
     assertEquals("Space name: Carriage House;\nThe space has 0 item(s):\n\n"
-        + "The space has 1 neighbor(s):\nWinter Garden", world.displaySpaceInformation(world.getSpaces().get(20)));
+        + "The space has 1 neighbor(s):\nWinter Garden", world.displaySpaceInformation(world.getSpaces().get(20).getName()));
   }
   
   @Test
@@ -438,7 +438,7 @@ public class MyWorldTest {
         + "Item name: Chain Saw, Damage: 4\n"
         + "The space has 2 neighbor(s):\n"
         + "Drawing Room, Piazza",
-        world.displaySpaceInformation(world.getSpaces().get(2)));
+        world.displaySpaceInformation(world.getSpaces().get(2).getName()));
   }
 
   @Test
@@ -451,13 +451,13 @@ public class MyWorldTest {
         + "Drawing Room, Kitchen, Trophy Room, Parlor, Tennessee Room, Billiard Room\n"
         + "The target character is in this space now:\n"
         + "Target character: Doctor Unlucky, Health: 50",
-        world.displaySpaceInformation(world.getSpaces().get(0)));
+        world.displaySpaceInformation(world.getSpaces().get(0).getName()));
   }
   
   @Test
   public void testNoItems() {
     assertEquals("Space name: Carriage House;\nThe space has 0 item(s):\n\n"
-        + "The space has 1 neighbor(s):\nWinter Garden", world.displaySpaceInformation(world.getSpaces().get(20)));
+        + "The space has 1 neighbor(s):\nWinter Garden", world.displaySpaceInformation(world.getSpaces().get(20).getName()));
   }
   
   @Test
