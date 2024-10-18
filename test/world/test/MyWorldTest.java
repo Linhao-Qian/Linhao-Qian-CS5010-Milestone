@@ -2,6 +2,12 @@ package world.test;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+
+import character.ComputerControlledPlayer;
+import character.HumanControlledPlayer;
+import character.Player;
+import item.Item;
 
 import java.io.StringReader;
 import org.junit.Before;
@@ -72,8 +78,7 @@ public class MyWorldTest {
 
   @Test
   public void testReadingWorld() {
-    assertEquals(world.toString(),
-        "The world's name is: Leo's World\n"
+    assertEquals(world.toString(), "The world's name is: Leo's World\n"
         + "The world's size is: 36 x 30\n"
         + "----------------------------------------------------------------------------------\n"
         + "The spaces and items information is as follows:\n"
@@ -85,12 +90,16 @@ public class MyWorldTest {
         + "Drawing Room, Kitchen, Trophy Room, Parlor, Tennessee Room, Billiard Room\n"
         + "The target character is in this space now:\n"
         + "Target character: Doctor Unlucky, Health: 50\n"
+        + "There are 0 player(s) in this space:\n"
+        + "\n"
         + "----------------------------------------------------------------------------------\n"
         + "Space name: Drawing Room;\n"
         + "The space has 1 item(s):\n"
         + "Item name: Billiard Cue, Damage: 2\n"
         + "The space has 5 neighbor(s):\n"
         + "Dining Hall, Foyer, Hedge Maze, Wine Cellar, Armory\n"
+        + "There are 0 player(s) in this space:\n"
+        + "\n"
         + "----------------------------------------------------------------------------------\n"
         + "Space name: Foyer;\n"
         + "The space has 2 item(s):\n"
@@ -98,24 +107,32 @@ public class MyWorldTest {
         + "Item name: Chain Saw, Damage: 4\n"
         + "The space has 2 neighbor(s):\n"
         + "Drawing Room, Piazza\n"
+        + "There are 0 player(s) in this space:\n"
+        + "\n"
         + "----------------------------------------------------------------------------------\n"
         + "Space name: Green House;\n"
         + "The space has 0 item(s):\n"
         + "\n"
         + "The space has 3 neighbor(s):\n"
         + "Hedge Maze, Armory, Billiard Room\n"
+        + "There are 0 player(s) in this space:\n"
+        + "\n"
         + "----------------------------------------------------------------------------------\n"
         + "Space name: Hedge Maze;\n"
         + "The space has 1 item(s):\n"
         + "Item name: Crepe Pan, Damage: 2\n"
         + "The space has 4 neighbor(s):\n"
         + "Drawing Room, Green House, Armory, Piazza\n"
+        + "There are 0 player(s) in this space:\n"
+        + "\n"
         + "----------------------------------------------------------------------------------\n"
         + "Space name: Kitchen;\n"
         + "The space has 0 item(s):\n"
         + "\n"
         + "The space has 3 neighbor(s):\n"
         + "Dining Hall, Wine Cellar, Parlor\n"
+        + "There are 0 player(s) in this space:\n"
+        + "\n"
         + "----------------------------------------------------------------------------------\n"
         + "Space name: Lancaster Room;\n"
         + "The space has 2 item(s):\n"
@@ -123,12 +140,16 @@ public class MyWorldTest {
         + "Item name: Pinking Shears, Damage: 2\n"
         + "The space has 2 neighbor(s):\n"
         + "Lilac Room, Servants' Quarters\n"
+        + "There are 0 player(s) in this space:\n"
+        + "\n"
         + "----------------------------------------------------------------------------------\n"
         + "Space name: Library;\n"
         + "The space has 1 item(s):\n"
         + "Item name: Letter Opener, Damage: 2\n"
         + "The space has 3 neighbor(s):\n"
         + "Trophy Room, Master Suite, Nursery\n"
+        + "There are 0 player(s) in this space:\n"
+        + "\n"
         + "----------------------------------------------------------------------------------\n"
         + "Space name: Trophy Room;\n"
         + "The space has 2 item(s):\n"
@@ -136,60 +157,80 @@ public class MyWorldTest {
         + "Item name: Loud Noise, Damage: 3\n"
         + "The space has 4 neighbor(s):\n"
         + "Dining Hall, Library, Tennessee Room, Billiard Room\n"
+        + "There are 0 player(s) in this space:\n"
+        + "\n"
         + "----------------------------------------------------------------------------------\n"
         + "Space name: Wine Cellar;\n"
         + "The space has 1 item(s):\n"
         + "Item name: Silken Cord, Damage: 3\n"
         + "The space has 2 neighbor(s):\n"
         + "Drawing Room, Kitchen\n"
+        + "There are 0 player(s) in this space:\n"
+        + "\n"
         + "----------------------------------------------------------------------------------\n"
         + "Space name: Winter Garden;\n"
         + "The space has 0 item(s):\n"
         + "\n"
         + "The space has 2 neighbor(s):\n"
         + "Piazza, Carriage House\n"
+        + "There are 0 player(s) in this space:\n"
+        + "\n"
         + "----------------------------------------------------------------------------------\n"
         + "Space name: Armory;\n"
         + "The space has 1 item(s):\n"
         + "Item name: Tight Hat, Damage: 2\n"
         + "The space has 4 neighbor(s):\n"
         + "Drawing Room, Green House, Hedge Maze, Billiard Room\n"
+        + "There are 0 player(s) in this space:\n"
+        + "\n"
         + "----------------------------------------------------------------------------------\n"
         + "Space name: Lilac Room;\n"
         + "The space has 1 item(s):\n"
         + "Item name: Shoe Horn, Damage: 2\n"
         + "The space has 5 neighbor(s):\n"
         + "Lancaster Room, Master Suite, Parlor, Servants' Quarters, Tennessee Room\n"
+        + "There are 0 player(s) in this space:\n"
+        + "\n"
         + "----------------------------------------------------------------------------------\n"
         + "Space name: Master Suite;\n"
         + "The space has 1 item(s):\n"
         + "Item name: Bad Cream, Damage: 2\n"
         + "The space has 4 neighbor(s):\n"
         + "Library, Lilac Room, Nursery, Tennessee Room\n"
+        + "There are 0 player(s) in this space:\n"
+        + "\n"
         + "----------------------------------------------------------------------------------\n"
         + "Space name: Nursery;\n"
         + "The space has 0 item(s):\n"
         + "\n"
         + "The space has 2 neighbor(s):\n"
         + "Library, Master Suite\n"
+        + "There are 0 player(s) in this space:\n"
+        + "\n"
         + "----------------------------------------------------------------------------------\n"
         + "Space name: Parlor;\n"
         + "The space has 1 item(s):\n"
         + "Item name: Civil War Cannon, Damage: 3\n"
         + "The space has 5 neighbor(s):\n"
         + "Dining Hall, Kitchen, Lilac Room, Servants' Quarters, Tennessee Room\n"
+        + "There are 0 player(s) in this space:\n"
+        + "\n"
         + "----------------------------------------------------------------------------------\n"
         + "Space name: Piazza;\n"
         + "The space has 1 item(s):\n"
         + "Item name: Broom Stick, Damage: 2\n"
         + "The space has 3 neighbor(s):\n"
         + "Foyer, Hedge Maze, Winter Garden\n"
+        + "There are 0 player(s) in this space:\n"
+        + "\n"
         + "----------------------------------------------------------------------------------\n"
         + "Space name: Servants' Quarters;\n"
         + "The space has 0 item(s):\n"
         + "\n"
         + "The space has 3 neighbor(s):\n"
         + "Lancaster Room, Lilac Room, Parlor\n"
+        + "There are 0 player(s) in this space:\n"
+        + "\n"
         + "----------------------------------------------------------------------------------\n"
         + "Space name: Tennessee Room;\n"
         + "The space has 2 item(s):\n"
@@ -197,6 +238,8 @@ public class MyWorldTest {
         + "Item name: Monkey Hand, Damage: 2\n"
         + "The space has 5 neighbor(s):\n"
         + "Dining Hall, Trophy Room, Lilac Room, Master Suite, Parlor\n"
+        + "There are 0 player(s) in this space:\n"
+        + "\n"
         + "----------------------------------------------------------------------------------\n"
         + "Space name: Billiard Room;\n"
         + "The space has 2 item(s):\n"
@@ -204,12 +247,17 @@ public class MyWorldTest {
         + "Item name: Piece of Rope, Damage: 2\n"
         + "The space has 4 neighbor(s):\n"
         + "Dining Hall, Green House, Trophy Room, Armory\n"
+        + "There are 0 player(s) in this space:\n"
+        + "\n"
         + "----------------------------------------------------------------------------------\n"
         + "Space name: Carriage House;\n"
         + "The space has 0 item(s):\n"
         + "\n"
         + "The space has 1 neighbor(s):\n"
-        + "Winter Garden");
+        + "Winter Garden\n"
+        + "There are 0 player(s) in this space:\n"
+        + "\n"
+        + "----------------------------------------------------------------------------------\n");
   }
   
   
@@ -367,7 +415,7 @@ public class MyWorldTest {
   }
   
   @Test
-  public void testNoNeighbors() {
+  public void testDisplayNoNeighbors() {
     Readable stringReader = new StringReader(
         "36 30 Leo's World\n"
         + "50 Doctor Unlucky\n"
@@ -415,20 +463,36 @@ public class MyWorldTest {
         + "18 2 Monkey Hand\n"
         + "8 3 Loud Noise\n");
     world = new MyWorld(stringReader);
-    assertArrayEquals(new Space[]{} ,world.getSpaces().get(20).getNeighbors().toArray());
-    assertEquals("Space name: Carriage House;\nThe space has 0 item(s):\n\n"
-        + "The space has 0 neighbor(s):\n", world.displaySpaceInformation(world.getSpaces().get(20).getName()));
+    assertArrayEquals(new Space[]{}, world.getSpaces().get(20).getNeighbors().toArray());
+    assertEquals(
+        "Space name: Carriage House;\n"
+            + "The space has 0 item(s):\n"
+            + "\n"
+            + "The space has 0 neighbor(s):\n"
+            + "\n"
+            + "There are 0 player(s) in this space:\n"
+            + "\n"
+            + "----------------------------------------------------------------------------------\n",
+            world.displaySpaceInformation(world.getSpaces().get(20).getName()));
   }
 
   @Test
-  public void testOneNeighbor() {
+  public void testDisplayOneNeighbor() {
     assertArrayEquals(new Space[]{world.getSpaces().get(10)} ,world.getSpaces().get(20).getNeighbors().toArray());
-    assertEquals("Space name: Carriage House;\nThe space has 0 item(s):\n\n"
-        + "The space has 1 neighbor(s):\nWinter Garden", world.displaySpaceInformation(world.getSpaces().get(20).getName()));
+    assertEquals(
+        "Space name: Carriage House;\n"
+        + "The space has 0 item(s):\n"
+        + "\n"
+        + "The space has 1 neighbor(s):\n"
+        + "Winter Garden\n"
+        + "There are 0 player(s) in this space:\n"
+        + "\n"
+        + "----------------------------------------------------------------------------------\n",
+        world.displaySpaceInformation(world.getSpaces().get(20).getName()));
   }
   
   @Test
-  public void testMutipleNeighbors() {
+  public void testDisplayMutipleNeighbors() {
     assertArrayEquals(new Space[]{world.getSpaces().get(1), world.getSpaces().get(16)},
         world.getSpaces().get(2).getNeighbors().toArray());
     assertEquals(
@@ -437,12 +501,15 @@ public class MyWorldTest {
         + "Item name: Big Red Hammer, Damage: 4\n"
         + "Item name: Chain Saw, Damage: 4\n"
         + "The space has 2 neighbor(s):\n"
-        + "Drawing Room, Piazza",
+        + "Drawing Room, Piazza\n"
+        + "There are 0 player(s) in this space:\n"
+        + "\n"
+        + "----------------------------------------------------------------------------------\n",
         world.displaySpaceInformation(world.getSpaces().get(2).getName()));
   }
 
   @Test
-  public void testOneItem() {
+  public void testDisplayOneItem() {
     assertEquals(
         "Space name: Dining Hall;\n"
         + "The space has 1 item(s):\n"
@@ -450,14 +517,24 @@ public class MyWorldTest {
         + "The space has 6 neighbor(s):\n"
         + "Drawing Room, Kitchen, Trophy Room, Parlor, Tennessee Room, Billiard Room\n"
         + "The target character is in this space now:\n"
-        + "Target character: Doctor Unlucky, Health: 50",
+        + "Target character: Doctor Unlucky, Health: 50\n"
+        + "There are 0 player(s) in this space:\n"
+        + "\n"
+        + "----------------------------------------------------------------------------------\n",
         world.displaySpaceInformation(world.getSpaces().get(0).getName()));
   }
   
   @Test
-  public void testNoItems() {
-    assertEquals("Space name: Carriage House;\nThe space has 0 item(s):\n\n"
-        + "The space has 1 neighbor(s):\nWinter Garden", world.displaySpaceInformation(world.getSpaces().get(20).getName()));
+  public void testDisplayNoItems() {
+    assertEquals("Space name: Carriage House;\n"
+        + "The space has 0 item(s):\n"
+        + "\n"
+        + "The space has 1 neighbor(s):\n"
+        + "Winter Garden\n"
+        + "There are 0 player(s) in this space:\n"
+        + "\n"
+        + "----------------------------------------------------------------------------------\n",
+        world.displaySpaceInformation(world.getSpaces().get(20).getName()));
   }
   
   @Test
@@ -477,5 +554,148 @@ public class MyWorldTest {
       world.moveTargetCharacter();
     }
     assertEquals(0, world.getTargetCharacterPosition());
+  }
+  
+  @Test
+  public void testGetPlayers() {
+    assertEquals(0, world.getPlayers().size());
+  }
+  
+  @Test
+  public void testAddHumanPlayer() {
+    assertEquals(0, world.getPlayers().size());
+    Player player1 = new HumanControlledPlayer("Leo", world.getSpaces().get(0));
+    world.addPlayer(player1);
+    assertEquals(1, world.getPlayers().size());
+    assertSame(player1, world.getPlayers().get(0));
+    Player player2 = new HumanControlledPlayer("Leon", world.getSpaces().get(1));
+    world.addPlayer(player2);
+    assertEquals(2, world.getPlayers().size());
+    assertSame(player2, world.getPlayers().get(1));
+  }
+  
+  @Test
+  public void testAddComputerPlayer() {
+    assertEquals(0, world.getPlayers().size());
+    Player player1 = new ComputerControlledPlayer("Leo", world.getSpaces().get(0));
+    world.addPlayer(player1);
+    assertEquals(1, world.getPlayers().size());
+    assertSame(player1, world.getPlayers().get(0));
+    Player player2 = new ComputerControlledPlayer("Leon", world.getSpaces().get(1));
+    world.addPlayer(player2);
+    assertEquals(2, world.getPlayers().size());
+    assertSame(player2, world.getPlayers().get(1));
+  }
+  
+  @Test
+  public void testDisplayHumanPlayer() {
+    assertEquals(0, world.getPlayers().size());
+    Player player1 = new HumanControlledPlayer("Leo", world.getSpaces().get(0));
+    world.addPlayer(player1);
+    assertEquals(1, world.getPlayers().size());
+    assertEquals(
+        "Player name: Leo, carrying 0 items: \n"
+        + "\n"
+        + "The player is currently in: Dining Hall\n"
+        + "----------------------------------------------------------------------------------\n",
+        world.displayPlayerInformation(world.getPlayers().get(0).getName()));
+    Player player2 = new HumanControlledPlayer("Leon", world.getSpaces().get(1));
+    world.addPlayer(player2);
+    assertEquals(2, world.getPlayers().size());
+    assertEquals(
+        "Player name: Leon, carrying 0 items: \n"
+        + "\n"
+        + "The player is currently in: Drawing Room\n"
+        + "----------------------------------------------------------------------------------\n",
+        world.displayPlayerInformation(world.getPlayers().get(1).getName()));
+  }
+  
+  @Test
+  public void testDisplayComputerPlayer() {
+    assertEquals(0, world.getPlayers().size());
+    Player player1 = new ComputerControlledPlayer("Leo", world.getSpaces().get(0));
+    world.addPlayer(player1);
+    assertEquals(1, world.getPlayers().size());
+    assertEquals(
+        "Player name: Leo, carrying 0 items: \n"
+        + "\n"
+        + "The player is currently in: Dining Hall\n"
+        + "----------------------------------------------------------------------------------\n",
+        world.displayPlayerInformation(world.getPlayers().get(0).getName()));
+    Player player2 = new ComputerControlledPlayer("Leon", world.getSpaces().get(1));
+    world.addPlayer(player2);
+    assertEquals(2, world.getPlayers().size());
+    assertEquals(
+        "Player name: Leon, carrying 0 items: \n"
+        + "\n"
+        + "The player is currently in: Drawing Room\n"
+        + "----------------------------------------------------------------------------------\n",
+        world.displayPlayerInformation(world.getPlayers().get(1).getName()));
+  }
+  
+  @Test
+  public void testTakingTurns() {
+    Player player1 = new HumanControlledPlayer("Leo", world.getSpaces().get(0));
+    world.addPlayer(player1);
+    world.resetTurn();
+    assertSame(world.getTurn(), player1);
+    Player player2 = new ComputerControlledPlayer("Leon", world.getSpaces().get(1));
+    world.addPlayer(player2);
+    world.nextTurn();
+    assertSame(world.getTurn(), player2);
+  }
+  
+  @Test
+  public void testPlayerMovingAround() {
+    Player player1 = new HumanControlledPlayer("Leo", world.getSpaces().get(0));
+    world.addPlayer(player1);
+    assertSame(player1.getSpace(), world.getSpaces().get(0));
+    world.resetTurn();
+    world.movePlayer("Drawing Room");
+    assertSame(player1.getSpace(), world.getSpace("Drawing Room"));
+    Player player2 = new ComputerControlledPlayer("Leon", world.getSpaces().get(1));
+    world.addPlayer(player2);
+    assertSame(player2.getSpace(), world.getSpaces().get(1));
+    world.nextTurn();
+    world.movePlayer("Dining Hall");
+    assertSame(player2.getSpace(), world.getSpace("Dining Hall"));
+  }
+  
+  @Test
+  public void testPlayerPickUpItem() {
+    Player player1 = new HumanControlledPlayer("Leo", world.getSpaces().get(0));
+    world.addPlayer(player1);
+    world.resetTurn();
+    Item item1 = world.getSpaces().get(0).getItems().get(0);
+    world.pickUpItem("Revolver");
+    assertEquals(1, player1.getItems().size());
+    assertSame(player1.getItems().get(0), item1);
+    world.movePlayer("Drawing Room");
+    Item item2 = world.getSpaces().get(1).getItems().get(0);
+    world.pickUpItem("Billiard Cue");
+    assertEquals(2, player1.getItems().size());
+    assertSame(player1.getItems().get(1), item2);
+  }
+  
+  @Test
+  public void testLookAround() {
+    Player player1 = new HumanControlledPlayer("Leo", world.getSpaces().get(0));
+    world.addPlayer(player1);
+    world.resetTurn();
+    assertEquals(
+        "Leo is looking around:\n"
+        + "Leo is currently in: Dining Hall\n"
+        + "The space has 6 neighbor(s):\n"
+        + "Drawing Room, Kitchen, Trophy Room, Parlor, Tennessee Room, Billiard Room\n",
+        world.lookAround());
+    Player player2 = new ComputerControlledPlayer("Leon", world.getSpaces().get(1));
+    world.addPlayer(player2);
+    world.nextTurn();
+    assertEquals(
+        "Leon is looking around:\n"
+        + "Leon is currently in: Drawing Room\n"
+        + "The space has 5 neighbor(s):\n"
+        + "Dining Hall, Foyer, Hedge Maze, Wine Cellar, Armory\n",
+        world.lookAround());
   }
 }
