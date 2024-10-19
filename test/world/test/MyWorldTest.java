@@ -4,23 +4,21 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
-import character.ComputerControlledPlayer;
-import character.HumanControlledPlayer;
 import character.Player;
 import item.Item;
-
 import java.io.StringReader;
 import org.junit.Before;
 import org.junit.Test;
 import space.Space;
 import world.MyWorld;
+import world.World;
 
 /**
  * A JUnit test class for the MyWorld class.
  */
 public class MyWorldTest {
 
-  private MyWorld world;
+  private World world;
 
   /**
    * Create a virtual world for the unit test.
@@ -564,34 +562,37 @@ public class MyWorldTest {
   @Test
   public void testAddHumanPlayer() {
     assertEquals(0, world.getPlayers().size());
-    Player player1 = new HumanControlledPlayer("Leo", world.getSpaces().get(0));
-    world.addPlayer(player1);
+    world.addHumanPlayer("Leo", "Dining Hall");
     assertEquals(1, world.getPlayers().size());
-    assertSame(player1, world.getPlayers().get(0));
-    Player player2 = new HumanControlledPlayer("Leon", world.getSpaces().get(1));
-    world.addPlayer(player2);
+    Player player1 = world.getPlayers().get(0);
+    assertEquals("Leo", player1.getName());
+    assertSame(player1.getSpace(), world.getSpaces().get(0));
+    world.addHumanPlayer("Leon", "Drawing Room");
     assertEquals(2, world.getPlayers().size());
-    assertSame(player2, world.getPlayers().get(1));
+    Player player2 = world.getPlayers().get(1);
+    assertEquals("Leon", player2.getName());
+    assertSame(player2.getSpace(), world.getSpaces().get(1));
   }
   
   @Test
   public void testAddComputerPlayer() {
     assertEquals(0, world.getPlayers().size());
-    Player player1 = new ComputerControlledPlayer("Leo", world.getSpaces().get(0));
-    world.addPlayer(player1);
+    world.addComputerPlayer("Leo", "Dining Hall");
     assertEquals(1, world.getPlayers().size());
-    assertSame(player1, world.getPlayers().get(0));
-    Player player2 = new ComputerControlledPlayer("Leon", world.getSpaces().get(1));
-    world.addPlayer(player2);
+    Player player1 = world.getPlayers().get(0);
+    assertEquals("Leo", player1.getName());
+    assertSame(player1.getSpace(), world.getSpaces().get(0));
+    world.addComputerPlayer("Leon", "Drawing Room");
     assertEquals(2, world.getPlayers().size());
-    assertSame(player2, world.getPlayers().get(1));
+    Player player2 = world.getPlayers().get(1);
+    assertEquals("Leon", player2.getName());
+    assertSame(player2.getSpace(), world.getSpaces().get(1));
   }
   
   @Test
   public void testDisplayHumanPlayer() {
     assertEquals(0, world.getPlayers().size());
-    Player player1 = new HumanControlledPlayer("Leo", world.getSpaces().get(0));
-    world.addPlayer(player1);
+    world.addHumanPlayer("Leo", "Dining Hall");
     assertEquals(1, world.getPlayers().size());
     assertEquals(
         "Player name: Leo, carrying 0 items: \n"
@@ -599,8 +600,7 @@ public class MyWorldTest {
         + "The player is currently in: Dining Hall\n"
         + "----------------------------------------------------------------------------------\n",
         world.displayPlayerInformation(world.getPlayers().get(0).getName()));
-    Player player2 = new HumanControlledPlayer("Leon", world.getSpaces().get(1));
-    world.addPlayer(player2);
+    world.addHumanPlayer("Leon", "Drawing Room");
     assertEquals(2, world.getPlayers().size());
     assertEquals(
         "Player name: Leon, carrying 0 items: \n"
@@ -613,8 +613,7 @@ public class MyWorldTest {
   @Test
   public void testDisplayComputerPlayer() {
     assertEquals(0, world.getPlayers().size());
-    Player player1 = new ComputerControlledPlayer("Leo", world.getSpaces().get(0));
-    world.addPlayer(player1);
+    world.addComputerPlayer("Leo", "Dining Hall");
     assertEquals(1, world.getPlayers().size());
     assertEquals(
         "Player name: Leo, carrying 0 items: \n"
@@ -622,8 +621,7 @@ public class MyWorldTest {
         + "The player is currently in: Dining Hall\n"
         + "----------------------------------------------------------------------------------\n",
         world.displayPlayerInformation(world.getPlayers().get(0).getName()));
-    Player player2 = new ComputerControlledPlayer("Leon", world.getSpaces().get(1));
-    world.addPlayer(player2);
+    world.addComputerPlayer("Leon", "Drawing Room");
     assertEquals(2, world.getPlayers().size());
     assertEquals(
         "Player name: Leon, carrying 0 items: \n"
@@ -635,26 +633,24 @@ public class MyWorldTest {
   
   @Test
   public void testTakingTurns() {
-    Player player1 = new HumanControlledPlayer("Leo", world.getSpaces().get(0));
-    world.addPlayer(player1);
+    world.addHumanPlayer("Leo", "Dining Hall");
     world.resetTurn();
-    assertSame(world.getTurn(), player1);
-    Player player2 = new ComputerControlledPlayer("Leon", world.getSpaces().get(1));
-    world.addPlayer(player2);
+    assertSame(world.getTurn(), world.getPlayers().get(0));
+    world.addComputerPlayer("Leon", "Drawing Room");
     world.nextTurn();
-    assertSame(world.getTurn(), player2);
+    assertSame(world.getTurn(), world.getPlayers().get(1));
   }
   
   @Test
   public void testPlayerMovingAround() {
-    Player player1 = new HumanControlledPlayer("Leo", world.getSpaces().get(0));
-    world.addPlayer(player1);
+    world.addHumanPlayer("Leo", "Dining Hall");
+    Player player1 = world.getPlayers().get(0);
     assertSame(player1.getSpace(), world.getSpaces().get(0));
     world.resetTurn();
     world.movePlayer("Drawing Room");
     assertSame(player1.getSpace(), world.getSpace("Drawing Room"));
-    Player player2 = new ComputerControlledPlayer("Leon", world.getSpaces().get(1));
-    world.addPlayer(player2);
+    world.addComputerPlayer("Leon", "Drawing Room");
+    Player player2 = world.getPlayers().get(1);
     assertSame(player2.getSpace(), world.getSpaces().get(1));
     world.nextTurn();
     world.movePlayer("Dining Hall");
@@ -663,8 +659,8 @@ public class MyWorldTest {
   
   @Test
   public void testPlayerPickUpItem() {
-    Player player1 = new HumanControlledPlayer("Leo", world.getSpaces().get(0));
-    world.addPlayer(player1);
+    world.addHumanPlayer("Leo", "Dining Hall");
+    Player player1 = world.getPlayers().get(0);
     world.resetTurn();
     Item item1 = world.getSpaces().get(0).getItems().get(0);
     world.pickUpItem("Revolver");
@@ -679,8 +675,7 @@ public class MyWorldTest {
   
   @Test
   public void testLookAround() {
-    Player player1 = new HumanControlledPlayer("Leo", world.getSpaces().get(0));
-    world.addPlayer(player1);
+    world.addHumanPlayer("Leo", "Dining Hall");
     world.resetTurn();
     assertEquals(
         "Leo is looking around:\n"
@@ -688,8 +683,7 @@ public class MyWorldTest {
         + "The space has 6 neighbor(s):\n"
         + "Drawing Room, Kitchen, Trophy Room, Parlor, Tennessee Room, Billiard Room\n",
         world.lookAround());
-    Player player2 = new ComputerControlledPlayer("Leon", world.getSpaces().get(1));
-    world.addPlayer(player2);
+    world.addComputerPlayer("Leon", "Drawing Room");
     world.nextTurn();
     assertEquals(
         "Leon is looking around:\n"

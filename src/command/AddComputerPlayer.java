@@ -2,10 +2,6 @@ package command;
 
 import java.io.IOException;
 import java.util.Scanner;
-
-import character.ComputerControlledPlayer;
-import character.Player;
-import space.Space;
 import world.World;
 
 /**
@@ -24,7 +20,7 @@ public class AddComputerPlayer implements WorldCommand {
    */
   public AddComputerPlayer(Scanner scan, Appendable out) {
     try {
-      out.append("Please enter the computer controlled player name:\n");
+      out.append("Please enter the computer-controlled player name:\n");
     } catch (IOException ioe) {
       System.out.println(String.format("IOException: %s", ioe.getMessage()));
     }
@@ -39,9 +35,7 @@ public class AddComputerPlayer implements WorldCommand {
   
   @Override
   public void execute(World model, Appendable out) throws IOException {
-    Space space = model.getSpace(spaceName);
-    Player player = new ComputerControlledPlayer(name, space);
-    model.addPlayer(player);
-    out.append(String.format("Successfully added the computer controlled player %s\n", name));
+    model.addComputerPlayer(name, spaceName);
+    out.append(String.format("Successfully added the computer-controlled player %s\n", name));
   }
 }

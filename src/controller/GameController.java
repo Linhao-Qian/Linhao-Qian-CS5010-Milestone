@@ -169,8 +169,7 @@ public class GameController {
         }
       }
     } catch (NoSuchElementException nee) {
-      // When a user presses on "CTRL" and "Z" simultaneously, the input stream will be terminated,
-      // and the "No line found" error will be thrown out.
+      // When a user terminates the input stream manually, the "No line found" error will be thrown out.
       if (nee.getMessage().contains("No line found")) {
         out.append("Game over! You have end the input manually!");
       }

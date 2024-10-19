@@ -97,11 +97,20 @@ public interface World {
   List<Space> getNeighbors(Space space);
   
   /**
-   * Add a player to the game.
+   * Add a computer-controlled player to the game.
    *
-   * @param player  the player who needs to be added
+   * @param name       the name of the computer-controlled player who needs to be added
+   * @param spaceName  the name of the space which the computer-controlled player occupies
    */
-  void addPlayer(Player player);
+  void addComputerPlayer(String name, String spaceName);
+  
+  /**
+   * Add a human-controlled player to the game.
+   *
+   * @param name       the name of the human-controlled player who needs to be added
+   * @param spaceName  the name of the space which the human-controlled player occupies
+   */
+  void addHumanPlayer(String name, String spaceName);
   
   /**
    * Move the target character around the world.

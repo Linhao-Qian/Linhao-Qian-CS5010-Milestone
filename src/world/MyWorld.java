@@ -1,5 +1,7 @@
 package world;
 
+import character.ComputerControlledPlayer;
+import character.HumanControlledPlayer;
 import character.Player;
 import character.TargetCharacter;
 import item.Item;
@@ -243,12 +245,26 @@ public class MyWorld implements World {
   }
   
   @Override
-  public void addPlayer(Player player) {
+  public void addComputerPlayer(String name, String spaceName) {
     players.forEach(p -> {
-      if (p.getName().equals(player.getName())) {
+      if (p.getName().equals(name)) {
         throw new IllegalArgumentException("Cannot have two players with the same name!\n");
       }
     });
+    Space space = getSpace(spaceName);
+    Player player = new ComputerControlledPlayer(name, space);
+    players.add(player);
+  }
+  
+  @Override
+  public void addHumanPlayer(String name, String spaceName) {
+    players.forEach(p -> {
+      if (p.getName().equals(name)) {
+        throw new IllegalArgumentException("Cannot have two players with the same name!\n");
+      }
+    });
+    Space space = getSpace(spaceName);
+    Player player = new HumanControlledPlayer(name, space);
     players.add(player);
   }
   
