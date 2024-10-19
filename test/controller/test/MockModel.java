@@ -17,6 +17,7 @@ public class MockModel implements World {
   private final List<Space> spaces;
   private final List<Player> players;
   private Player turn;
+  private int turnCount = 0;
   
   public MockModel(StringBuilder log, String name, int rows, int cols, TargetCharacter targetCharacter,
       List<Space> spaces, List<Player> players, Player turn) {
@@ -120,11 +121,12 @@ public class MockModel implements World {
   @Override
   public void nextTurn() {
     log.append("next turn\n");
+    this.turnCount++;
   }
 
   @Override
   public int getTurnCount() {
-    return 0;
+    return this.turnCount;
   }
 
   @Override

@@ -17,7 +17,7 @@ import space.Space;
  */
 public class MySpaceTest {
 
-  private MySpace space;
+  private Space space;
 
   @Before
   public void setUp() {

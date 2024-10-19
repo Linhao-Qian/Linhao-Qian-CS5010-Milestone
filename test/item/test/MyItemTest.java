@@ -2,6 +2,7 @@ package item.test;
 
 import static org.junit.Assert.assertEquals;
 
+import item.Item;
 import item.MyItem;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +12,7 @@ import org.junit.Test;
  */
 public class MyItemTest {
 
-  private MyItem item;
+  private Item item;
 
   @Before
   public void setUp() {
