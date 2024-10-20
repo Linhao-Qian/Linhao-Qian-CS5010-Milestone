@@ -44,6 +44,7 @@ public interface Space {
    * Get an item of the space's item list according to its name.
    * 
    * @param itemName  the name of the specific item
+   * @return the corresponding item of the item name
    */
   Item getItem(String itemName);
   

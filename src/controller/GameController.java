@@ -115,7 +115,7 @@ public class GameController {
           WorldCommand c;
           // If the input string is "nextTurn", get into the next turn,
           // else get and execute the corresponding commands.
-          if (in.equals("nextTurn")) {
+          if ("nextTurn".equals(in)) {
             Player currentTurn = model.getTurn();
             out.append(String.format("Now, it is %s's turn\n", currentTurn.getName()));
             int currentTurnCount = model.getTurnCount();

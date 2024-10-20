@@ -2,9 +2,9 @@ package controller.test;
 
 import static org.junit.Assert.assertEquals;
 
-import character.Player;
 import character.ComputerControlledPlayer;
 import character.HumanControlledPlayer;
+import character.Player;
 import character.TargetCharacter;
 import controller.GameController;
 import item.Item;
@@ -33,6 +33,9 @@ public class GameControllerTest {
   private Space space;
   private Player player;
   
+  /**
+   * Set up the pre-defined fields of the unit test.
+   */
   @Before
   public void setUp() {
     this.targetCharacter = new TargetCharacter("Doctor", 50);
