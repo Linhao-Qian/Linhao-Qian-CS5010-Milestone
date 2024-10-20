@@ -1,10 +1,9 @@
 package command;
 
-import java.io.IOException;
-import java.util.Scanner;
-
 import character.ComputerControlledPlayer;
 import character.Player;
+import java.io.IOException;
+import java.util.Scanner;
 import world.World;
 
 /**

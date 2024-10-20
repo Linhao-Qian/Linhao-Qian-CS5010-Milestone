@@ -1,13 +1,16 @@
 package controller.test;
 
+import character.Player;
+import character.TargetCharacter;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-import character.Player;
-import character.TargetCharacter;
 import space.Space;
 import world.World;
 
+/**
+ * A MockModel represents the mock model for the GameControllerTest.
+ */
 public class MockModel implements World {
   private StringBuilder log;
   private final String name;
@@ -19,8 +22,20 @@ public class MockModel implements World {
   private Player turn;
   private int turnCount = 0;
   
-  public MockModel(StringBuilder log, String name, int rows, int cols, TargetCharacter targetCharacter,
-      List<Space> spaces, List<Player> players, Player turn) {
+  /**
+   * Constructs a MockModel object for the GameControllerTest.
+   * 
+   * @param log             the logger for the input values
+   * @param name            the name of the world
+   * @param rows            the rows of the world
+   * @param cols            the cols of the world
+   * @param targetCharacter the target character of the world
+   * @param spaces          the spaces of the world
+   * @param players         the players of the world
+   * @param turn            the current player
+   */
+  public MockModel(StringBuilder log, String name, int rows, int cols,
+      TargetCharacter targetCharacter, List<Space> spaces, List<Player> players, Player turn) {
     this.log = log;
     this.name = name;
     this.rows = rows;

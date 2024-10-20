@@ -1,10 +1,9 @@
 package character;
 
+import item.Item;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import item.Item;
 import space.Space;
 
 /**

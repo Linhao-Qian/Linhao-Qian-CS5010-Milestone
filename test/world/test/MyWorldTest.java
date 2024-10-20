@@ -476,7 +476,8 @@ public class MyWorldTest {
 
   @Test
   public void testDisplayOneNeighbor() {
-    assertArrayEquals(new Space[]{world.getSpaces().get(10)} ,world.getSpaces().get(20).getNeighbors().toArray());
+    assertArrayEquals(new Space[]{world.getSpaces().get(10)},
+        world.getSpaces().get(20).getNeighbors().toArray());
     assertEquals(
         "Space name: Carriage House;\n"
         + "The space has 0 item(s):\n"

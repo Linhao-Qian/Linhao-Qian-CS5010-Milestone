@@ -1,13 +1,5 @@
 package controller;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.Scanner;
-import java.util.function.Function;
-
 import character.ComputerControlledPlayer;
 import character.HumanControlledPlayer;
 import character.Player;
@@ -20,6 +12,13 @@ import command.LookAround;
 import command.MovePlayer;
 import command.PickUpItem;
 import command.WorldCommand;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.Scanner;
+import java.util.function.Function;
 import world.World;
 
 /**
@@ -79,7 +78,7 @@ public class GameController {
     out.append("Now, the game starts.\n");
     try {
       // Only four commands can be executed before the first player is added.
-      while(model.getPlayers().size() < 1) {
+      while (model.getPlayers().size() < 1) {
         try {
           out.append("\nPlease enter one of the following commands:\n");
           out.append("displaySpaceInformation\naddComputerPlayer\naddHumanPlayer\ngenerateMap\n");
@@ -107,19 +106,21 @@ public class GameController {
       model.resetTurn();
       
       // Limit the maximum number of turns allowed.
-      while(model.getTurnCount() < turnLimit) {
+      while (model.getTurnCount() < turnLimit) {
         try {
           out.append("\nPlease enter one of the following commands:\n");
-          out.append("displaySpaceInformation\naddComputerPlayer\naddHumanPlayer\ngenerateMap\ndisplayPlayerInformation\nnextTurn\n");
+          out.append("displaySpaceInformation\naddComputerPlayer\naddHumanPlayer\ngenerateMap\n");
+          out.append("displayPlayerInformation\nnextTurn\n");
           String in = scan.nextLine();
           WorldCommand c;
-          // If the input string is "nextTurn", get into the next turn, else get and execute the corresponding commands.
+          // If the input string is "nextTurn", get into the next turn,
+          // else get and execute the corresponding commands.
           if (in.equals("nextTurn")) {
             Player currentTurn = model.getTurn();
             out.append(String.format("Now, it is %s's turn\n", currentTurn.getName()));
             int currentTurnCount = model.getTurnCount();
             // Do not skip the current turn when an incorrect argument is inputed.
-            while(model.getTurnCount() == currentTurnCount) {
+            while (model.getTurnCount() == currentTurnCount) {
               try {
                 // Use different command sets according to the type of player.
                 if (currentTurn instanceof HumanControlledPlayer) {
@@ -128,7 +129,8 @@ public class GameController {
                   in = scan.nextLine();
                   Function<Scanner, WorldCommand> cmd = humanCommands.getOrDefault(in, null);
                   if (cmd == null) {
-                    throw new UnsupportedOperationException(String.format("Command %s not supported", in));
+                    throw new UnsupportedOperationException(
+                        String.format("Command %s not supported", in));
                   } else {
                     c = cmd.apply(scan);
                     c.execute(model, out);
@@ -137,14 +139,16 @@ public class GameController {
                   in = ((ComputerControlledPlayer) currentTurn).getRandomOperation();
                   Function<World, WorldCommand> cmd = computerCommands.getOrDefault(in, null);
                   if (cmd == null) {
-                    throw new UnsupportedOperationException(String.format("Command %s not supported", in));
+                    throw new UnsupportedOperationException(
+                        String.format("Command %s not supported", in));
                   } else {
                     c = cmd.apply(model);
                     c.execute(model, out);
                   }
                 }
               } catch (IllegalArgumentException iae) {
-                // When an incorrect argument is inputed, an IllegalArgumentException will be thrown out.
+                // When an incorrect argument is inputed,
+                // an IllegalArgumentException will be thrown out.
                 out.append(iae.getMessage());
                 continue;
               }
@@ -152,7 +156,8 @@ public class GameController {
           } else {
             Function<Scanner, WorldCommand> cmd = commands.getOrDefault(in, null);
             if (cmd == null) {
-              throw new UnsupportedOperationException(String.format("Command %s not supported", in));
+              throw new UnsupportedOperationException(
+                  String.format("Command %s not supported", in));
             } else {
               c = cmd.apply(scan);
               c.execute(model, out);
@@ -163,13 +168,15 @@ public class GameController {
           out.append(uoe.getMessage());
           continue;
         } catch (IllegalArgumentException iae) {
-          // When an incorrect argument is inputed, an IllegalArgumentException will be thrown out.
+          // When an incorrect argument is inputed,
+          // an IllegalArgumentException will be thrown out.
           out.append(iae.getMessage());
           continue;
         }
       }
     } catch (NoSuchElementException nee) {
-      // When a user terminates the input stream manually, the "No line found" error will be thrown out.
+      // When a user terminates the input stream manually,
+      // the "No line found" error will be thrown out.
       if (nee.getMessage().contains("No line found")) {
         out.append("Game over! You have end the input manually!");
       }

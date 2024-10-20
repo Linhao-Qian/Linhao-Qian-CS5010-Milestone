@@ -2,7 +2,6 @@ package command;
 
 import java.io.IOException;
 import java.util.Scanner;
-
 import world.World;
 
 /**

@@ -1,9 +1,8 @@
 package command;
 
+import character.ComputerControlledPlayer;
 import java.io.IOException;
 import java.util.Scanner;
-
-import character.ComputerControlledPlayer;
 import world.World;
 
 /**
@@ -41,7 +40,8 @@ public class MovePlayer implements WorldCommand {
   @Override
   public void execute(World model, Appendable out) throws IOException {
     model.movePlayer(spaceName);
-    out.append(String.format("The player %s has moved to %s\n", model.getTurn().getName(), spaceName));
+    out.append(String.format("The player %s has moved to %s\n",
+        model.getTurn().getName(), spaceName));
     model.nextTurn();
   }
 }

@@ -4,16 +4,16 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import character.ComputerControlledPlayer;
 import character.HumanControlledPlayer;
 import character.Player;
 import item.Item;
 import item.MyItem;
+import org.junit.Before;
+import org.junit.Test;
 import space.MySpace;
 import space.Space;
+
 /**
  * A JUnit test class for Players.
  */
@@ -24,6 +24,9 @@ public class PlayerTest {
   private Player computerPlayer;
   private Player humanPlayer;
 
+  /**
+   * Set up the pre-defined space, item, computerPlayer and humanPlayer field.
+   */
   @Before
   public void setUp() {
     space = new MySpace(0, 0, 3, 3, "Kitchen");

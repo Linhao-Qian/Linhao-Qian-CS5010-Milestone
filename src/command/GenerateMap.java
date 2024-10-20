@@ -3,9 +3,7 @@ package command;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
-
 import world.World;
 
 /**
@@ -19,6 +17,8 @@ public class GenerateMap implements WorldCommand {
     BufferedImage image = model.generateMap();
     String outputFileName = model.getName().concat(".png");
     ImageIO.write(image, "png", new File(outputFileName));
-    out.append(String.format("The world map has been generated successfully.\nIt is in the %s file.\n", outputFileName));
+    out.append(
+        String.format("The world map has been generated successfully.\nIt is in the %s file.\n",
+            outputFileName));
   }
 }

@@ -6,7 +6,6 @@ import character.Player;
 import character.TargetCharacter;
 import item.Item;
 import item.MyItem;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -17,7 +16,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.stream.Collectors;
-
 import space.MySpace;
 import space.Space;
 
@@ -35,7 +33,8 @@ public class MyWorld implements World {
   private Player turn;
   private int turnCount;
   
-  private final String SEPARATOR = "\n----------------------------------------------------------------------------------\n";
+  private final String separator =
+      "\n----------------------------------------------------------------------------------\n";
 
   /**
    * Constructs a MyWorld model using the input file reader.
@@ -100,11 +99,13 @@ public class MyWorld implements World {
         Space space2 = spaces.get(j);
         if (space1.getName().equals(space2.getName())) {
           scan.close();
-          throw new IllegalArgumentException(String.format("Two spaces have the same name: %s", space1.getName()));
+          throw new IllegalArgumentException(
+              String.format("Two spaces have the same name: %s", space1.getName()));
         }
         if (areSpacesOverlapping(space1, space2)) {
           scan.close();
-          throw new IllegalArgumentException(String.format("Spaces overlap: %s and %s", space1.getName(), space2.getName()));
+          throw new IllegalArgumentException(
+              String.format("Spaces overlap: %s and %s", space1.getName(), space2.getName()));
         }
       }
     }
@@ -177,8 +178,9 @@ public class MyWorld implements World {
   
   @Override
   public Space getSpace(String spaceName) {
-    return spaces.stream().filter(space -> space.getName().equals(spaceName)).findAny().orElseThrow(
-        () -> new IllegalArgumentException(String.format("The space %s does not exist\n", spaceName)));
+    return spaces.stream().filter(space -> space.getName().equals(spaceName)).findAny()
+        .orElseThrow(() -> new IllegalArgumentException(
+            String.format("The space %s does not exist\n", spaceName)));
   }
   
   @Override
@@ -188,8 +190,9 @@ public class MyWorld implements World {
   
   @Override
   public Player getPlayer(String playerName) {
-    return players.stream().filter(player -> player.getName().equals(playerName)).findAny().orElseThrow(
-        () -> new IllegalArgumentException(String.format("The player %s does not exist\n", playerName)));
+    return players.stream().filter(player -> player.getName().equals(playerName)).findAny()
+        .orElseThrow(() -> new IllegalArgumentException(
+            String.format("The player %s does not exist\n", playerName)));
   }
   
   @Override
@@ -229,10 +232,11 @@ public class MyWorld implements World {
       sb.append("\nThe target character is in this space now:\n");
       sb.append(targetCharacter.toString());
     }
-    List<Player> spacePlayers = players.stream().filter(player -> player.getSpace().equals(space)).collect(Collectors.toList());
+    List<Player> spacePlayers = players.stream()
+        .filter(player -> player.getSpace().equals(space)).collect(Collectors.toList());
     sb.append(String.format("\nThere are %d player(s) in this space:\n", spacePlayers.size()));
     spacePlayers.forEach(player -> sb.append(player.toString()));
-    sb.append(SEPARATOR);
+    sb.append(separator);
     return sb.toString();
   }
   
@@ -240,7 +244,8 @@ public class MyWorld implements World {
   public String displayPlayerInformation(String playerName) {
     Player player = getPlayer(playerName);
     StringBuilder sb = new StringBuilder(player.toString());
-    sb.append(String.format("\nThe player is currently in: %s%s", player.getSpace().getName(), SEPARATOR));
+    sb.append(String.format("\nThe player is currently in: %s%s",
+        player.getSpace().getName(), separator));
     return sb.toString();
   }
   
@@ -329,7 +334,8 @@ public class MyWorld implements World {
     StringBuilder sb = new StringBuilder(String.format("%s is looking around:\n", name));
     sb.append(String.format("%s is currently in: %s\n", name, space.getName()));
     sb.append(String.format("The space has %d neighbor(s):\n%s\n", space.getNeighbors().size(),
-        space.getNeighbors().stream().map(neighbor -> neighbor.getName()).collect(Collectors.joining(", "))));
+        space.getNeighbors().stream().map(neighbor -> neighbor.getName())
+        .collect(Collectors.joining(", "))));
     return sb.toString();
   }
   
@@ -395,7 +401,8 @@ public class MyWorld implements World {
     }
     World that = (MyWorld) o;
     return Arrays.equals(this.getSize(), that.getSize()) && this.name.equals(that.getName())
-        && this.targetCharacter.equals(that.getTargetCharacter()) && this.spaces.equals(that.getSpaces());
+        && this.targetCharacter.equals(that.getTargetCharacter())
+        && this.spaces.equals(that.getSpaces());
   }
 
   @Override
@@ -406,9 +413,9 @@ public class MyWorld implements World {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder(String.format("The world's name is: %s\n", name));
-    sb.append(String.format("The world's size is: %d x %d%s", rows, cols, SEPARATOR));
+    sb.append(String.format("The world's size is: %d x %d%s", rows, cols, separator));
     sb.append("The spaces and items information is as follows:");
-    sb.append(SEPARATOR);
+    sb.append(separator);
     for (int i = 0; i < spaces.size(); i++) {
       sb.append(displaySpaceInformation(spaces.get(i).getName()));
     }

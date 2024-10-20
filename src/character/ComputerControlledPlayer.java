@@ -1,11 +1,10 @@
 package character;
 
+import item.Item;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
-
-import item.Item;
 import space.Space;
 
 /**
@@ -38,7 +37,8 @@ public class ComputerControlledPlayer extends Player {
    * @param neighborIndex    a predictable number used to choose a specific neighbor
    * @param itemIndex        a predictable number used to choose a specific item
    */
-  public ComputerControlledPlayer(String name, Space space, int operationIndex, int neighborIndex, int itemIndex) {
+  public ComputerControlledPlayer(String name, Space space, int operationIndex,
+      int neighborIndex, int itemIndex) {
     super(name, space);
     this.operationIndex = operationIndex;
     this.neighborIndex = neighborIndex;
@@ -69,6 +69,7 @@ public class ComputerControlledPlayer extends Player {
   /**
    * Return the name of a random neighbor.
    *
+   * @param spaces the neighbor list of current space
    * @return the name of a random neighbor
    */
   public String getRandomNeighborName(List<Space> spaces) {
@@ -81,6 +82,7 @@ public class ComputerControlledPlayer extends Player {
   /**
    * Return the name of a random item.
    *
+   * @param items the items in the current space
    * @return the name of a random item
    */
   public String getRandomItemName(List<Item> items) {

@@ -1,13 +1,11 @@
 package space;
 
 import item.Item;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
 import world.MyWorld;
 
 /**
@@ -99,7 +97,8 @@ public class MySpace implements Space {
       return false;
     }
     Space that = (MySpace) o;
-    return Arrays.equals(this.getPosition(), that.getPosition()) && this.name.equals(that.getName());
+    return Arrays.equals(
+        this.getPosition(), that.getPosition()) && this.name.equals(that.getName());
   }
 
   @Override
@@ -110,8 +109,11 @@ public class MySpace implements Space {
   @Override
   public String toString() {
     return String.format(
-        "Space name: %s;\nThe space has %d item(s):\n%s\nThe space has %d neighbor(s):\n%s", name,
-        items.size(), items.stream().map(item -> item.toString()).collect(Collectors.joining("\n")),
-        neighbors.size(), neighbors.stream().map(neighbor -> neighbor.getName()).collect(Collectors.joining(", ")));
+        "Space name: %s;\nThe space has %d item(s):\n%s\nThe space has %d neighbor(s):\n%s",
+        name,
+        items.size(),
+        items.stream().map(item -> item.toString()).collect(Collectors.joining("\n")),
+        neighbors.size(),
+        neighbors.stream().map(neighbor -> neighbor.getName()).collect(Collectors.joining(", ")));
   }
 }

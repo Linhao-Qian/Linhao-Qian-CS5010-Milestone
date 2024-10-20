@@ -1,11 +1,10 @@
 package driver;
 
+import controller.GameController;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.NoSuchElementException;
-
-import controller.GameController;
 import world.MyWorld;
 import world.World;
 

@@ -2,7 +2,6 @@ package world;
 
 import character.Character;
 import character.Player;
-
 import java.awt.image.BufferedImage;
 import java.util.List;
 import space.Space;
@@ -144,14 +143,14 @@ public interface World {
   int getTurnCount();
   
   /**
-   * Move a player from the space they are currently in to a neighboring space.
+   * Move a player from current space to a neighboring space.
    * 
    * @param spaceName the name of the space where the player wants to move
    */
   void movePlayer(String spaceName);
   
   /**
-   * Allow a player to pick up an item in the world that is found in the same space that they are currently in thus removing it from the space.
+   * Allow a player to pick up an item from current space.
    * 
    * @param itemName the name of the item which the player wants to pick up
    */
