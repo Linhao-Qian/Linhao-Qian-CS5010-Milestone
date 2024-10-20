@@ -16,7 +16,7 @@ After you enter the game through my jar file, you will see the world's informati
 
 You can check a specified space by input displaySpaceInformation. The controller will instruct you to enter the space name, and the space information will be displayed to you after that.
 
-You can generate a world map by input generateMap. The controller will generate a PNG file in the current directory. The PNG file's name depends on the input file name, i.e., Leo's_world.png.
+You can generate a world map by input generateMap. The controller will generate a PNG file in the current directory. The PNG file's name depends on the name of the world, i.e., Leo's World.png.
 
 You can add a computer-controlled player by input addComputerPlayer. The controller will instruct you to enter the player name and the initial space name. After the player is successfully created, the controller will provide clues about that.
 
@@ -44,7 +44,7 @@ Input file: ./res/Leo's_world.txt
 
 Output file: ./res/example_run.txt
 
-World map: ./res/Leo's_world.png
+World map: ./res/Leo's World.png
 # 
 The commands I input in my example run, in order, are:
 
