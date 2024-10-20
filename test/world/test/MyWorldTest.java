@@ -464,14 +464,14 @@ public class MyWorldTest {
     assertArrayEquals(new Space[]{}, world.getSpaces().get(20).getNeighbors().toArray());
     assertEquals(
         "Space name: Carriage House;\n"
-            + "The space has 0 item(s):\n"
-            + "\n"
-            + "The space has 0 neighbor(s):\n"
-            + "\n"
-            + "There are 0 player(s) in this space:\n"
-            + "\n"
-            + "----------------------------------------------------------------------------------\n",
-            world.displaySpaceInformation(world.getSpaces().get(20).getName()));
+        + "The space has 0 item(s):\n"
+        + "\n"
+        + "The space has 0 neighbor(s):\n"
+        + "\n"
+        + "There are 0 player(s) in this space:\n"
+        + "\n"
+        + "----------------------------------------------------------------------------------\n",
+        world.displaySpaceInformation(world.getSpaces().get(20).getName()));
   }
 
   @Test

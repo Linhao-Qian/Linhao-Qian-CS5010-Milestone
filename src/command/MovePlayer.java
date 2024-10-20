@@ -21,7 +21,7 @@ public class MovePlayer implements WorldCommand {
    */
   public MovePlayer(Scanner scan, Appendable out) {
     try {
-      out.append("Please enter the name of the space where you want to move :\n");
+      out.append("Please enter the name of the space where you want to move:\n");
     } catch (IOException ioe) {
       System.out.println(String.format("IOException: %s", ioe.getMessage()));
     }

@@ -21,6 +21,9 @@ import space.MySpace;
 import space.Space;
 import world.World;
 
+/**
+ * A JUnit test class for the Game Controller.
+ */
 public class GameControllerTest {
   
   private StringBuilder log;
@@ -382,5 +385,17 @@ public class GameControllerTest {
         + "displayPlayerInformation\n"
         + "nextTurn\n"
         + "Game over! You have end the input manually!", out.toString());
+  }
+  
+  @Test
+  public void testEndAfterMaximumTurn() throws IOException {
+    StringBuffer out = new StringBuffer();
+    Reader in = new StringReader("");
+    GameController controller = new GameController(in, out, 0);
+    controller.start(model);
+    assertEquals("The turn has been reset.\n", log.toString());
+    assertEquals(
+        "Now, the game starts.\n"
+        + "Reaching the maximum number of turns, game over.", out.toString());
   }
 }

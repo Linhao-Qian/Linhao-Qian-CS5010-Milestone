@@ -1,4 +1,4 @@
-Input: Leo's_world.txt
+Input File: Leo's_world.txt
 
 36 30 Leo's World
 50 Doctor Unlucky
@@ -46,126 +46,325 @@ Input: Leo's_world.txt
 18 2 Monkey Hand
 8 3 Loud Noise
 
+Input Turn Limit: 4
+
 Output:
 
 The world's name is: Leo's World
 The world's size is: 36 x 30
 ----------------------------------------------------------------------------------
-Target character: Doctor Unlucky, Health: 50
-----------------------------------------------------------------------------------
 The spaces and items information is as follows:
-	--------------------------------------------------------------------------
-	Space name: Dining Hall, Upper-left: (12, 11), Lower-right: (19, 20)
-	The space has 1 item(s):
-		------------------------------------------------------------------
-		Item name: Revolver, Damage: 3
-	--------------------------------------------------------------------------
-	Space name: Drawing Room, Upper-left: (20, 13), Lower-right: (25, 18)
-	The space has 1 item(s):
-		------------------------------------------------------------------
-		Item name: Billiard Cue, Damage: 2
-	--------------------------------------------------------------------------
-	Space name: Foyer, Upper-left: (26, 13), Lower-right: (27, 17)
-	The space has 2 item(s):
-		------------------------------------------------------------------
-		Item name: Big Red Hammer, Damage: 4
-		------------------------------------------------------------------
-		Item name: Chain Saw, Damage: 4
-	--------------------------------------------------------------------------
-	Space name: Green House, Upper-left: (21, 26), Lower-right: (35, 29)
-	The space has 0 item(s):
-	--------------------------------------------------------------------------
-	Space name: Hedge Maze, Upper-left: (25, 19), Lower-right: (35, 25)
-	The space has 1 item(s):
-		------------------------------------------------------------------
-		Item name: Crepe Pan, Damage: 2
-	--------------------------------------------------------------------------
-	Space name: Kitchen, Upper-left: (17, 3), Lower-right: (21, 10)
-	The space has 0 item(s):
-	--------------------------------------------------------------------------
-	Space name: Lancaster Room, Upper-left: (0, 3), Lower-right: (5, 8)
-	The space has 2 item(s):
-		------------------------------------------------------------------
-		Item name: Trowel, Damage: 2
-		------------------------------------------------------------------
-		Item name: Pinking Shears, Damage: 2
-	--------------------------------------------------------------------------
-	Space name: Library, Upper-left: (4, 21), Lower-right: (9, 27)
-	The space has 1 item(s):
-		------------------------------------------------------------------
-		Item name: Letter Opener, Damage: 2
-	--------------------------------------------------------------------------
-	Space name: Trophy Room, Upper-left: (10, 21), Lower-right: (14, 26)
-	The space has 2 item(s):
-		------------------------------------------------------------------
-		Item name: Sharp Knife, Damage: 3
-		------------------------------------------------------------------
-		Item name: Loud Noise, Damage: 3
-	--------------------------------------------------------------------------
-	Space name: Wine Cellar, Upper-left: (22, 5), Lower-right: (23, 12)
-	The space has 1 item(s):
-		------------------------------------------------------------------
-		Item name: Silken Cord, Damage: 3
-	--------------------------------------------------------------------------
-	Space name: Winter Garden, Upper-left: (30, 7), Lower-right: (35, 11)
-	The space has 0 item(s):
-	--------------------------------------------------------------------------
-	Space name: Armory, Upper-left: (21, 19), Lower-right: (24, 25)
-	The space has 1 item(s):
-		------------------------------------------------------------------
-		Item name: Tight Hat, Damage: 2
-	--------------------------------------------------------------------------
-	Space name: Lilac Room, Upper-left: (2, 9), Lower-right: (9, 14)
-	The space has 1 item(s):
-		------------------------------------------------------------------
-		Item name: Shoe Horn, Damage: 2
-	--------------------------------------------------------------------------
-	Space name: Master Suite, Upper-left: (2, 15), Lower-right: (9, 20)
-	The space has 1 item(s):
-		------------------------------------------------------------------
-		Item name: Bad Cream, Damage: 2
-	--------------------------------------------------------------------------
-	Space name: Nursery, Upper-left: (0, 21), Lower-right: (3, 28)
-	The space has 0 item(s):
-	--------------------------------------------------------------------------
-	Space name: Parlor, Upper-left: (10, 5), Lower-right: (16, 10)
-	The space has 1 item(s):
-		------------------------------------------------------------------
-		Item name: Civil War Cannon, Damage: 3
-	--------------------------------------------------------------------------
-	Space name: Piazza, Upper-left: (28, 12), Lower-right: (35, 18)
-	The space has 1 item(s):
-		------------------------------------------------------------------
-		Item name: Broom Stick, Damage: 2
-	--------------------------------------------------------------------------
-	Space name: Servants' Quarters, Upper-left: (6, 3), Lower-right: (9, 8)
-	The space has 0 item(s):
-	--------------------------------------------------------------------------
-	Space name: Tennessee Room, Upper-left: (10, 11), Lower-right: (11, 20)
-	The space has 2 item(s):
-		------------------------------------------------------------------
-		Item name: Duck Decoy, Damage: 3
-		------------------------------------------------------------------
-		Item name: Monkey Hand, Damage: 2
-	--------------------------------------------------------------------------
-	Space name: Billiard Room, Upper-left: (15, 21), Lower-right: (20, 28)
-	The space has 2 item(s):
-		------------------------------------------------------------------
-		Item name: Rat Poison, Damage: 2
-		------------------------------------------------------------------
-		Item name: Piece of Rope, Damage: 2
-	--------------------------------------------------------------------------
-	Space name: Carriage House, Upper-left: (28, 0), Lower-right: (34, 6)
-	The space has 0 item(s):
 ----------------------------------------------------------------------------------
-The target character is currently at: Dining Hall.
-Now the target character moves to the next space.
-After moving, the target character is at: Drawing Room.
-The current neighbors is as follows: 
-	Dining Hall
-	Foyer
-	Hedge Maze
-	Wine Cellar
-	Armory
+Space name: Dining Hall;
+The space has 1 item(s):
+Item name: Revolver, Damage: 3
+The space has 6 neighbor(s):
+Drawing Room, Kitchen, Trophy Room, Parlor, Tennessee Room, Billiard Room
+The target character is in this space now:
+Target character: Doctor Unlucky, Health: 50
+There are 0 player(s) in this space:
+
 ----------------------------------------------------------------------------------
-The world map is in the ./Leo's_world.png file.
+Space name: Drawing Room;
+The space has 1 item(s):
+Item name: Billiard Cue, Damage: 2
+The space has 5 neighbor(s):
+Dining Hall, Foyer, Hedge Maze, Wine Cellar, Armory
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Foyer;
+The space has 2 item(s):
+Item name: Big Red Hammer, Damage: 4
+Item name: Chain Saw, Damage: 4
+The space has 2 neighbor(s):
+Drawing Room, Piazza
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Green House;
+The space has 0 item(s):
+
+The space has 3 neighbor(s):
+Hedge Maze, Armory, Billiard Room
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Hedge Maze;
+The space has 1 item(s):
+Item name: Crepe Pan, Damage: 2
+The space has 4 neighbor(s):
+Drawing Room, Green House, Armory, Piazza
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Kitchen;
+The space has 0 item(s):
+
+The space has 3 neighbor(s):
+Dining Hall, Wine Cellar, Parlor
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Lancaster Room;
+The space has 2 item(s):
+Item name: Trowel, Damage: 2
+Item name: Pinking Shears, Damage: 2
+The space has 2 neighbor(s):
+Lilac Room, Servants' Quarters
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Library;
+The space has 1 item(s):
+Item name: Letter Opener, Damage: 2
+The space has 3 neighbor(s):
+Trophy Room, Master Suite, Nursery
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Trophy Room;
+The space has 2 item(s):
+Item name: Sharp Knife, Damage: 3
+Item name: Loud Noise, Damage: 3
+The space has 4 neighbor(s):
+Dining Hall, Library, Tennessee Room, Billiard Room
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Wine Cellar;
+The space has 1 item(s):
+Item name: Silken Cord, Damage: 3
+The space has 2 neighbor(s):
+Drawing Room, Kitchen
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Winter Garden;
+The space has 0 item(s):
+
+The space has 2 neighbor(s):
+Piazza, Carriage House
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Armory;
+The space has 1 item(s):
+Item name: Tight Hat, Damage: 2
+The space has 4 neighbor(s):
+Drawing Room, Green House, Hedge Maze, Billiard Room
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Lilac Room;
+The space has 1 item(s):
+Item name: Shoe Horn, Damage: 2
+The space has 5 neighbor(s):
+Lancaster Room, Master Suite, Parlor, Servants' Quarters, Tennessee Room
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Master Suite;
+The space has 1 item(s):
+Item name: Bad Cream, Damage: 2
+The space has 4 neighbor(s):
+Library, Lilac Room, Nursery, Tennessee Room
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Nursery;
+The space has 0 item(s):
+
+The space has 2 neighbor(s):
+Library, Master Suite
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Parlor;
+The space has 1 item(s):
+Item name: Civil War Cannon, Damage: 3
+The space has 5 neighbor(s):
+Dining Hall, Kitchen, Lilac Room, Servants' Quarters, Tennessee Room
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Piazza;
+The space has 1 item(s):
+Item name: Broom Stick, Damage: 2
+The space has 3 neighbor(s):
+Foyer, Hedge Maze, Winter Garden
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Servants' Quarters;
+The space has 0 item(s):
+
+The space has 3 neighbor(s):
+Lancaster Room, Lilac Room, Parlor
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Tennessee Room;
+The space has 2 item(s):
+Item name: Duck Decoy, Damage: 3
+Item name: Monkey Hand, Damage: 2
+The space has 5 neighbor(s):
+Dining Hall, Trophy Room, Lilac Room, Master Suite, Parlor
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Billiard Room;
+The space has 2 item(s):
+Item name: Rat Poison, Damage: 2
+Item name: Piece of Rope, Damage: 2
+The space has 4 neighbor(s):
+Dining Hall, Green House, Trophy Room, Armory
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Carriage House;
+The space has 0 item(s):
+
+The space has 1 neighbor(s):
+Winter Garden
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Now, the game starts.
+
+Please enter one of the following commands:
+displaySpaceInformation
+addComputerPlayer
+addHumanPlayer
+generateMap
+addComputerPlayer
+Please enter the computer-controlled player name:
+Leon
+Please enter the name of the space where the player is initially located:
+Dining Hall
+Successfully added the computer-controlled player Leon
+
+Please enter one of the following commands:
+displaySpaceInformation
+addComputerPlayer
+addHumanPlayer
+generateMap
+displayPlayerInformation
+nextTurn
+addHumanPlayer
+Please enter the human-controlled player name:
+Leo
+Please enter the name of the space where the player is initially located:
+Billiard Room
+Successfully added the human-controlled player Leo
+
+Please enter one of the following commands:
+displaySpaceInformation
+addComputerPlayer
+addHumanPlayer
+generateMap
+displayPlayerInformation
+nextTurn
+nextTurn
+Now, it is Leon's turn
+The player Leon has picked up Revolver from Dining Hall
+
+Please enter one of the following commands:
+displaySpaceInformation
+addComputerPlayer
+addHumanPlayer
+generateMap
+displayPlayerInformation
+nextTurn
+nextTurn
+Now, it is Leo's turn
+
+Please enter one of the following commands:
+movePlayer
+pickUpItem
+lookAround
+movePlayer
+Please enter the name of the space where you want to move:
+Armory
+The player Leo has moved to Armory
+
+Please enter one of the following commands:
+displaySpaceInformation
+addComputerPlayer
+addHumanPlayer
+generateMap
+displayPlayerInformation
+nextTurn
+nextTurn
+Now, it is Leon's turn
+Leon is looking around:
+Leon is currently in: Dining Hall
+The space has 6 neighbor(s):
+Drawing Room, Kitchen, Trophy Room, Parlor, Tennessee Room, Billiard Room
+
+Please enter one of the following commands:
+displaySpaceInformation
+addComputerPlayer
+addHumanPlayer
+generateMap
+displayPlayerInformation
+nextTurn
+displayPlayerInformation
+Please enter the player name:
+Leo
+Player name: Leo, carrying 0 items: 
+
+The player is currently in: Armory
+----------------------------------------------------------------------------------
+
+Please enter one of the following commands:
+displaySpaceInformation
+addComputerPlayer
+addHumanPlayer
+generateMap
+displayPlayerInformation
+nextTurn
+displaySpaceInformation
+Please enter the space name:
+Dining Hall
+Space name: Dining Hall;
+The space has 0 item(s):
+
+The space has 6 neighbor(s):
+Drawing Room, Kitchen, Trophy Room, Parlor, Tennessee Room, Billiard Room
+There are 1 player(s) in this space:
+Player name: Leon, carrying 1 items: 
+Item name: Revolver, Damage: 3
+----------------------------------------------------------------------------------
+
+Please enter one of the following commands:
+displaySpaceInformation
+addComputerPlayer
+addHumanPlayer
+generateMap
+displayPlayerInformation
+nextTurn
+generateMap
+Now, start generating the world map.
+The world map has been generated successfully.
+It is in the Leo's World.png file.
+
+Please enter one of the following commands:
+displaySpaceInformation
+addComputerPlayer
+addHumanPlayer
+generateMap
+displayPlayerInformation
+nextTurn
+nextTurn
+Now, it is Leo's turn
+
+Please enter one of the following commands:
+movePlayer
+pickUpItem
+lookAround
+pickUpItem
+Please enter the name of the item which you want to carry:
+Tight Hat
+The player Leo has picked up Tight Hat from Armory
+Reaching the maximum number of turns, game over.
