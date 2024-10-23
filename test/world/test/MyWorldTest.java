@@ -537,6 +537,20 @@ public class MyWorldTest {
   }
   
   @Test
+  public void testDisplaySpaceWithPlayers() {
+    world.addHumanPlayer("Leo", "Carriage House");
+    assertEquals("Space name: Carriage House;\n"
+        + "The space has 0 item(s):\n"
+        + "\n"
+        + "The space has 1 neighbor(s):\n"
+        + "Winter Garden\n"
+        + "There are 1 player(s) in this space:\n"
+        + "Player name: Leo, carrying 0 item(s):\n\n"
+        + "----------------------------------------------------------------------------------\n",
+        world.displaySpaceInformation(world.getSpaces().get(20).getName()));
+  }
+  
+  @Test
   public void testGetTargetCharacterPosition() {
     assertEquals(0, world.getTargetCharacterPosition());
   }
@@ -595,16 +609,18 @@ public class MyWorldTest {
     assertEquals(0, world.getPlayers().size());
     world.addHumanPlayer("Leo", "Dining Hall");
     assertEquals(1, world.getPlayers().size());
+    world.resetTurn();
+    world.pickUpItem("Revolver");
     assertEquals(
-        "Player name: Leo, carrying 0 items: \n"
-        + "\n"
+        "Player name: Leo, carrying 1 item(s):\n"
+        + "Item name: Revolver, Damage: 3\n"
         + "The player is currently in: Dining Hall\n"
         + "----------------------------------------------------------------------------------\n",
         world.displayPlayerInformation(world.getPlayers().get(0).getName()));
     world.addHumanPlayer("Leon", "Drawing Room");
     assertEquals(2, world.getPlayers().size());
     assertEquals(
-        "Player name: Leon, carrying 0 items: \n"
+        "Player name: Leon, carrying 0 item(s):\n"
         + "\n"
         + "The player is currently in: Drawing Room\n"
         + "----------------------------------------------------------------------------------\n",
@@ -616,16 +632,18 @@ public class MyWorldTest {
     assertEquals(0, world.getPlayers().size());
     world.addComputerPlayer("Leo", "Dining Hall");
     assertEquals(1, world.getPlayers().size());
+    world.resetTurn();
+    world.pickUpItem("Revolver");
     assertEquals(
-        "Player name: Leo, carrying 0 items: \n"
-        + "\n"
+        "Player name: Leo, carrying 1 item(s):\n"
+        + "Item name: Revolver, Damage: 3\n"
         + "The player is currently in: Dining Hall\n"
         + "----------------------------------------------------------------------------------\n",
         world.displayPlayerInformation(world.getPlayers().get(0).getName()));
     world.addComputerPlayer("Leon", "Drawing Room");
     assertEquals(2, world.getPlayers().size());
     assertEquals(
-        "Player name: Leon, carrying 0 items: \n"
+        "Player name: Leon, carrying 0 item(s):\n"
         + "\n"
         + "The player is currently in: Drawing Room\n"
         + "----------------------------------------------------------------------------------\n",
@@ -658,6 +676,13 @@ public class MyWorldTest {
     assertSame(player2.getSpace(), world.getSpace("Dining Hall"));
   }
   
+  @Test(expected = IllegalArgumentException.class)
+  public void testPlayerMovingNonNeighberSpace() {
+    world.addHumanPlayer("Leo", "Dining Hall");
+    world.resetTurn();
+    world.movePlayer("Carriage House");
+  }
+  
   @Test
   public void testPlayerPickUpItem() {
     world.addHumanPlayer("Leo", "Dining Hall");
@@ -674,6 +699,23 @@ public class MyWorldTest {
     assertSame(player1.getItems().get(1), item2);
   }
   
+  @Test(expected = IllegalArgumentException.class)
+  public void testPlayerPickUpItemNonExist() {
+    world.addHumanPlayer("Leo", "Dining Hall");
+    world.resetTurn();
+    world.pickUpItem("Letter Opener");
+  }
+  
+  @Test(expected = UnsupportedOperationException.class)
+  public void testPlayerPickUpItemBeyondMaximum() {
+    world.addHumanPlayer("Leo", "Dining Hall");
+    world.resetTurn();
+    world.pickUpItem("Revolver");
+    world.movePlayer("Trophy Room");
+    world.pickUpItem("Sharp Knife");
+    world.pickUpItem("Loud Noise");
+  }
+  
   @Test
   public void testLookAround() {
     world.addHumanPlayer("Leo", "Dining Hall");
@@ -684,13 +726,25 @@ public class MyWorldTest {
         + "The space has 6 neighbor(s):\n"
         + "Drawing Room, Kitchen, Trophy Room, Parlor, Tennessee Room, Billiard Room\n",
         world.lookAround());
-    world.addComputerPlayer("Leon", "Drawing Room");
+    world.addComputerPlayer("Leon", "Dining Hall");
     world.nextTurn();
     assertEquals(
         "Leon is looking around:\n"
-        + "Leon is currently in: Drawing Room\n"
-        + "The space has 5 neighbor(s):\n"
-        + "Dining Hall, Foyer, Hedge Maze, Wine Cellar, Armory\n",
+        + "Leon is currently in: Dining Hall\n"
+        + "The space has 6 neighbor(s):\n"
+        + "Drawing Room, Kitchen, Trophy Room, Parlor, Tennessee Room, Billiard Room\n",
+        world.lookAround());
+  }
+  
+  @Test
+  public void testLookAroundNoItems() {
+    world.addHumanPlayer("Leo", "Green House");
+    world.resetTurn();
+    assertEquals(
+        "Leo is looking around:\n"
+        + "Leo is currently in: Green House\n"
+        + "The space has 3 neighbor(s):\n"
+        + "Hedge Maze, Armory, Billiard Room\n",
         world.lookAround());
   }
 }

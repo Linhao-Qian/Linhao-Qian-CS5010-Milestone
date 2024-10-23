@@ -146,6 +146,10 @@ public class GameController {
                     c.execute(model, out);
                   }
                 }
+              } catch (UnsupportedOperationException uoe) {
+                // catch the incorrect command
+                out.append(uoe.getMessage());
+                continue;
               } catch (IllegalArgumentException iae) {
                 // When an incorrect argument is inputed,
                 // an IllegalArgumentException will be thrown out.

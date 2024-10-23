@@ -98,7 +98,7 @@ public abstract class Player implements Character {
   
   @Override
   public String toString() {
-    return String.format("Player name: %s, carrying %d items: \n%s", name, items.size(),
+    return String.format("Player name: %s, carrying %d item(s):\n%s", name, items.size(),
         items.stream().map(item -> item.toString()).collect(Collectors.joining("\n")));
   }
 }
