@@ -79,6 +79,27 @@ public abstract class Player implements Character {
     return new ArrayList<>(this.items);
   }
   
+  /**
+   * Get an item of the player's item list according to its name.
+   * 
+   * @param itemName  the name of the specific item
+   * @return the corresponding item of the item name
+   */
+  public Item getItem(String itemName) {
+    return items.stream().filter(item -> item.getName().equals(itemName)).findAny().orElseThrow(
+        () -> new IllegalArgumentException(String.format("The item %s does not exist", itemName)));
+  }
+  
+  /**
+   * Determine whether a player is the neighbor of current player.
+   *
+   * @param player the player who needs to be compared with
+   * @return true if the player can be seen by the provided player, otherwise false
+   */
+  public boolean canBeSeenBy(Player player) {
+    return space.getNeighbors().contains(player.getSpace()) || space.equals(player.getSpace());
+  }
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) {

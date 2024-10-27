@@ -9,6 +9,8 @@ import command.DisplayPlayerInformation;
 import command.DisplaySpaceInformation;
 import command.GenerateMap;
 import command.LookAround;
+import command.MakeAnAttempt;
+import command.MovePet;
 import command.MovePlayer;
 import command.PickUpItem;
 import command.WorldCommand;
@@ -57,11 +59,15 @@ public class GameController {
     humanCommands = new HashMap<>(); 
     humanCommands.put("movePlayer", s -> new MovePlayer(s, out));
     humanCommands.put("pickUpItem", s -> new PickUpItem(s, out));
+    humanCommands.put("makeAnAttempt", s -> new MakeAnAttempt(s, out));
+    humanCommands.put("movePet", s -> new MovePet(s, out));
     humanCommands.put("lookAround", s -> new LookAround());
     // commands for computer controlled players
     computerCommands = new HashMap<>();
     computerCommands.put("automaticMovePlayer", m -> new MovePlayer(m));
     computerCommands.put("automaticPickUpItem", m -> new PickUpItem(m));
+    computerCommands.put("automaticMakeAnAttempt", m -> new MakeAnAttempt(m));
+    computerCommands.put("automaticMovePet", m -> new MovePet(m));
     computerCommands.put("lookAround", m -> new LookAround());
   }
   
@@ -118,6 +124,7 @@ public class GameController {
           if ("nextTurn".equals(in)) {
             Player currentTurn = model.getTurn();
             out.append(String.format("Now, it is %s's turn\n", currentTurn.getName()));
+            out.append(model.displaySpaceInformation(currentTurn.getSpace().getName()));
             int currentTurnCount = model.getTurnCount();
             // Do not skip the current turn when an incorrect argument is inputed.
             while (model.getTurnCount() == currentTurnCount) {
@@ -125,7 +132,7 @@ public class GameController {
                 // Use different command sets according to the type of player.
                 if (currentTurn instanceof HumanControlledPlayer) {
                   out.append("\nPlease enter one of the following commands:\n");
-                  out.append("movePlayer\npickUpItem\nlookAround\n");
+                  out.append("movePlayer\npickUpItem\nlookAround\nmovePet\nmakeAnAttempt\n");
                   in = scan.nextLine();
                   Function<Scanner, WorldCommand> cmd = humanCommands.getOrDefault(in, null);
                   if (cmd == null) {
@@ -136,7 +143,7 @@ public class GameController {
                     c.execute(model, out);
                   }
                 } else if (currentTurn instanceof ComputerControlledPlayer) {
-                  in = ((ComputerControlledPlayer) currentTurn).getRandomOperation();
+                  in = ((ComputerControlledPlayer) currentTurn).getRandomOperation(model);
                   Function<World, WorldCommand> cmd = computerCommands.getOrDefault(in, null);
                   if (cmd == null) {
                     throw new UnsupportedOperationException(
@@ -145,6 +152,12 @@ public class GameController {
                     c = cmd.apply(model);
                     c.execute(model, out);
                   }
+                }
+                if ("makeAnAttempt".equals(in) && model.getTargetCharacter().getHealth() <= 0) {
+                  out.append(String.format("The target character %s has been killed by %s. Congratulations, %s!",
+                      model.getTargetCharacter().getName(), currentTurn.getName(), currentTurn.getName()));
+                  scan.close();
+                  return;
                 }
               } catch (UnsupportedOperationException uoe) {
                 // catch the incorrect command
@@ -188,6 +201,7 @@ public class GameController {
       return;
     }
     scan.close();
-    out.append("Reaching the maximum number of turns, game over.");
+    out.append("Reaching the maximum number of turns, and the target character escapes.\n");
+    out.append("Nobody wins, game over.");
   }
 }

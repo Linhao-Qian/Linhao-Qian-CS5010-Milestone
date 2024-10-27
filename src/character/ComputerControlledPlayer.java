@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 import space.Space;
+import world.World;
 
 /**
  * A ComputerControlledPlayer represents a player controlled by computer.
@@ -16,6 +17,7 @@ public class ComputerControlledPlayer extends Player {
   private int operationIndex;
   private int neighborIndex;
   private int itemIndex;
+  private int petIndex;
   
   /**
    * Constructs a HumanControlledPlayer object, which should be used for normal function.
@@ -38,11 +40,12 @@ public class ComputerControlledPlayer extends Player {
    * @param itemIndex        a predictable number used to choose a specific item
    */
   public ComputerControlledPlayer(String name, Space space, int operationIndex,
-      int neighborIndex, int itemIndex) {
+      int neighborIndex, int itemIndex, int petIndex) {
     super(name, space);
     this.operationIndex = operationIndex;
     this.neighborIndex = neighborIndex;
     this.itemIndex = itemIndex;
+    this.petIndex = petIndex;
   }
   
   /**
@@ -50,10 +53,18 @@ public class ComputerControlledPlayer extends Player {
    *
    * @return a random operation
    */
-  public String getRandomOperation() {
+  public String getRandomOperation(World model) {
     Space space = this.getSpace();
     List<String> operations = new ArrayList<>();
     operations.add("lookAround");
+    operations.add("automaticMovePet");
+    if (space.equals(model.getSpaces().get(model.getTargetCharacterPosition()))) {
+      if (model.canBeSeenByOthers()) {
+        operations.add("automaticMakeAnAttempt");
+      } else {
+        return "automaticMakeAnAttempt";
+      }
+    }
     if (space.getNeighbors().size() > 0) {
       operations.add("automaticMovePlayer");
     }
@@ -90,5 +101,37 @@ public class ComputerControlledPlayer extends Player {
       return items.get(itemIndex).getName();
     }
     return items.get(random.nextInt(items.size())).getName();
+  }
+  
+  /**
+   * Return the name of a random space.
+   *
+   * @param spaces the spaces list
+   * @return the name of a random space
+   */
+  public String getRandomSpaceName(List<Space> spaces) {
+    if (Objects.isNull(random)) {
+      return spaces.get(petIndex).getName();
+    }
+    return spaces.get(random.nextInt(spaces.size())).getName();
+  }
+  
+  /**
+   * Return the name of the most powerful item of the player.
+   *
+   * @return the name of the most powerful item of the player
+   */
+  public String getMostPowerfulItemName() {
+    if (this.items.size() == 0) {
+      return "pokeEyes";
+    }
+    Item item = this.items.get(0);
+    for (int i = 0; i < this.items.size(); i++) {
+      Item newItem = this.items.get(i);
+      if (newItem.getDamage() > item.getDamage()) {
+        item = newItem;
+      }
+    }
+    return item.getName();
   }
 }

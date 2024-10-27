@@ -2,6 +2,8 @@ package world;
 
 import character.Character;
 import character.Player;
+import character.TargetCharacter;
+
 import java.awt.image.BufferedImage;
 import java.util.List;
 import space.Space;
@@ -30,7 +32,14 @@ public interface World {
    *
    * @return the target character of the world
    */
-  Character getTargetCharacter();
+  TargetCharacter getTargetCharacter();
+  
+  /**
+   * Return the pet of the target character. Each world has a pet.
+   *
+   * @return the pet of the target character
+   */
+  Character getPet();
   
   /**
    * Return the spaces in the world. Each world has a number of non-overlapping spaces.
@@ -163,6 +172,28 @@ public interface World {
    * @return information of the space where the player is in the world
    */
   String lookAround();
+  
+  /**
+   * Move the pet to a specified space.
+   * 
+   * @param spaceName the name of the space where the pet should be moved to
+   */
+  void movePet(String spaceName);
+  
+  /**
+   * Determine whether a player is the neighbor of others.
+   *
+   * @return true if the player can be seen by others, otherwise false
+   */
+  public boolean canBeSeenByOthers();
+  
+  /**
+   * Allow a player to make an attempt on the target character.
+   * 
+   * @param itemName the name of the item which the player wants to use
+   * @return true if the attack is successful, false if the attack fails
+   */
+  boolean makeAnAttempt(String itemName);
   
   /**
    * Create a graphical representation of the world map in the form of a BufferedImage.

@@ -1,7 +1,9 @@
 package world;
 
+import character.Character;
 import character.ComputerControlledPlayer;
 import character.HumanControlledPlayer;
+import character.Pet;
 import character.Player;
 import character.TargetCharacter;
 import item.Item;
@@ -27,11 +29,13 @@ public class MyWorld implements World {
   private final int rows;
   private final int cols;
   private final TargetCharacter targetCharacter;
+  private final Pet pet;
   private final List<Space> spaces;
   private final List<Player> players;
   private int targetCharacterPosition;
   private Player turn;
   private int turnCount;
+  private List<Space> orderedSpaces;
   
   private final String separator =
       "\n----------------------------------------------------------------------------------\n";
@@ -68,6 +72,10 @@ public class MyWorld implements World {
     int health = Integer.parseInt(targetCharacterInfo[0]);
     String targetCharacterName = targetCharacterInfo[1];
     this.targetCharacter = new TargetCharacter(targetCharacterName, health);
+    
+    // Read the pet's name.
+    String petName = scan.nextLine();
+    this.pet = new Pet(petName);
     
     // Read the spaces information.
     int spaceNum = Integer.parseInt(scan.nextLine());
@@ -139,10 +147,15 @@ public class MyWorld implements World {
     
     // Close the scanner.
     scan.close();
+
+    // Generate the pet wandering order list.
+    this.orderedSpaces = new ArrayList<>();
+    this.SpacesDepthFirstTraversal(this.spaces.get(0), orderedSpaces);
     
     this.players = new ArrayList<>();
     this.targetCharacterPosition = 0;
     this.turnCount = 0;
+    this.pet.setSpace(this.spaces.get(0));
   }
 
   private boolean areSpacesOverlapping(Space space1, Space space2) {
@@ -171,6 +184,11 @@ public class MyWorld implements World {
     return targetCharacter;
   }
 
+  @Override
+  public Character getPet() {
+    return pet;
+  }
+  
   @Override
   public List<Space> getSpaces() {
     return new ArrayList<>(spaces);
@@ -228,6 +246,10 @@ public class MyWorld implements World {
   public String displaySpaceInformation(String spaceName) {
     Space space = getSpace(spaceName);
     StringBuilder sb = new StringBuilder(space.toString());
+    if (space.equals(pet.getSpace())) {
+      sb.append("\nThe pet is in this space now:\n");
+      sb.append(pet.toString());
+    }
     if (targetCharacterPosition == spaces.indexOf(space)) {
       sb.append("\nThe target character is in this space now:\n");
       sb.append(targetCharacter.toString());
@@ -235,7 +257,7 @@ public class MyWorld implements World {
     List<Player> spacePlayers = players.stream()
         .filter(player -> player.getSpace().equals(space)).collect(Collectors.toList());
     sb.append(String.format("\nThere are %d player(s) in this space:\n", spacePlayers.size()));
-    spacePlayers.forEach(player -> sb.append(player.toString()));
+    spacePlayers.forEach(player -> sb.append(player.getName()));
     sb.append(separator);
     return sb.toString();
   }
@@ -302,6 +324,13 @@ public class MyWorld implements World {
     }
     moveTargetCharacter();
     this.turnCount++;
+    // Make the pet wander.
+    int petPosition = orderedSpaces.indexOf(pet.getSpace());
+    if (petPosition < orderedSpaces.size() - 1) {
+      pet.setSpace(orderedSpaces.get(petPosition + 1));
+    } else {
+      pet.setSpace(orderedSpaces.get(0));
+    }
   }
   
   @Override
@@ -332,11 +361,83 @@ public class MyWorld implements World {
     Space space = turn.getSpace();
     String name = turn.getName();
     StringBuilder sb = new StringBuilder(String.format("%s is looking around:\n", name));
-    sb.append(String.format("%s is currently in: %s\n", name, space.getName()));
-    sb.append(String.format("The space has %d neighbor(s):\n%s\n", space.getNeighbors().size(),
-        space.getNeighbors().stream().map(neighbor -> neighbor.getName())
-        .collect(Collectors.joining(", "))));
+    sb.append(String.format("%s is currently in:\n%s\n", name, displaySpaceInformation(space.getName())));
+    sb.append(String.format("The neighbor(s) information is as follows:\n%s\n", space.getNeighbors().size(),
+        space.getNeighbors().stream().map(neighbor -> getLookAroundNeighborInformation(neighbor))
+        .collect(Collectors.joining(separator))));
     return sb.toString();
+  }
+  
+  private String getLookAroundNeighborInformation(Space space) {
+    if (space.equals(pet.getSpace())) {
+      return String.format("The pet %s is in this space now, you can't get the space's information!\n",
+          pet.getName());
+    }
+    List<Player> spacePlayers = players.stream()
+        .filter(player -> player.getSpace().equals(space)).collect(Collectors.toList());
+    StringBuilder sb = new StringBuilder(String.format(
+        "Space name: %s;\nThe space has %d item(s):\n%s\nThe space has %d player(s):\n%s",
+        space.getName(),
+        space.getItems().size(),
+        space.getItems().stream().map(item -> item.toString()).collect(Collectors.joining("\n")),
+        spacePlayers.size(),
+        spacePlayers.stream().map(player -> player.getName()).collect(Collectors.joining(", "))));
+    if (targetCharacterPosition == spaces.indexOf(space)) {
+      sb.append("\nThe target character is in this space now:\n");
+      sb.append(targetCharacter.toString());
+    }
+    return sb.toString();
+  }
+  
+  private void SpacesDepthFirstTraversal(Space space, List<Space> spaces) {
+    if (spaces.size() == getSpaces().size()) {
+      return;
+    }
+    if (!spaces.contains(space)) {
+      spaces.add(space);
+    } else {
+      return;
+    }
+    for (Space neighbor: space.getNeighbors()) {
+      SpacesDepthFirstTraversal(neighbor, spaces);
+    }
+  }
+  
+  @Override
+  public void movePet(String spaceName) {
+    Space space = getSpace(spaceName);
+    pet.setSpace(space);
+    // Re-generate the pet wandering order list. 
+    this.orderedSpaces = new ArrayList<>();
+    SpacesDepthFirstTraversal(space, orderedSpaces);
+  }
+  
+  @Override
+  public boolean canBeSeenByOthers() {
+    for (Player player : players) {
+      if (!turn.equals(player) && turn.canBeSeenBy(player)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  @Override
+  public boolean makeAnAttempt(String itemName) {
+    if (targetCharacterPosition != spaces.indexOf(turn.getSpace())) {
+      throw new UnsupportedOperationException("You are not in the same space as the target character!");
+    }
+    if (canBeSeenByOthers()) {
+      return false;
+    }
+    if (turn.getItems().size() == 0 && "pokeEyes".equals(itemName)) {
+      targetCharacter.reduceHealth(1);
+    } else {
+      Item item = turn.getItem(itemName);
+      targetCharacter.reduceHealth(item.getDamage());
+      turn.getItems().remove(item);
+    }
+    return true;
   }
   
   @Override
