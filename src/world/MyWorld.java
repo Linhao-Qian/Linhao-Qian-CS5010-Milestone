@@ -1,6 +1,5 @@
 package world;
 
-import character.Character;
 import character.ComputerControlledPlayer;
 import character.HumanControlledPlayer;
 import character.Pet;
@@ -150,7 +149,7 @@ public class MyWorld implements World {
 
     // Generate the pet wandering order list.
     this.orderedSpaces = new ArrayList<>();
-    this.SpacesDepthFirstTraversal(this.spaces.get(0), orderedSpaces);
+    this.spacesDepthFirstTraversal(this.spaces.get(0), orderedSpaces);
     
     this.players = new ArrayList<>();
     this.targetCharacterPosition = 0;
@@ -185,7 +184,7 @@ public class MyWorld implements World {
   }
 
   @Override
-  public Character getPet() {
+  public Pet getPet() {
     return pet;
   }
   
@@ -389,7 +388,7 @@ public class MyWorld implements World {
     return sb.toString();
   }
   
-  private void SpacesDepthFirstTraversal(Space space, List<Space> spaces) {
+  private void spacesDepthFirstTraversal(Space space, List<Space> spaces) {
     if (spaces.size() == getSpaces().size()) {
       return;
     }
@@ -399,7 +398,7 @@ public class MyWorld implements World {
       return;
     }
     for (Space neighbor: space.getNeighbors()) {
-      SpacesDepthFirstTraversal(neighbor, spaces);
+      spacesDepthFirstTraversal(neighbor, spaces);
     }
   }
   
@@ -409,7 +408,7 @@ public class MyWorld implements World {
     pet.setSpace(space);
     // Re-generate the pet wandering order list. 
     this.orderedSpaces = new ArrayList<>();
-    SpacesDepthFirstTraversal(space, orderedSpaces);
+    spacesDepthFirstTraversal(space, orderedSpaces);
   }
   
   @Override

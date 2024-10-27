@@ -1,9 +1,8 @@
 package world;
 
-import character.Character;
+import character.Pet;
 import character.Player;
 import character.TargetCharacter;
-
 import java.awt.image.BufferedImage;
 import java.util.List;
 import space.Space;
@@ -39,7 +38,7 @@ public interface World {
    *
    * @return the pet of the target character
    */
-  Character getPet();
+  Pet getPet();
   
   /**
    * Return the spaces in the world. Each world has a number of non-overlapping spaces.
@@ -185,7 +184,7 @@ public interface World {
    *
    * @return true if the player can be seen by others, otherwise false
    */
-  public boolean canBeSeenByOthers();
+  boolean canBeSeenByOthers();
   
   /**
    * Allow a player to make an attempt on the target character.
