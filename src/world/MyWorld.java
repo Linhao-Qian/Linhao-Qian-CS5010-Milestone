@@ -256,7 +256,7 @@ public class MyWorld implements World {
     List<Player> spacePlayers = players.stream()
         .filter(player -> player.getSpace().equals(space)).collect(Collectors.toList());
     sb.append(String.format("\nThere are %d player(s) in this space:\n", spacePlayers.size()));
-    spacePlayers.forEach(player -> sb.append(player.getName()));
+    sb.append(spacePlayers.stream().map(player -> player.getName()).collect(Collectors.joining(", ")));
     sb.append(separator);
     return sb.toString();
   }
@@ -361,16 +361,15 @@ public class MyWorld implements World {
     String name = turn.getName();
     StringBuilder sb = new StringBuilder(String.format("%s is looking around:\n", name));
     sb.append(String.format("%s is currently in:\n%s\n", name, displaySpaceInformation(space.getName())));
-    sb.append(String.format("The neighbor(s) information is as follows:\n%s\n", space.getNeighbors().size(),
-        space.getNeighbors().stream().map(neighbor -> getLookAroundNeighborInformation(neighbor))
-        .collect(Collectors.joining(separator))));
+    sb.append(String.format("The neighbor(s) information is as follows:\n%s\n", space.getNeighbors().stream()
+        .map(neighbor -> getLookAroundNeighborInformation(neighbor)).collect(Collectors.joining(separator))));
     return sb.toString();
   }
   
   private String getLookAroundNeighborInformation(Space space) {
     if (space.equals(pet.getSpace())) {
-      return String.format("The pet %s is in this space now, you can't get the space's information!\n",
-          pet.getName());
+      return String.format("The pet %s is in %s now, you can't get the space's information!\n",
+          pet.getName(), space.getName());
     }
     List<Player> spacePlayers = players.stream()
         .filter(player -> player.getSpace().equals(space)).collect(Collectors.toList());
