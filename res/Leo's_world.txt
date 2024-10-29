@@ -1,5 +1,5 @@
 36 30 Leo's World
-50 Doctor Unlucky
+1 Doctor Unlucky
 Fortune the Cat
 21
 12 11 19 20 Dining Hall

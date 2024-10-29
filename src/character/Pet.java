@@ -2,11 +2,23 @@ package character;
 
 import space.Space;
 
+/**
+ * A Pet represents a pet of the target character.
+ */
 public class Pet implements Character {
   private final String name;
   private Space space;
   
-  public Pet(String name) {
+  /**
+   * Constructs a Pet object, which has a unique name.
+   * 
+   * @param name     the name of the player
+   * @throws IllegalArgumentException if the name is null or empty
+   */
+  public Pet(String name) throws IllegalArgumentException {
+    if (name == null || name.isEmpty()) {
+      throw new IllegalArgumentException("The name of the pet can't be empty!");
+    }
     this.name = name;
   }
   
@@ -19,8 +31,12 @@ public class Pet implements Character {
    * Set the space of the pet.
    *
    * @param space the space of the pet
+   * @throws IllegalArgumentException if the space is null
    */
-  public void setSpace(Space space) {
+  public void setSpace(Space space) throws IllegalArgumentException {
+    if (space == null) {
+      throw new IllegalArgumentException("The space of the pet can't be null!");
+    }
     this.space = space;
   }
   

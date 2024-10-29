@@ -1,7 +1,7 @@
 Input File: Leo's_world.txt
 
 36 30 Leo's World
-50 Doctor Unlucky
+1 Doctor Unlucky
 Fortune the Cat
 21
 12 11 19 20 Dining Hall
@@ -49,6 +49,32 @@ Fortune the Cat
 
 Input Turn Limit: 4
 
+Input Commands:
+
+addHumanPlayer
+Leo
+Drawing Room
+addHumanPlayer
+Leon
+Dining Hall
+displaySpaceInformation
+Dining Hall
+nextTurn
+lookAround
+displaySpaceInformation
+Drawing Room
+nextTurn
+movePet
+Library
+displaySpaceInformation
+Library
+displaySpaceInformation
+Trophy Room
+nextTurn
+lookAround
+nextTurn
+lookAround
+
 Output:
 
 The world's name is: Leo's World
@@ -61,8 +87,10 @@ The space has 1 item(s):
 Item name: Revolver, Damage: 3
 The space has 6 neighbor(s):
 Drawing Room, Kitchen, Trophy Room, Parlor, Tennessee Room, Billiard Room
+The pet is in this space now:
+Pet name: Fortune the Cat
 The target character is in this space now:
-Target character: Doctor Unlucky, Health: 50
+Target character: Doctor Unlucky, Health: 1
 There are 0 player(s) in this space:
 
 ----------------------------------------------------------------------------------
@@ -238,12 +266,12 @@ displaySpaceInformation
 addComputerPlayer
 addHumanPlayer
 generateMap
-addComputerPlayer
-Please enter the computer-controlled player name:
-Leon
+addHumanPlayer
+Please enter the human-controlled player name:
+Leo
 Please enter the name of the space where the player is initially located:
-Dining Hall
-Successfully added the computer-controlled player Leon
+Drawing Room
+Successfully added the human-controlled player Leo
 
 Please enter one of the following commands:
 displaySpaceInformation
@@ -254,69 +282,10 @@ displayPlayerInformation
 nextTurn
 addHumanPlayer
 Please enter the human-controlled player name:
-Leo
+Leon
 Please enter the name of the space where the player is initially located:
-Billiard Room
-Successfully added the human-controlled player Leo
-
-Please enter one of the following commands:
-displaySpaceInformation
-addComputerPlayer
-addHumanPlayer
-generateMap
-displayPlayerInformation
-nextTurn
-nextTurn
-Now, it is Leon's turn
-The player Leon has picked up Revolver from Dining Hall
-
-Please enter one of the following commands:
-displaySpaceInformation
-addComputerPlayer
-addHumanPlayer
-generateMap
-displayPlayerInformation
-nextTurn
-nextTurn
-Now, it is Leo's turn
-
-Please enter one of the following commands:
-movePlayer
-pickUpItem
-lookAround
-movePlayer
-Please enter the name of the space where you want to move:
-Armory
-The player Leo has moved to Armory
-
-Please enter one of the following commands:
-displaySpaceInformation
-addComputerPlayer
-addHumanPlayer
-generateMap
-displayPlayerInformation
-nextTurn
-nextTurn
-Now, it is Leon's turn
-Leon is looking around:
-Leon is currently in: Dining Hall
-The space has 6 neighbor(s):
-Drawing Room, Kitchen, Trophy Room, Parlor, Tennessee Room, Billiard Room
-
-Please enter one of the following commands:
-displaySpaceInformation
-addComputerPlayer
-addHumanPlayer
-generateMap
-displayPlayerInformation
-nextTurn
-displayPlayerInformation
-Please enter the player name:
-Leo
-Player name: Leo, carrying 0 items: 
-
-The player is currently in: Armory
-----------------------------------------------------------------------------------
+Dining Hall
+Successfully added the human-controlled player Leon
 
 Please enter one of the following commands:
 displaySpaceInformation
@@ -329,26 +298,17 @@ displaySpaceInformation
 Please enter the space name:
 Dining Hall
 Space name: Dining Hall;
-The space has 0 item(s):
-
+The space has 1 item(s):
+Item name: Revolver, Damage: 3
 The space has 6 neighbor(s):
 Drawing Room, Kitchen, Trophy Room, Parlor, Tennessee Room, Billiard Room
+The pet is in this space now:
+Pet name: Fortune the Cat
+The target character is in this space now:
+Target character: Doctor Unlucky, Health: 1
 There are 1 player(s) in this space:
-Player name: Leon, carrying 1 items: 
-Item name: Revolver, Damage: 3
+Leon
 ----------------------------------------------------------------------------------
-
-Please enter one of the following commands:
-displaySpaceInformation
-addComputerPlayer
-addHumanPlayer
-generateMap
-displayPlayerInformation
-nextTurn
-generateMap
-Now, start generating the world map.
-The world map has been generated successfully.
-It is in the Leo's World.png file.
 
 Please enter one of the following commands:
 displaySpaceInformation
@@ -359,13 +319,303 @@ displayPlayerInformation
 nextTurn
 nextTurn
 Now, it is Leo's turn
+Space name: Drawing Room;
+The space has 1 item(s):
+Item name: Billiard Cue, Damage: 2
+The space has 5 neighbor(s):
+Dining Hall, Foyer, Hedge Maze, Wine Cellar, Armory
+There are 1 player(s) in this space:
+Leo
+----------------------------------------------------------------------------------
 
 Please enter one of the following commands:
 movePlayer
 pickUpItem
 lookAround
+movePet
+makeAnAttempt
+lookAround
+Leo is looking around:
+Leo is currently in:
+Space name: Drawing Room;
+The space has 1 item(s):
+Item name: Billiard Cue, Damage: 2
+The space has 5 neighbor(s):
+Dining Hall, Foyer, Hedge Maze, Wine Cellar, Armory
+There are 1 player(s) in this space:
+Leo
+----------------------------------------------------------------------------------
+
+The neighbor(s) information is as follows:
+The pet Fortune the Cat is in Dining Hall now, you can't get the space's information!
+
+----------------------------------------------------------------------------------
+Space name: Foyer;
+The space has 2 item(s):
+Item name: Big Red Hammer, Damage: 4
+Item name: Chain Saw, Damage: 4
+The space has 0 player(s):
+
+----------------------------------------------------------------------------------
+Space name: Hedge Maze;
+The space has 1 item(s):
+Item name: Crepe Pan, Damage: 2
+The space has 0 player(s):
+
+----------------------------------------------------------------------------------
+Space name: Wine Cellar;
+The space has 1 item(s):
+Item name: Silken Cord, Damage: 3
+The space has 0 player(s):
+
+----------------------------------------------------------------------------------
+Space name: Armory;
+The space has 1 item(s):
+Item name: Tight Hat, Damage: 2
+The space has 0 player(s):
+
+
+Please enter one of the following commands:
+displaySpaceInformation
+addComputerPlayer
+addHumanPlayer
+generateMap
+displayPlayerInformation
+nextTurn
+displaySpaceInformation
+Please enter the space name:
+Drawing Room
+Space name: Drawing Room;
+The space has 1 item(s):
+Item name: Billiard Cue, Damage: 2
+The space has 5 neighbor(s):
+Dining Hall, Foyer, Hedge Maze, Wine Cellar, Armory
+The pet is in this space now:
+Pet name: Fortune the Cat
+The target character is in this space now:
+Target character: Doctor Unlucky, Health: 1
+There are 1 player(s) in this space:
+Leo
+----------------------------------------------------------------------------------
+
+Please enter one of the following commands:
+displaySpaceInformation
+addComputerPlayer
+addHumanPlayer
+generateMap
+displayPlayerInformation
+nextTurn
+nextTurn
+Now, it is Leon's turn
+Space name: Dining Hall;
+The space has 1 item(s):
+Item name: Revolver, Damage: 3
+The space has 6 neighbor(s):
+Drawing Room, Kitchen, Trophy Room, Parlor, Tennessee Room, Billiard Room
+There are 1 player(s) in this space:
+Leon
+----------------------------------------------------------------------------------
+
+Please enter one of the following commands:
+movePlayer
 pickUpItem
-Please enter the name of the item which you want to carry:
-Tight Hat
-The player Leo has picked up Tight Hat from Armory
-Reaching the maximum number of turns, game over.
+lookAround
+movePet
+makeAnAttempt
+movePet
+Please enter the name of the space where the pet should be moved to:
+Library
+The pet Fortune the Cat has been moved to Library
+
+Please enter one of the following commands:
+displaySpaceInformation
+addComputerPlayer
+addHumanPlayer
+generateMap
+displayPlayerInformation
+nextTurn
+displaySpaceInformation
+Please enter the space name:
+Library
+Space name: Library;
+The space has 1 item(s):
+Item name: Letter Opener, Damage: 2
+The space has 3 neighbor(s):
+Trophy Room, Master Suite, Nursery
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+
+Please enter one of the following commands:
+displaySpaceInformation
+addComputerPlayer
+addHumanPlayer
+generateMap
+displayPlayerInformation
+nextTurn
+displaySpaceInformation
+Please enter the space name:
+Trophy Room
+Space name: Trophy Room;
+The space has 2 item(s):
+Item name: Sharp Knife, Damage: 3
+Item name: Loud Noise, Damage: 3
+The space has 4 neighbor(s):
+Dining Hall, Library, Tennessee Room, Billiard Room
+The pet is in this space now:
+Pet name: Fortune the Cat
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+
+Please enter one of the following commands:
+displaySpaceInformation
+addComputerPlayer
+addHumanPlayer
+generateMap
+displayPlayerInformation
+nextTurn
+nextTurn
+Now, it is Leo's turn
+Space name: Drawing Room;
+The space has 1 item(s):
+Item name: Billiard Cue, Damage: 2
+The space has 5 neighbor(s):
+Dining Hall, Foyer, Hedge Maze, Wine Cellar, Armory
+There are 1 player(s) in this space:
+Leo
+----------------------------------------------------------------------------------
+
+Please enter one of the following commands:
+movePlayer
+pickUpItem
+lookAround
+movePet
+makeAnAttempt
+lookAround
+Leo is looking around:
+Leo is currently in:
+Space name: Drawing Room;
+The space has 1 item(s):
+Item name: Billiard Cue, Damage: 2
+The space has 5 neighbor(s):
+Dining Hall, Foyer, Hedge Maze, Wine Cellar, Armory
+There are 1 player(s) in this space:
+Leo
+----------------------------------------------------------------------------------
+
+The neighbor(s) information is as follows:
+Space name: Dining Hall;
+The space has 1 item(s):
+Item name: Revolver, Damage: 3
+The space has 1 player(s):
+Leon
+----------------------------------------------------------------------------------
+Space name: Foyer;
+The space has 2 item(s):
+Item name: Big Red Hammer, Damage: 4
+Item name: Chain Saw, Damage: 4
+The space has 0 player(s):
+
+The target character is in this space now:
+Target character: Doctor Unlucky, Health: 1
+----------------------------------------------------------------------------------
+Space name: Hedge Maze;
+The space has 1 item(s):
+Item name: Crepe Pan, Damage: 2
+The space has 0 player(s):
+
+----------------------------------------------------------------------------------
+Space name: Wine Cellar;
+The space has 1 item(s):
+Item name: Silken Cord, Damage: 3
+The space has 0 player(s):
+
+----------------------------------------------------------------------------------
+Space name: Armory;
+The space has 1 item(s):
+Item name: Tight Hat, Damage: 2
+The space has 0 player(s):
+
+
+Please enter one of the following commands:
+displaySpaceInformation
+addComputerPlayer
+addHumanPlayer
+generateMap
+displayPlayerInformation
+nextTurn
+nextTurn
+Now, it is Leon's turn
+Space name: Dining Hall;
+The space has 1 item(s):
+Item name: Revolver, Damage: 3
+The space has 6 neighbor(s):
+Drawing Room, Kitchen, Trophy Room, Parlor, Tennessee Room, Billiard Room
+The pet is in this space now:
+Pet name: Fortune the Cat
+There are 1 player(s) in this space:
+Leon
+----------------------------------------------------------------------------------
+
+Please enter one of the following commands:
+movePlayer
+pickUpItem
+lookAround
+movePet
+makeAnAttempt
+lookAround
+Leon is looking around:
+Leon is currently in:
+Space name: Dining Hall;
+The space has 1 item(s):
+Item name: Revolver, Damage: 3
+The space has 6 neighbor(s):
+Drawing Room, Kitchen, Trophy Room, Parlor, Tennessee Room, Billiard Room
+The pet is in this space now:
+Pet name: Fortune the Cat
+There are 1 player(s) in this space:
+Leon
+----------------------------------------------------------------------------------
+
+The neighbor(s) information is as follows:
+Space name: Drawing Room;
+The space has 1 item(s):
+Item name: Billiard Cue, Damage: 2
+The space has 1 player(s):
+Leo
+----------------------------------------------------------------------------------
+Space name: Kitchen;
+The space has 0 item(s):
+
+The space has 0 player(s):
+
+----------------------------------------------------------------------------------
+Space name: Trophy Room;
+The space has 2 item(s):
+Item name: Sharp Knife, Damage: 3
+Item name: Loud Noise, Damage: 3
+The space has 0 player(s):
+
+----------------------------------------------------------------------------------
+Space name: Parlor;
+The space has 1 item(s):
+Item name: Civil War Cannon, Damage: 3
+The space has 0 player(s):
+
+----------------------------------------------------------------------------------
+Space name: Tennessee Room;
+The space has 2 item(s):
+Item name: Duck Decoy, Damage: 3
+Item name: Monkey Hand, Damage: 2
+The space has 0 player(s):
+
+----------------------------------------------------------------------------------
+Space name: Billiard Room;
+The space has 2 item(s):
+Item name: Rat Poison, Damage: 2
+Item name: Piece of Rope, Damage: 2
+The space has 0 player(s):
+
+Reaching the maximum number of turns, and the target character escapes.
+Nobody wins, game over.

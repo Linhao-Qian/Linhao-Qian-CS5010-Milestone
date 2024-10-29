@@ -1,0 +1,291 @@
+Input File: Leo's_world.txt
+
+36 30 Leo's World
+1 Doctor Unlucky
+Fortune the Cat
+21
+12 11 19 20 Dining Hall
+20 13 25 18 Drawing Room
+26 13 27 17 Foyer
+21 26 35 29 Green House
+25 19 35 25 Hedge Maze
+17  3 21 10 Kitchen
+ 0  3  5  8 Lancaster Room
+ 4 21  9 27 Library
+10 21 14 26 Trophy Room
+22  5 23 12 Wine Cellar
+30  7 35 11 Winter Garden
+21 19 24 25 Armory
+ 2  9  9 14 Lilac Room
+ 2 15  9 20 Master Suite
+ 0 21  3 28 Nursery
+10  5 16 10 Parlor
+28 12 35 18 Piazza
+ 6  3  9  8 Servants' Quarters
+10 11 11 20 Tennessee Room
+15 21 20 28 Billiard Room
+28  0 34  6 Carriage House
+20
+7 2 Letter Opener
+12 2 Shoe Horn
+4 2 Crepe Pan
+0 3 Revolver
+8 3 Sharp Knife
+16 2 Broom Stick
+6 2 Trowel
+15 3 Civil War Cannon
+2 4 Big Red Hammer
+2 4 Chain Saw
+6 2 Pinking Shears
+1 2 Billiard Cue
+13 2 Bad Cream
+19 2 Rat Poison
+11 2 Tight Hat
+9 3 Silken Cord
+18 3 Duck Decoy
+19 2 Piece of Rope
+18 2 Monkey Hand
+8 3 Loud Noise
+
+Input Turn Limit: 4
+
+Input Commands:
+
+addHumanPlayer
+Leo
+Dining Hall
+nextTurn
+makeAnAttempt
+pokeEyes
+
+Output:
+
+The world's name is: Leo's World
+The world's size is: 36 x 30
+----------------------------------------------------------------------------------
+The spaces and items information is as follows:
+----------------------------------------------------------------------------------
+Space name: Dining Hall;
+The space has 1 item(s):
+Item name: Revolver, Damage: 3
+The space has 6 neighbor(s):
+Drawing Room, Kitchen, Trophy Room, Parlor, Tennessee Room, Billiard Room
+The pet is in this space now:
+Pet name: Fortune the Cat
+The target character is in this space now:
+Target character: Doctor Unlucky, Health: 1
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Drawing Room;
+The space has 1 item(s):
+Item name: Billiard Cue, Damage: 2
+The space has 5 neighbor(s):
+Dining Hall, Foyer, Hedge Maze, Wine Cellar, Armory
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Foyer;
+The space has 2 item(s):
+Item name: Big Red Hammer, Damage: 4
+Item name: Chain Saw, Damage: 4
+The space has 2 neighbor(s):
+Drawing Room, Piazza
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Green House;
+The space has 0 item(s):
+
+The space has 3 neighbor(s):
+Hedge Maze, Armory, Billiard Room
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Hedge Maze;
+The space has 1 item(s):
+Item name: Crepe Pan, Damage: 2
+The space has 4 neighbor(s):
+Drawing Room, Green House, Armory, Piazza
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Kitchen;
+The space has 0 item(s):
+
+The space has 3 neighbor(s):
+Dining Hall, Wine Cellar, Parlor
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Lancaster Room;
+The space has 2 item(s):
+Item name: Trowel, Damage: 2
+Item name: Pinking Shears, Damage: 2
+The space has 2 neighbor(s):
+Lilac Room, Servants' Quarters
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Library;
+The space has 1 item(s):
+Item name: Letter Opener, Damage: 2
+The space has 3 neighbor(s):
+Trophy Room, Master Suite, Nursery
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Trophy Room;
+The space has 2 item(s):
+Item name: Sharp Knife, Damage: 3
+Item name: Loud Noise, Damage: 3
+The space has 4 neighbor(s):
+Dining Hall, Library, Tennessee Room, Billiard Room
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Wine Cellar;
+The space has 1 item(s):
+Item name: Silken Cord, Damage: 3
+The space has 2 neighbor(s):
+Drawing Room, Kitchen
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Winter Garden;
+The space has 0 item(s):
+
+The space has 2 neighbor(s):
+Piazza, Carriage House
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Armory;
+The space has 1 item(s):
+Item name: Tight Hat, Damage: 2
+The space has 4 neighbor(s):
+Drawing Room, Green House, Hedge Maze, Billiard Room
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Lilac Room;
+The space has 1 item(s):
+Item name: Shoe Horn, Damage: 2
+The space has 5 neighbor(s):
+Lancaster Room, Master Suite, Parlor, Servants' Quarters, Tennessee Room
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Master Suite;
+The space has 1 item(s):
+Item name: Bad Cream, Damage: 2
+The space has 4 neighbor(s):
+Library, Lilac Room, Nursery, Tennessee Room
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Nursery;
+The space has 0 item(s):
+
+The space has 2 neighbor(s):
+Library, Master Suite
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Parlor;
+The space has 1 item(s):
+Item name: Civil War Cannon, Damage: 3
+The space has 5 neighbor(s):
+Dining Hall, Kitchen, Lilac Room, Servants' Quarters, Tennessee Room
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Piazza;
+The space has 1 item(s):
+Item name: Broom Stick, Damage: 2
+The space has 3 neighbor(s):
+Foyer, Hedge Maze, Winter Garden
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Servants' Quarters;
+The space has 0 item(s):
+
+The space has 3 neighbor(s):
+Lancaster Room, Lilac Room, Parlor
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Tennessee Room;
+The space has 2 item(s):
+Item name: Duck Decoy, Damage: 3
+Item name: Monkey Hand, Damage: 2
+The space has 5 neighbor(s):
+Dining Hall, Trophy Room, Lilac Room, Master Suite, Parlor
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Billiard Room;
+The space has 2 item(s):
+Item name: Rat Poison, Damage: 2
+Item name: Piece of Rope, Damage: 2
+The space has 4 neighbor(s):
+Dining Hall, Green House, Trophy Room, Armory
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Space name: Carriage House;
+The space has 0 item(s):
+
+The space has 1 neighbor(s):
+Winter Garden
+There are 0 player(s) in this space:
+
+----------------------------------------------------------------------------------
+Now, the game starts.
+
+Please enter one of the following commands:
+displaySpaceInformation
+addComputerPlayer
+addHumanPlayer
+generateMap
+addHumanPlayer
+Please enter the human-controlled player name:
+Leo
+Please enter the name of the space where the player is initially located:
+Dining Hall
+Successfully added the human-controlled player Leo
+
+Please enter one of the following commands:
+displaySpaceInformation
+addComputerPlayer
+addHumanPlayer
+generateMap
+displayPlayerInformation
+nextTurn
+nextTurn
+Now, it is Leo's turn
+Space name: Dining Hall;
+The space has 1 item(s):
+Item name: Revolver, Damage: 3
+The space has 6 neighbor(s):
+Drawing Room, Kitchen, Trophy Room, Parlor, Tennessee Room, Billiard Room
+The pet is in this space now:
+Pet name: Fortune the Cat
+The target character is in this space now:
+Target character: Doctor Unlucky, Health: 1
+There are 1 player(s) in this space:
+Leo
+----------------------------------------------------------------------------------
+
+Please enter one of the following commands:
+movePlayer
+pickUpItem
+lookAround
+movePet
+makeAnAttempt
+makeAnAttempt
+Please enter the name of the item which you want to use (If you don't have any item, please enter "pokeEyes"):
+pokeEyes
+The player Leo has made an attempt on the target character using pokeEyes
+The target character Doctor Unlucky has been killed by Leo. Congratulations, Leo!

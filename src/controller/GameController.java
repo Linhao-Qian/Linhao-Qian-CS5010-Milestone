@@ -153,7 +153,8 @@ public class GameController {
                     c.execute(model, out);
                   }
                 }
-                if ("makeAnAttempt".equals(in) && model.getTargetCharacter().getHealth() <= 0) {
+                if (("makeAnAttempt".equals(in) || "automaticMakeAnAttempt".equals(in))
+                    && model.getTargetCharacter().getHealth() <= 0) {
                   out.append(String.format("The target character %s has been killed by %s. Congratulations, %s!",
                       model.getTargetCharacter().getName(), currentTurn.getName(), currentTurn.getName()));
                   scan.close();

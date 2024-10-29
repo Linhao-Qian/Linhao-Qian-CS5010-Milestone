@@ -47,7 +47,7 @@ public class MakeAnAttempt implements WorldCommand {
       out.append(String.format("The player %s has made an attempt on the target character using %s\n",
           name, itemName));
     } else {
-      out.append(String.format("The player %s stopped the attack as seen by others!\n", name));
+      out.append(String.format("The player %s stopped attacking because it was seen by others.\n", name));
     }
     model.nextTurn();
   }
