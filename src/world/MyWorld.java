@@ -413,8 +413,12 @@ public class MyWorld implements World {
   @Override
   public boolean canBeSeenByOthers() {
     for (Player player : players) {
-      if (!turn.equals(player) && turn.canBeSeenBy(player)) {
-        return true;
+      if (!turn.equals(player)) {
+        if (turn.isNeighbor(player)) {
+          return !turn.getSpace().equals(pet.getSpace());
+        } else if (turn.isSameSpace(player)) {
+          return true;
+        } 
       }
     }
     return false;
@@ -433,7 +437,7 @@ public class MyWorld implements World {
     } else {
       Item item = turn.getItem(itemName);
       targetCharacter.reduceHealth(item.getDamage());
-      turn.getItems().remove(item);
+      turn.removeItem(item);
     }
     return true;
   }

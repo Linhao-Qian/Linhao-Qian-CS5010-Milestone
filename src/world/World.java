@@ -180,7 +180,7 @@ public interface World {
   void movePet(String spaceName);
   
   /**
-   * Determine whether a player is the neighbor of others.
+   * Determine whether a player can be seen by others.
    *
    * @return true if the player can be seen by others, otherwise false
    */

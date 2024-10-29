@@ -2,8 +2,11 @@ package world.test;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
+import character.ComputerControlledPlayer;
 import character.Player;
 import item.Item;
 import java.io.StringReader;
@@ -28,6 +31,7 @@ public class MyWorldTest {
     Readable stringReader = new StringReader(
         "36 30 Leo's World\n"
         + "50 Doctor Unlucky\n"
+        + "Fortune the Cat\n"
         + "21\n"
         + "12 11 19 20 Dining Hall\n"
         + "20 13 25 18 Drawing Room\n"
@@ -76,7 +80,8 @@ public class MyWorldTest {
 
   @Test
   public void testReadingWorld() {
-    assertEquals(world.toString(), "The world's name is: Leo's World\n"
+    assertEquals(world.toString(),
+        "The world's name is: Leo's World\n"
         + "The world's size is: 36 x 30\n"
         + "----------------------------------------------------------------------------------\n"
         + "The spaces and items information is as follows:\n"
@@ -86,6 +91,8 @@ public class MyWorldTest {
         + "Item name: Revolver, Damage: 3\n"
         + "The space has 6 neighbor(s):\n"
         + "Drawing Room, Kitchen, Trophy Room, Parlor, Tennessee Room, Billiard Room\n"
+        + "The pet is in this space now:\n"
+        + "Pet name: Fortune the Cat\n"
         + "The target character is in this space now:\n"
         + "Target character: Doctor Unlucky, Health: 50\n"
         + "There are 0 player(s) in this space:\n"
@@ -264,6 +271,7 @@ public class MyWorldTest {
     Readable stringReader = new StringReader(
         "36 0 Leo's World\n"
         + "50 Doctor Unlucky\n"
+        + "Fortune the Cat\n"
         + "21\n"
         + "12 11 19 20 Dining Hall\n"
         + "20 13 25 18 Drawing Room\n"
@@ -315,6 +323,7 @@ public class MyWorldTest {
     Readable stringReader = new StringReader(
         "36 30 Leo's World\n"
         + "50 Doctor Unlucky\n"
+        + "Fortune the Cat\n"
         + "21\n"
         + "12 11 19 20 Dining Hall\n"
         + "20 13 25 18 Drawing Room\n"
@@ -366,6 +375,7 @@ public class MyWorldTest {
     Readable stringReader = new StringReader(
         "36 30 Leo's World\n"
         + "50 Doctor Unlucky\n"
+        + "Fortune the Cat\n"
         + "21\n"
         + "12 11 19 20 Dining Hall\n"
         + "20 13 25 18 Drawing Room\n"
@@ -417,6 +427,7 @@ public class MyWorldTest {
     Readable stringReader = new StringReader(
         "36 30 Leo's World\n"
         + "50 Doctor Unlucky\n"
+        + "Fortune the Cat\n"
         + "21\n"
         + "12 11 19 20 Dining Hall\n"
         + "20 13 25 18 Drawing Room\n"
@@ -515,6 +526,8 @@ public class MyWorldTest {
         + "Item name: Revolver, Damage: 3\n"
         + "The space has 6 neighbor(s):\n"
         + "Drawing Room, Kitchen, Trophy Room, Parlor, Tennessee Room, Billiard Room\n"
+        + "The pet is in this space now:\n"
+        + "Pet name: Fortune the Cat\n"
         + "The target character is in this space now:\n"
         + "Target character: Doctor Unlucky, Health: 50\n"
         + "There are 0 player(s) in this space:\n"
@@ -545,7 +558,7 @@ public class MyWorldTest {
         + "The space has 1 neighbor(s):\n"
         + "Winter Garden\n"
         + "There are 1 player(s) in this space:\n"
-        + "Player name: Leo, carrying 0 item(s):\n\n"
+        + "Leo\n"
         + "----------------------------------------------------------------------------------\n",
         world.displaySpaceInformation(world.getSpaces().get(20).getName()));
   }
@@ -722,17 +735,107 @@ public class MyWorldTest {
     world.resetTurn();
     assertEquals(
         "Leo is looking around:\n"
-        + "Leo is currently in: Dining Hall\n"
+        + "Leo is currently in:\n"
+        + "Space name: Dining Hall;\n"
+        + "The space has 1 item(s):\n"
+        + "Item name: Revolver, Damage: 3\n"
         + "The space has 6 neighbor(s):\n"
-        + "Drawing Room, Kitchen, Trophy Room, Parlor, Tennessee Room, Billiard Room\n",
+        + "Drawing Room, Kitchen, Trophy Room, Parlor, Tennessee Room, Billiard Room\n"
+        + "The pet is in this space now:\n"
+        + "Pet name: Fortune the Cat\n"
+        + "The target character is in this space now:\n"
+        + "Target character: Doctor Unlucky, Health: 50\n"
+        + "There are 1 player(s) in this space:\n"
+        + "Leo\n"
+        + "----------------------------------------------------------------------------------\n"
+        + "\n"
+        + "The neighbor(s) information is as follows:\n"
+        + "Space name: Drawing Room;\n"
+        + "The space has 1 item(s):\n"
+        + "Item name: Billiard Cue, Damage: 2\n"
+        + "The space has 0 player(s):\n"
+        + "\n"
+        + "----------------------------------------------------------------------------------\n"
+        + "Space name: Kitchen;\n"
+        + "The space has 0 item(s):\n"
+        + "\n"
+        + "The space has 0 player(s):\n"
+        + "\n"
+        + "----------------------------------------------------------------------------------\n"
+        + "Space name: Trophy Room;\n"
+        + "The space has 2 item(s):\n"
+        + "Item name: Sharp Knife, Damage: 3\n"
+        + "Item name: Loud Noise, Damage: 3\n"
+        + "The space has 0 player(s):\n"
+        + "\n"
+        + "----------------------------------------------------------------------------------\n"
+        + "Space name: Parlor;\n"
+        + "The space has 1 item(s):\n"
+        + "Item name: Civil War Cannon, Damage: 3\n"
+        + "The space has 0 player(s):\n"
+        + "\n"
+        + "----------------------------------------------------------------------------------\n"
+        + "Space name: Tennessee Room;\n"
+        + "The space has 2 item(s):\n"
+        + "Item name: Duck Decoy, Damage: 3\n"
+        + "Item name: Monkey Hand, Damage: 2\n"
+        + "The space has 0 player(s):\n"
+        + "\n"
+        + "----------------------------------------------------------------------------------\n"
+        + "Space name: Billiard Room;\n"
+        + "The space has 2 item(s):\n"
+        + "Item name: Rat Poison, Damage: 2\n"
+        + "Item name: Piece of Rope, Damage: 2\n"
+        + "The space has 0 player(s):\n\n",
         world.lookAround());
     world.addComputerPlayer("Leon", "Dining Hall");
     world.nextTurn();
     assertEquals(
         "Leon is looking around:\n"
-        + "Leon is currently in: Dining Hall\n"
+        + "Leon is currently in:\n"
+        + "Space name: Dining Hall;\n"
+        + "The space has 1 item(s):\n"
+        + "Item name: Revolver, Damage: 3\n"
         + "The space has 6 neighbor(s):\n"
-        + "Drawing Room, Kitchen, Trophy Room, Parlor, Tennessee Room, Billiard Room\n",
+        + "Drawing Room, Kitchen, Trophy Room, Parlor, Tennessee Room, Billiard Room\n"
+        + "There are 2 player(s) in this space:\n"
+        + "Leo, Leon\n"
+        + "----------------------------------------------------------------------------------\n"
+        + "\n"
+        + "The neighbor(s) information is as follows:\n"
+        + "The pet Fortune the Cat is in Drawing Room now, you can't get the space's information!\n\n"
+        + "----------------------------------------------------------------------------------\n"
+        + "Space name: Kitchen;\n"
+        + "The space has 0 item(s):\n"
+        + "\n"
+        + "The space has 0 player(s):\n"
+        + "\n"
+        + "----------------------------------------------------------------------------------\n"
+        + "Space name: Trophy Room;\n"
+        + "The space has 2 item(s):\n"
+        + "Item name: Sharp Knife, Damage: 3\n"
+        + "Item name: Loud Noise, Damage: 3\n"
+        + "The space has 0 player(s):\n"
+        + "\n"
+        + "----------------------------------------------------------------------------------\n"
+        + "Space name: Parlor;\n"
+        + "The space has 1 item(s):\n"
+        + "Item name: Civil War Cannon, Damage: 3\n"
+        + "The space has 0 player(s):\n"
+        + "\n"
+        + "----------------------------------------------------------------------------------\n"
+        + "Space name: Tennessee Room;\n"
+        + "The space has 2 item(s):\n"
+        + "Item name: Duck Decoy, Damage: 3\n"
+        + "Item name: Monkey Hand, Damage: 2\n"
+        + "The space has 0 player(s):\n"
+        + "\n"
+        + "----------------------------------------------------------------------------------\n"
+        + "Space name: Billiard Room;\n"
+        + "The space has 2 item(s):\n"
+        + "Item name: Rat Poison, Damage: 2\n"
+        + "Item name: Piece of Rope, Damage: 2\n"
+        + "The space has 0 player(s):\n\n",
         world.lookAround());
   }
   
@@ -742,9 +845,214 @@ public class MyWorldTest {
     world.resetTurn();
     assertEquals(
         "Leo is looking around:\n"
-        + "Leo is currently in: Green House\n"
+        + "Leo is currently in:\n"
+        + "Space name: Green House;\n"
+        + "The space has 0 item(s):\n"
+        + "\n"
         + "The space has 3 neighbor(s):\n"
-        + "Hedge Maze, Armory, Billiard Room\n",
+        + "Hedge Maze, Armory, Billiard Room\n"
+        + "There are 1 player(s) in this space:\n"
+        + "Leo\n"
+        + "----------------------------------------------------------------------------------\n"
+        + "\n"
+        + "The neighbor(s) information is as follows:\n"
+        + "Space name: Hedge Maze;\n"
+        + "The space has 1 item(s):\n"
+        + "Item name: Crepe Pan, Damage: 2\n"
+        + "The space has 0 player(s):\n"
+        + "\n"
+        + "----------------------------------------------------------------------------------\n"
+        + "Space name: Armory;\n"
+        + "The space has 1 item(s):\n"
+        + "Item name: Tight Hat, Damage: 2\n"
+        + "The space has 0 player(s):\n"
+        + "\n"
+        + "----------------------------------------------------------------------------------\n"
+        + "Space name: Billiard Room;\n"
+        + "The space has 2 item(s):\n"
+        + "Item name: Rat Poison, Damage: 2\n"
+        + "Item name: Piece of Rope, Damage: 2\n"
+        + "The space has 0 player(s):\n\n",
         world.lookAround());
+  }
+  
+  @Test
+  public void testPetInitialSpace() {
+    assertSame(world.getSpaces().get(world.getTargetCharacterPosition()), world.getPet().getSpace());
+  }
+  
+  @Test
+  public void testMovePet() {
+    assertSame(world.getSpaces().get(world.getTargetCharacterPosition()), world.getPet().getSpace());
+    world.movePet("Kitchen");
+    assertEquals("Kitchen", world.getPet().getSpace().getName());
+  }
+  
+  @Test
+  public void testPetWandering() {
+    world.addHumanPlayer("Leo", "Dining Hall");
+    world.resetTurn();
+    assertSame(world.getSpaces().get(world.getTargetCharacterPosition()), world.getPet().getSpace());
+    world.nextTurn();
+    assertEquals("Drawing Room", world.getPet().getSpace().getName());
+    world.nextTurn();
+    assertEquals("Foyer", world.getPet().getSpace().getName());
+    world.nextTurn();
+    assertEquals("Piazza", world.getPet().getSpace().getName());
+    world.nextTurn();
+    assertEquals("Hedge Maze", world.getPet().getSpace().getName());
+  }
+  
+  @Test
+  public void testCanBeSeenByOthersNeighborSpace() {
+    world.addHumanPlayer("Leo", "Dining Hall");
+    world.resetTurn();
+    assertFalse(world.canBeSeenByOthers());
+    world.addComputerPlayer("Leon", "Kitchen");
+    assertEquals("Dining Hall", world.getPet().getSpace().getName());
+    assertFalse(world.canBeSeenByOthers());
+    world.nextTurn();
+    assertEquals("Drawing Room", world.getPet().getSpace().getName());
+    assertTrue(world.canBeSeenByOthers());
+  }
+  
+  @Test
+  public void testCanBeSeenByOthersSameSpace() {
+    world.addHumanPlayer("Leo", "Dining Hall");
+    world.resetTurn();
+    assertFalse(world.canBeSeenByOthers());
+    world.addComputerPlayer("Leon", "Dining Hall");
+    assertEquals("Dining Hall", world.getPet().getSpace().getName());
+    assertTrue(world.canBeSeenByOthers());
+    world.nextTurn();
+    assertEquals("Drawing Room", world.getPet().getSpace().getName());
+    assertTrue(world.canBeSeenByOthers());
+  }
+  
+  @Test
+  public void testCanBeSeenByOthersNonNeighborSpace() {
+    world.addHumanPlayer("Leo", "Dining Hall");
+    world.resetTurn();
+    assertFalse(world.canBeSeenByOthers());
+    world.addComputerPlayer("Leon", "Lancaster Room");
+    assertFalse(world.canBeSeenByOthers());
+    world.nextTurn();
+    assertFalse(world.canBeSeenByOthers());
+  }
+  
+  @Test
+  public void testComputerPlayerAutomaticMakeAnAttempt() {
+    world.addComputerPlayer("Leo", "Dining Hall");
+    world.resetTurn();
+    ComputerControlledPlayer player = (ComputerControlledPlayer) world.getTurn();
+    assertEquals("automaticMakeAnAttempt", player.getRandomOperation(world));
+  }
+  
+  @Test
+  public void testComputerPlayerMakeAnAttemptSuccessfully() {
+    world.addComputerPlayer("Leo", "Dining Hall");
+    world.resetTurn();
+    world.pickUpItem("Revolver");
+    assertEquals("Revolver", world.getTurn().getItems().get(0).getName());
+    assertTrue(world.makeAnAttempt("Revolver"));
+    assertEquals(47, world.getTargetCharacter().getHealth());
+    assertEquals(0, world.getTurn().getItems().size());
+  }
+  
+  @Test
+  public void testHumanPlayerMakeAnAttemptSuccessfully() {
+    world.addHumanPlayer("Leo", "Dining Hall");
+    world.resetTurn();
+    world.pickUpItem("Revolver");
+    assertEquals("Revolver", world.getTurn().getItems().get(0).getName());
+    assertTrue(world.makeAnAttempt("Revolver"));
+    assertEquals(47, world.getTargetCharacter().getHealth());
+    assertEquals(0, world.getTurn().getItems().size());
+  }
+  
+  @Test
+  public void testComputerPlayerMakeAnAttemptFailSameSpace() {
+    world.addComputerPlayer("Leo", "Dining Hall");
+    world.resetTurn();
+    world.addComputerPlayer("Leon", "Dining Hall");
+    world.pickUpItem("Revolver");
+    assertFalse(world.makeAnAttempt("Revolver"));
+    assertEquals(50, world.getTargetCharacter().getHealth());
+  }
+  
+  @Test
+  public void testHumanPlayerMakeAnAttemptFailSameSpace() {
+    world.addHumanPlayer("Leo", "Dining Hall");
+    world.resetTurn();
+    world.addHumanPlayer("Leon", "Dining Hall");
+    world.pickUpItem("Revolver");
+    assertFalse(world.makeAnAttempt("Revolver"));
+    assertEquals(50, world.getTargetCharacter().getHealth());
+  }
+  
+  @Test
+  public void testComputerPlayerMakeAnAttemptSuccessfullyWithPetHelp() {
+    world.addComputerPlayer("Leo", "Dining Hall");
+    world.resetTurn();
+    world.addComputerPlayer("Leon", "Drawing Room");
+    world.pickUpItem("Revolver");
+    assertTrue(world.makeAnAttempt("Revolver"));
+    assertEquals(47, world.getTargetCharacter().getHealth());
+  }
+  
+  @Test
+  public void testHumanPlayerMakeAnAttemptSuccessfullyWithPetHelp() {
+    world.addHumanPlayer("Leo", "Dining Hall");
+    world.resetTurn();
+    world.addHumanPlayer("Leon", "Drawing Room");
+    world.pickUpItem("Revolver");
+    assertTrue(world.makeAnAttempt("Revolver"));
+    assertEquals(47, world.getTargetCharacter().getHealth());
+  }
+  
+  @Test
+  public void testComputerPlayerMakeAnAttemptFailWithoutPetHelp() {
+    world.addComputerPlayer("Leo", "Dining Hall");
+    world.resetTurn();
+    world.movePet("Kitchen");
+    world.addComputerPlayer("Leon", "Drawing Room");
+    world.pickUpItem("Revolver");
+    assertFalse(world.makeAnAttempt("Revolver"));
+    assertEquals(50, world.getTargetCharacter().getHealth());
+  }
+  
+  @Test
+  public void testHumanPlayerMakeAnAttemptFailWithoutPetHelp() {
+    world.addHumanPlayer("Leo", "Dining Hall");
+    world.resetTurn();
+    world.movePet("Kitchen");
+    world.addHumanPlayer("Leon", "Drawing Room");
+    world.pickUpItem("Revolver");
+    assertFalse(world.makeAnAttempt("Revolver"));
+    assertEquals(50, world.getTargetCharacter().getHealth());
+  }
+  
+  @Test
+  public void testComputerPlayerPokeEyes() {
+    world.addComputerPlayer("Leo", "Dining Hall");
+    world.resetTurn();
+    world.makeAnAttempt("pokeEyes");
+    assertEquals(49, world.getTargetCharacter().getHealth());
+  }
+  
+  @Test
+  public void testHumanPlayerPokeEyes() {
+    world.addHumanPlayer("Leo", "Dining Hall");
+    world.resetTurn();
+    world.makeAnAttempt("pokeEyes");
+    assertEquals(49, world.getTargetCharacter().getHealth());
+  }
+  
+  @Test(expected = IllegalArgumentException.class)
+  public void testPokeEyesInvalid() {
+    world.addHumanPlayer("Leo", "Dining Hall");
+    world.resetTurn();
+    world.pickUpItem("Revolver");
+    world.makeAnAttempt("pokeEyes");
   }
 }

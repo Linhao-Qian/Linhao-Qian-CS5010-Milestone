@@ -3,10 +3,10 @@ package character.test;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import character.ComputerControlledPlayer;
 import character.HumanControlledPlayer;
-import character.Player;
 import item.Item;
 import item.MyItem;
 import org.junit.Before;
@@ -21,8 +21,8 @@ public class PlayerTest {
   
   private Space space;
   private Item item;
-  private Player computerPlayer;
-  private Player humanPlayer;
+  private ComputerControlledPlayer computerPlayer;
+  private HumanControlledPlayer humanPlayer;
 
   /**
    * Set up the pre-defined space, item, computerPlayer and humanPlayer field.
@@ -100,5 +100,48 @@ public class PlayerTest {
     assertEquals(1, computerPlayer.getItems().size());
     assertSame(item, humanPlayer.getItems().get(0));
     assertSame(item, computerPlayer.getItems().get(0));
+  }
+  
+  @Test
+  public void testGetItem() {
+    humanPlayer.addItem(item);
+    computerPlayer.addItem(item);
+    assertSame(item, humanPlayer.getItem("Revolver"));
+    assertSame(item, computerPlayer.getItem("Revolver"));
+  }
+  
+  @Test
+  public void testRemoveItem() {
+    humanPlayer.addItem(item);
+    computerPlayer.addItem(item);
+    assertSame(item, humanPlayer.getItem("Revolver"));
+    assertSame(item, computerPlayer.getItem("Revolver"));
+    humanPlayer.removeItem(item);
+    computerPlayer.removeItem(item);
+    assertEquals(0, humanPlayer.getItems().size());
+    assertEquals(0, computerPlayer.getItems().size());
+  }
+  
+  @Test
+  public void testIsNeighbor() {
+    Space newSpace = new MySpace(0, 4, 3, 6, "Drawing Room");
+    space.addNeighbor(newSpace);
+    newSpace.addNeighbor(space);
+    humanPlayer.setSpace(newSpace);
+    assertTrue(humanPlayer.isNeighbor(computerPlayer));
+    assertTrue(computerPlayer.isNeighbor(humanPlayer));
+  }
+  
+  @Test
+  public void testIsSameSpace() {
+    assertTrue(humanPlayer.isSameSpace(computerPlayer));
+    assertTrue(computerPlayer.isSameSpace(humanPlayer));
+  }
+  
+  @Test
+  public void testgetMostPowerfulItemName() {
+    assertEquals("pokeEyes", computerPlayer.getMostPowerfulItemName());
+    computerPlayer.addItem(item);
+    assertEquals("Revolver", computerPlayer.getMostPowerfulItemName());
   }
 }

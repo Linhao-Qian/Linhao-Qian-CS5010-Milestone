@@ -71,6 +71,15 @@ public abstract class Player implements Character {
   }
   
   /**
+   * Remove an item from the player's item list.
+   * 
+   * @param item the item which needs to be removed from the player's item list
+   */
+  public void removeItem(Item item) {
+    items.remove(item);
+  }
+  
+  /**
    * Return the items of the player.
    *
    * @return the items of the player
@@ -94,10 +103,20 @@ public abstract class Player implements Character {
    * Determine whether a player is the neighbor of current player.
    *
    * @param player the player who needs to be compared with
-   * @return true if the player can be seen by the provided player, otherwise false
+   * @return true if the player is the neighbor of current player, otherwise false
    */
-  public boolean canBeSeenBy(Player player) {
-    return space.getNeighbors().contains(player.getSpace()) || space.equals(player.getSpace());
+  public boolean isNeighbor(Player player) {
+    return space.getNeighbors().contains(player.getSpace());
+  }
+  
+  /**
+   * Determine whether a player is in the same space of current player.
+   *
+   * @param player the player who needs to be compared with
+   * @return true if the player is in the same space of current player, otherwise false
+   */
+  public boolean isSameSpace(Player player) {
+    return space.equals(player.getSpace());
   }
   
   @Override
