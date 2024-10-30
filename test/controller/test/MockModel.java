@@ -1,5 +1,6 @@
 package controller.test;
 
+import character.Pet;
 import character.Player;
 import character.TargetCharacter;
 import java.awt.image.BufferedImage;
@@ -17,6 +18,7 @@ public class MockModel implements World {
   private final int rows;
   private final int cols;
   private final TargetCharacter targetCharacter;
+  private final Pet pet;
   private final List<Space> spaces;
   private final List<Player> players;
   private Player turn;
@@ -34,13 +36,14 @@ public class MockModel implements World {
    * @param players         the players of the world
    * @param turn            the current player
    */
-  public MockModel(StringBuilder log, String name, int rows, int cols,
-      TargetCharacter targetCharacter, List<Space> spaces, List<Player> players, Player turn) {
+  public MockModel(StringBuilder log, String name, int rows, int cols, TargetCharacter targetCharacter,
+      Pet pet, List<Space> spaces, List<Player> players, Player turn) {
     this.log = log;
     this.name = name;
     this.rows = rows;
     this.cols = cols;
     this.targetCharacter = targetCharacter;
+    this.pet = pet;
     this.spaces = spaces;
     this.players = players;
     this.turn = turn;
@@ -62,13 +65,18 @@ public class MockModel implements World {
   }
 
   @Override
+  public Pet getPet() {
+    return pet;
+  }
+  
+  @Override
   public List<Space> getSpaces() {
     return new ArrayList<>(spaces);
   }
 
   @Override
   public Space getSpace(String spaceName) {
-    log.append("Input space name: ").append(spaceName).append("\n");
+    log.append("get space: ").append(spaceName).append("\n");
     return spaces.get(0);
   }
 
@@ -79,19 +87,19 @@ public class MockModel implements World {
 
   @Override
   public Player getPlayer(String playerName) {
-    log.append("Input player name: ").append(playerName).append("\n");
+    log.append("get player: ").append(playerName).append("\n");
     return players.get(0);
   }
 
   @Override
   public String displaySpaceInformation(String spaceName) {
-    log.append("Input space name: ").append(spaceName).append("\n");
+    log.append("display space information: ").append(spaceName).append("\n");
     return "space information";
   }
 
   @Override
   public String displayPlayerInformation(String playerName) {
-    log.append("Input player name: ").append(playerName).append("\n");
+    log.append("display player information: ").append(playerName).append("\n");
     return "player information";
   }
 
@@ -102,20 +110,20 @@ public class MockModel implements World {
 
   @Override
   public List<Space> getNeighbors(Space space) {
-    log.append("Input space information: ").append(space.toString()).append("\n");
+    log.append("get neighbors of the space: ").append(space.toString()).append("\n");
     return new ArrayList<>(spaces);
   }
 
   @Override
   public void addComputerPlayer(String name, String spaceName) {
-    log.append("Input player name: ").append(name).append("\n");
-    log.append("Input player space name: ").append(spaceName).append("\n");
+    log.append("add player: ").append(name).append("\n");
+    log.append("initial space name: ").append(spaceName).append("\n");
   }
   
   @Override
   public void addHumanPlayer(String name, String spaceName) {
-    log.append("Input player name: ").append(name).append("\n");
-    log.append("Input player space name: ").append(spaceName).append("\n");
+    log.append("add player: ").append(name).append("\n");
+    log.append("initial space name: ").append(spaceName).append("\n");
   }
   
   @Override
@@ -146,19 +154,36 @@ public class MockModel implements World {
 
   @Override
   public void movePlayer(String spaceName) {
-    log.append("Input space name: ").append(spaceName).append("\n");
+    log.append("move player to: ").append(spaceName).append("\n");
   }
 
   @Override
   public void pickUpItem(String itemName) {
-    log.append("Input item name: ").append(itemName).append("\n");
+    log.append("pick up item: ").append(itemName).append("\n");
   }
 
   @Override
   public String lookAround() {
     return "look around\n";
   }
+  
+  @Override
+  public void movePet(String spaceName) {
+    log.append("move pet to: ").append(spaceName).append("\n");
+  }
 
+  @Override
+  public boolean canBeSeenByOthers() {
+    log.append("cannot be seen by others").append("\n");
+    return false;
+  }
+
+  @Override
+  public boolean makeAnAttempt(String itemName) {
+    log.append("make an attempt with: ").append(itemName).append("\n");
+    return false;
+  }
+  
   @Override
   public BufferedImage generateMap() {
     log.append("generate map\n");

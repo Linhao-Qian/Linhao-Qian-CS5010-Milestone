@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import character.ComputerControlledPlayer;
 import character.HumanControlledPlayer;
+import character.Pet;
 import character.Player;
 import character.TargetCharacter;
 import controller.GameController;
@@ -28,6 +29,7 @@ public class GameControllerTest {
   private StringBuilder log;
   private World model;
   private TargetCharacter targetCharacter;
+  private Pet pet;
   private List<Space> spaces;
   private List<Player> players;
   private Space space;
@@ -39,6 +41,7 @@ public class GameControllerTest {
   @Before
   public void setUp() {
     this.targetCharacter = new TargetCharacter("Doctor", 50);
+    this.pet = new Pet("cat");
     this.space = new MySpace(0, 0, 3, 3, "Kitchen");
     Item item = new MyItem("Revolver", 3);
     space.addItem(item);
@@ -48,7 +51,7 @@ public class GameControllerTest {
     spaces.add(space);
     players.add(player);
     this.log = new StringBuilder();
-    this.model = new MockModel(log, "mansion", 40, 40, targetCharacter, spaces, players, player);
+    this.model = new MockModel(log, "mansion", 40, 40, targetCharacter, pet, spaces, players, player);
   }
   
   @Test
@@ -76,7 +79,7 @@ public class GameControllerTest {
     Reader in = new StringReader("displaySpaceInformation\nFoyer\n");
     GameController controller = new GameController(in, out, 3);
     controller.start(model);
-    assertEquals("Input space name: Foyer\n", log.toString());
+    assertEquals("display space information: Foyer\n", log.toString());
     assertEquals(
         "Now, the game starts.\n\n"
         + "Please enter one of the following commands:\n"
@@ -101,7 +104,7 @@ public class GameControllerTest {
     Reader in = new StringReader("addComputerPlayer\nLeon\nFoyer\n");
     GameController controller = new GameController(in, out, 3);
     controller.start(model);
-    assertEquals("Input player name: Leon\nInput player space name: Foyer\n", log.toString());
+    assertEquals("add player: Leon\ninitial space name: Foyer\n", log.toString());
     assertEquals(
         "Now, the game starts.\n\n"
         + "Please enter one of the following commands:\n"
@@ -127,7 +130,7 @@ public class GameControllerTest {
     Reader in = new StringReader("addHumanPlayer\nLeon\nFoyer\n");
     GameController controller = new GameController(in, out, 3);
     controller.start(model);
-    assertEquals("Input player name: Leon\nInput player space name: Foyer\n", log.toString());
+    assertEquals("add player: Leon\ninitial space name: Foyer\n", log.toString());
     assertEquals(
         "Now, the game starts.\n\n"
         + "Please enter one of the following commands:\n"
@@ -177,7 +180,7 @@ public class GameControllerTest {
     Reader in = new StringReader("displayPlayerInformation\nLeo\n");
     GameController controller = new GameController(in, out, 3);
     controller.start(model);
-    assertEquals("The turn has been reset.\nInput player name: Leo\n", log.toString());
+    assertEquals("The turn has been reset.\ndisplay player information: Leo\n", log.toString());
     assertEquals(
         "Now, the game starts.\n\n"
         + "Please enter one of the following commands:\n"
@@ -205,7 +208,7 @@ public class GameControllerTest {
     Reader in = new StringReader("nextTurn\nmovePlayer\nDrawing Room\n");
     GameController controller = new GameController(in, out, 3);
     controller.start(model);
-    assertEquals("The turn has been reset.\nInput space name: Drawing Room\nnext turn\n",
+    assertEquals("The turn has been reset.\ndisplay space information: Kitchen\nmove player to: Drawing Room\nnext turn\n",
         log.toString());
     assertEquals(
         "Now, the game starts.\n\n"
@@ -216,9 +219,10 @@ public class GameControllerTest {
         + "generateMap\n"
         + "displayPlayerInformation\n"
         + "nextTurn\n"
-        + "Now, it is Leo's turn\n\n"
+        + "Now, it is Leo's turn\n"
+        + "space information\n"
         + "Please enter one of the following commands:\n"
-        + "movePlayer\npickUpItem\nlookAround\n"
+        + "movePlayer\npickUpItem\nlookAround\nmovePet\nmakeAnAttempt\n"
         + "Please enter the name of the space where you want to move:\n"
         + "The player Leo has moved to Drawing Room\n\n"
         + "Please enter one of the following commands:\n"
@@ -237,7 +241,7 @@ public class GameControllerTest {
     Reader in = new StringReader("nextTurn\npickUpItem\nRevolver\n");
     GameController controller = new GameController(in, out, 3);
     controller.start(model);
-    assertEquals("The turn has been reset.\nInput item name: Revolver\nnext turn\n",
+    assertEquals("The turn has been reset.\ndisplay space information: Kitchen\npick up item: Revolver\nnext turn\n",
         log.toString());
     assertEquals(
         "Now, the game starts.\n\n"
@@ -248,9 +252,10 @@ public class GameControllerTest {
         + "generateMap\n"
         + "displayPlayerInformation\n"
         + "nextTurn\n"
-        + "Now, it is Leo's turn\n\n"
+        + "Now, it is Leo's turn\n"
+        + "space information\n"
         + "Please enter one of the following commands:\n"
-        + "movePlayer\npickUpItem\nlookAround\n"
+        + "movePlayer\npickUpItem\nlookAround\nmovePet\nmakeAnAttempt\n"
         + "Please enter the name of the item which you want to carry:\n"
         + "The player Leo has picked up Revolver from Kitchen\n\n"
         + "Please enter one of the following commands:\n"
@@ -269,7 +274,8 @@ public class GameControllerTest {
     Reader in = new StringReader("nextTurn\nlookAround\n");
     GameController controller = new GameController(in, out, 3);
     controller.start(model);
-    assertEquals("The turn has been reset.\nnext turn\n", log.toString());
+    assertEquals("The turn has been reset.\ndisplay space information: Kitchen\nnext turn\n",
+        log.toString());
     assertEquals(
         "Now, the game starts.\n\n"
         + "Please enter one of the following commands:\n"
@@ -279,9 +285,10 @@ public class GameControllerTest {
         + "generateMap\n"
         + "displayPlayerInformation\n"
         + "nextTurn\n"
-        + "Now, it is Leo's turn\n\n"
+        + "Now, it is Leo's turn\n"
+        + "space information\n"
         + "Please enter one of the following commands:\n"
-        + "movePlayer\npickUpItem\nlookAround\n"
+        + "movePlayer\npickUpItem\nlookAround\nmovePet\nmakeAnAttempt\n"
         + "look around\n\n"
         + "Please enter one of the following commands:\n"
         + "displaySpaceInformation\n"
@@ -296,17 +303,20 @@ public class GameControllerTest {
   @Test
   public void testAutomaticMovePlayer() throws IOException {
     players.remove(player);
-    Player newPlayer = new ComputerControlledPlayer("Leon", space, 1, 0, 0);
+    Space newSpace = new MySpace(0, 4, 3, 6, "Foyer");
+    newSpace.addNeighbor(space);
+    Player newPlayer = new ComputerControlledPlayer("Leon", newSpace, 2, 0, 0, 0);
     players.add(newPlayer);
     Space neighbor = new MySpace(0, 4, 3, 6, "Foyer");
     space.addNeighbor(neighbor);
     World newModel =
-        new MockModel(log, "mansion", 40, 40, targetCharacter, spaces, players, newPlayer);
+        new MockModel(log, "mansion", 40, 40, targetCharacter, pet, spaces, players, newPlayer);
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("nextTurn\n");
     GameController controller = new GameController(in, out, 3);
     controller.start(newModel);
-    assertEquals("The turn has been reset.\nInput space name: Foyer\nnext turn\n", log.toString());
+    assertEquals("The turn has been reset.\ndisplay space information: Foyer\nmove player to: Kitchen\nnext turn\n",
+        log.toString());
     assertEquals(
         "Now, the game starts.\n\n"
         + "Please enter one of the following commands:\n"
@@ -317,7 +327,8 @@ public class GameControllerTest {
         + "displayPlayerInformation\n"
         + "nextTurn\n"
         + "Now, it is Leon's turn\n"
-        + "The player Leon has moved to Foyer\n\n"
+        + "space information"
+        + "The player Leon has moved to Kitchen\n\n"
         + "Please enter one of the following commands:\n"
         + "displaySpaceInformation\n"
         + "addComputerPlayer\n"
@@ -331,15 +342,17 @@ public class GameControllerTest {
   @Test
   public void testAutomaticPickUpItem() throws IOException {
     players.remove(player);
-    Player newPlayer = new ComputerControlledPlayer("Leon", space, 1, 0, 0);
+    Space newSpace = new MySpace(0, 4, 3, 6, "Foyer");
+    newSpace.addItem(new MyItem("Revolver", 3));
+    Player newPlayer = new ComputerControlledPlayer("Leon", newSpace, 2, 0, 0, 0);
     players.add(newPlayer);
     World newModel =
-        new MockModel(log, "mansion", 40, 40, targetCharacter, spaces, players, newPlayer);
+        new MockModel(log, "mansion", 40, 40, targetCharacter, pet, spaces, players, newPlayer);
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("nextTurn\n");
     GameController controller = new GameController(in, out, 3);
     controller.start(newModel);
-    assertEquals("The turn has been reset.\nInput item name: Revolver\nnext turn\n",
+    assertEquals("The turn has been reset.\ndisplay space information: Foyer\npick up item: Revolver\nnext turn\n",
         log.toString());
     assertEquals(
         "Now, the game starts.\n\n"
@@ -351,7 +364,8 @@ public class GameControllerTest {
         + "displayPlayerInformation\n"
         + "nextTurn\n"
         + "Now, it is Leon's turn\n"
-        + "The player Leon has picked up Revolver from Kitchen\n\n"
+        + "space information"
+        + "The player Leon has picked up Revolver from Foyer\n\n"
         + "Please enter one of the following commands:\n"
         + "displaySpaceInformation\n"
         + "addComputerPlayer\n"
@@ -365,15 +379,17 @@ public class GameControllerTest {
   @Test
   public void testAutomaticLookAround() throws IOException {
     players.remove(player);
-    Player newPlayer = new ComputerControlledPlayer("Leon", space, 0, 0, 0);
+    Space newSpace = new MySpace(0, 4, 3, 6, "Foyer");
+    Player newPlayer = new ComputerControlledPlayer("Leon", newSpace, 0, 0, 0, 3);
     players.add(newPlayer);
     World newModel =
-        new MockModel(log, "mansion", 40, 40, targetCharacter, spaces, players, newPlayer);
+        new MockModel(log, "mansion", 40, 40, targetCharacter, pet, spaces, players, newPlayer);
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("nextTurn\n");
     GameController controller = new GameController(in, out, 3);
     controller.start(newModel);
-    assertEquals("The turn has been reset.\nnext turn\n", log.toString());
+    assertEquals("The turn has been reset.\ndisplay space information: Foyer\nnext turn\n",
+        log.toString());
     assertEquals(
         "Now, the game starts.\n\n"
         + "Please enter one of the following commands:\n"
@@ -384,6 +400,7 @@ public class GameControllerTest {
         + "displayPlayerInformation\n"
         + "nextTurn\n"
         + "Now, it is Leon's turn\n"
+        + "space information"
         + "look around\n\n"
         + "Please enter one of the following commands:\n"
         + "displaySpaceInformation\n"
@@ -404,6 +421,7 @@ public class GameControllerTest {
     assertEquals("The turn has been reset.\n", log.toString());
     assertEquals(
         "Now, the game starts.\n"
-        + "Reaching the maximum number of turns, game over.", out.toString());
+        + "Reaching the maximum number of turns, and the target character escapes.\n"
+        + "Nobody wins, game over.", out.toString());
   }
 }

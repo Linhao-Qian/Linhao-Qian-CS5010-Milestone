@@ -38,6 +38,7 @@ public class ComputerControlledPlayer extends Player {
    * @param operationIndex   a predictable number used to choose a specific operation
    * @param neighborIndex    a predictable number used to choose a specific neighbor
    * @param itemIndex        a predictable number used to choose a specific item
+   * @param petIndex         a predictable number used to choose a specific space for pet
    */
   public ComputerControlledPlayer(String name, Space space, int operationIndex,
       int neighborIndex, int itemIndex, int petIndex) {
