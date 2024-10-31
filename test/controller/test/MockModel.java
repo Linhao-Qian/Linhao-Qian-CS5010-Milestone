@@ -181,7 +181,7 @@ public class MockModel implements World {
   @Override
   public boolean makeAnAttempt(String itemName) {
     log.append("make an attempt with: ").append(itemName).append("\n");
-    return false;
+    return true;
   }
   
   @Override

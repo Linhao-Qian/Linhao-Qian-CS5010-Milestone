@@ -1,10 +1,10 @@
 # Linhao-Qian-CS5010-Milestone
 
-Part2: Synchronous Controller
+Part3: Gameplay
 # 
-JAR File: ./res/Milestone2.jar
+JAR File: ./res/Milestone3.jar
 
-How to use: java -jar Milestone2.jar ./Leo's_world.txt 4
+How to use: java -jar Milestone3.jar ./Leo's_world.txt 4
 
 Tips:
 The first argument is the input file location, the second argument is the maximum number of turns allowed.
@@ -26,64 +26,63 @@ After you add the first player, there will be two more commands for you to choos
 
 You can check a specified player by input displayPlayerInformation. The controller will instruct you to enter the player name, and the player information will be displayed to you after that.
 
-You can make the game enter the next turn by input nextTurn. After you input that, the game will enter the player insight and there will be three command options for the current player to choose: movePlayer, pickUpItem, lookAround. If the current player is controlled by human, you need to input the command and corresponding arguments manually, otherwise the computer will execute one of the three commands automatically. After execution of any of the three commands, the next player in the player list will take the turn, and the target character will move to his next destination automatically.
+You can make the game enter the next turn by input nextTurn. After you input that, the game will enter the player insight. Some hint information will be displayed to the current player and there will be five command options for the current player to choose: movePlayer, pickUpItem, lookAround, movePet, makeAnAttempt. If the current player is controlled by human, you need to input the command and corresponding arguments manually, otherwise the computer will execute one of the five commands automatically. After execution of any of the five commands, the next player in the player list will take the turn, the target character will move to his next destination automatically, and the pet will move to its next space according to the depth-first traversal algorithm.
 
 When movePlayer is inputed, the controller will instruct you to enter the name of the space where you want the current player to move. After the player is successfully moved to the specified space, the controller will provide clues about that.
 
 When pickUpItem is inputed, the controller will instruct you to enter the name of the item which you want the current player to carry. After the player successfully carries the item, the controller will provide clues about that.
 
-When lookAround is inputed, the controller will display the information of the space where the current player stays, including the neighboring information.
+When lookAround is inputed, the controller will display the information of the space where the current player stays, including:
+- Where the current player were (the name of the space), who was in the room with the current player (the other players, the pet and the target character), what items were laying around the space, as well as information about neighboring spaces
+- When it comes to the neighboring spaces, the current player can identify what space it was as well as what characters and items were in the neighboring space. However, any space that is occupied by the pet cannot be seen by its neighbors.
 
-Each time one of the above three commands is executed successfully, there may be two different prompts. If the number of turns reaches the maximum number of turns allowed, the game will end. Otherwise, the controller will exit the player insight, and ask you to input the initial 6 commands again: displaySpaceInformation, addComputerPlayer, addHumanPlayer, generateMap, displayPlayerInformation and nextTurn.
+When movePet is inputed, the controller will instruct you to enter the name of the space where you want the pet be moved to. After the pet is successfully moved to the specified space, the controller will provide clues about that.
 
-Please enjoy your game in Leo's world!
+When makeAnAttempt is inputed, the controller will instruct you to enter the name of the item which you want the current player to use. If the current player does not have any items, please input "pokeEyes" which does 1 point of damage to the target character. The controller will provide clues about whether the attack is successful. Note that if an attack is seen by another player (human or computer), it is automatically stopped and no damage is done.
+
+Each time one of the above five commands is executed successfully, there may be three different prompts:
+- If a player successfully kills the target character, they win the game.
+- If The maximum number of turns is reached, the target character escapes and runs away to live another day and nobody wins.
+- Otherwise, the controller will exit the player insight, and ask you to input the initial 6 commands again: displaySpaceInformation, addComputerPlayer, addHumanPlayer, generateMap, displayPlayerInformation and nextTurn.
+
+Please enjoy your game in Leo's world! (You can check my world map in ./res/Leo's World.png)
 # 
-Example run: Display functionalities of my project
+Example run 1: Display target character escape
 
 Input file: ./res/Leo's_world.txt
 
-Output file: ./res/example_run.txt
+Input commands: ./res/example_run_target_character_escape.txt (line 54 - 76)
 
-World map: ./res/Leo's World.png
+Output file: ./res/example_run_target_character_escape.txt (line 80 - 621)
+
+Please use these commands to validate these functionalities of my project:
+- the target character's pet effect on the visibility of a space from neighboring spaces
+- the player moving the target character's pet
+- the pet wandering according to the depth-first traversal algorithm
+- the target character escaping with his life and the game ending
+
 # 
-The commands I input in my example run, in order, are:
+Example run 2: Display computer player win
 
-addComputerPlayer\n
+Input file: ./res/Leo's_world.txt
 
-Leon\n
+Input commands: ./res/example_run_computer_player_win.txt (line 54 - 57)
 
-Dining Hall\n
+Output file: ./res/example_run_computer_player_win.txt (line 61 - 279)
 
-addHumanPlayer\n
+Please use these commands to validate these functionalities of my project:
+- a computer-controlled player making an attempt on the target character's life
+- a computer-controlled player winning the game by killing the target character
 
-Leo\n
+# 
+Example run 3: Display human player win
 
-Billiard Room\n
+Input file: ./res/Leo's_world.txt
 
-nextTurn\n
+Input commands: ./res/example_run_human_player_win.txt (line 54 - 59)
 
-nextTurn\n
+Output file: ./res/example_run_human_player_win.txt (line 63 - 291)
 
-movePlayer\n
-
-Armory\n
-
-nextTurn\n
-
-displayPlayerInformation\n
-
-Leo\n
-
-displaySpaceInformation\n
-
-Dining Hall\n
-
-generateMap\n
-
-nextTurn\n
-
-pickUpItem\n
-
-Tight Hat\n
-
-Please use these commands to validate the functionalities of my project. Thank you!
+Please use these commands to validate these functionalities of my project:
+- a human-player making an attempt on the target character's life
+- a human-player winning the game by killing the target character

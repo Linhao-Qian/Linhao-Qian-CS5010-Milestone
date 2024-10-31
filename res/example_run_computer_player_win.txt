@@ -51,12 +51,10 @@ Input Turn Limit: 4
 
 Input Commands:
 
-addHumanPlayer
+addComputerPlayer
 Leo
 Dining Hall
 nextTurn
-makeAnAttempt
-pokeEyes
 
 Output:
 
@@ -249,12 +247,12 @@ displaySpaceInformation
 addComputerPlayer
 addHumanPlayer
 generateMap
-addHumanPlayer
-Please enter the human-controlled player name:
+addComputerPlayer
+Please enter the computer-controlled player name:
 Leo
 Please enter the name of the space where the player is initially located:
 Dining Hall
-Successfully added the human-controlled player Leo
+Successfully added the computer-controlled player Leo
 
 Please enter one of the following commands:
 displaySpaceInformation
@@ -277,15 +275,5 @@ Target character: Doctor Unlucky, Health: 1
 There are 1 player(s) in this space:
 Leo
 ----------------------------------------------------------------------------------
-
-Please enter one of the following commands:
-movePlayer
-pickUpItem
-lookAround
-movePet
-makeAnAttempt
-makeAnAttempt
-Please enter the name of the item which you want to use (If you don't have any item, please enter "pokeEyes"):
-pokeEyes
 The player Leo has made an attempt on the target character using pokeEyes
 The target character Doctor Unlucky has been killed by Leo. Congratulations, Leo!
