@@ -23,6 +23,7 @@ public class MockModel implements World {
   private final List<Player> players;
   private Player turn;
   private int turnCount = 0;
+  private boolean canBeSeenByOthers;
   
   /**
    * Constructs a MockModel object for the GameControllerTest.
@@ -37,7 +38,7 @@ public class MockModel implements World {
    * @param turn            the current player
    */
   public MockModel(StringBuilder log, String name, int rows, int cols, TargetCharacter targetCharacter,
-      Pet pet, List<Space> spaces, List<Player> players, Player turn) {
+      Pet pet, List<Space> spaces, List<Player> players, Player turn, boolean canBeSeenByOthers) {
     this.log = log;
     this.name = name;
     this.rows = rows;
@@ -47,6 +48,7 @@ public class MockModel implements World {
     this.spaces = spaces;
     this.players = players;
     this.turn = turn;
+    this.canBeSeenByOthers = canBeSeenByOthers;
   }
 
   @Override
@@ -175,13 +177,16 @@ public class MockModel implements World {
   @Override
   public boolean canBeSeenByOthers() {
     log.append("cannot be seen by others").append("\n");
-    return false;
+    return canBeSeenByOthers;
   }
 
   @Override
   public boolean makeAnAttempt(String itemName) {
     log.append("make an attempt with: ").append(itemName).append("\n");
-    return true;
+    if (!canBeSeenByOthers) {
+      targetCharacter.reduceHealth(1);
+    }
+    return !canBeSeenByOthers;
   }
   
   @Override

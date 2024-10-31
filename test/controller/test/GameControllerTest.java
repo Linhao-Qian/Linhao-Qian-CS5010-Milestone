@@ -51,7 +51,7 @@ public class GameControllerTest {
     spaces.add(space);
     players.add(player);
     this.log = new StringBuilder();
-    this.model = new MockModel(log, "mansion", 40, 40, targetCharacter, pet, spaces, players, player);
+    this.model = new MockModel(log, "mansion", 40, 40, targetCharacter, pet, spaces, players, player, false);
   }
   
   @Test
@@ -334,7 +334,7 @@ public class GameControllerTest {
   }
   
   @Test
-  public void testMakeAnAttempt() throws IOException {
+  public void testMakeAnAttemptSuccessfully() throws IOException {
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("nextTurn\nmakeAnAttempt\nRevolver\n");
     GameController controller = new GameController(in, out, 3);
@@ -368,6 +368,42 @@ public class GameControllerTest {
   }
   
   @Test
+  public void testMakeAnAttemptFail() throws IOException {
+    World newModel =
+        new MockModel(log, "mansion", 40, 40, targetCharacter, pet, spaces, players, player, true);
+    StringBuffer out = new StringBuffer();
+    Reader in = new StringReader("nextTurn\nmakeAnAttempt\nRevolver\n");
+    GameController controller = new GameController(in, out, 3);
+    controller.start(newModel);
+    assertEquals("The turn has been reset.\ndisplay space information: Kitchen\nmake an attempt with: Revolver\nnext turn\n",
+        log.toString());
+    assertEquals(
+        "Now, the game starts.\n\n"
+        + "Please enter one of the following commands:\n"
+        + "displaySpaceInformation\n"
+        + "addComputerPlayer\n"
+        + "addHumanPlayer\n"
+        + "generateMap\n"
+        + "displayPlayerInformation\n"
+        + "nextTurn\n"
+        + "Now, it is Leo's turn\n"
+        + "space information\n"
+        + "Please enter one of the following commands:\n"
+        + "movePlayer\npickUpItem\nlookAround\nmovePet\nmakeAnAttempt\n"
+        + "Please enter the name of the item which you want to use"
+        + " (If you don't have any item, please enter \"pokeEyes\"):\n"
+        + "The player Leo stopped attacking because it was seen by others.\n\n"
+        + "Please enter one of the following commands:\n"
+        + "displaySpaceInformation\n"
+        + "addComputerPlayer\n"
+        + "addHumanPlayer\n"
+        + "generateMap\n"
+        + "displayPlayerInformation\n"
+        + "nextTurn\n"
+        + "Game over! You have end the input manually!", out.toString());
+  }
+  
+  @Test
   public void testAutomaticMovePlayer() throws IOException {
     players.remove(player);
     Space newSpace = new MySpace(0, 4, 3, 6, "Foyer");
@@ -377,7 +413,7 @@ public class GameControllerTest {
     Space neighbor = new MySpace(0, 4, 3, 6, "Foyer");
     space.addNeighbor(neighbor);
     World newModel =
-        new MockModel(log, "mansion", 40, 40, targetCharacter, pet, spaces, players, newPlayer);
+        new MockModel(log, "mansion", 40, 40, targetCharacter, pet, spaces, players, newPlayer, false);
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("nextTurn\n");
     GameController controller = new GameController(in, out, 3);
@@ -414,7 +450,7 @@ public class GameControllerTest {
     Player newPlayer = new ComputerControlledPlayer("Leon", newSpace, 2, 0, 0, 0);
     players.add(newPlayer);
     World newModel =
-        new MockModel(log, "mansion", 40, 40, targetCharacter, pet, spaces, players, newPlayer);
+        new MockModel(log, "mansion", 40, 40, targetCharacter, pet, spaces, players, newPlayer, false);
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("nextTurn\n");
     GameController controller = new GameController(in, out, 3);
@@ -450,7 +486,7 @@ public class GameControllerTest {
     Player newPlayer = new ComputerControlledPlayer("Leon", newSpace, 0, 0, 0, 3);
     players.add(newPlayer);
     World newModel =
-        new MockModel(log, "mansion", 40, 40, targetCharacter, pet, spaces, players, newPlayer);
+        new MockModel(log, "mansion", 40, 40, targetCharacter, pet, spaces, players, newPlayer, false);
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("nextTurn\n");
     GameController controller = new GameController(in, out, 3);
@@ -487,7 +523,7 @@ public class GameControllerTest {
     Player newPlayer = new ComputerControlledPlayer("Leon", newSpace, 1, 0, 0, 0);
     players.add(newPlayer);
     World newModel =
-        new MockModel(log, "mansion", 40, 40, targetCharacter, pet, spaces, players, newPlayer);
+        new MockModel(log, "mansion", 40, 40, targetCharacter, pet, spaces, players, newPlayer, false);
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("nextTurn\n");
     GameController controller = new GameController(in, out, 3);
@@ -517,12 +553,80 @@ public class GameControllerTest {
   }
   
   @Test
-  public void testAutomaticMakeAnAttempt() throws IOException {
+  public void testAutomaticMakeAnAttemptWithMostPowerfulItem() throws IOException {
+    players.remove(player);
+    Player newPlayer = new ComputerControlledPlayer("Leon", space, 2, 0, 0, 0);
+    newPlayer.addItem(new MyItem("Knife", 4));
+    newPlayer.addItem(new MyItem("Gun", 5));
+    players.add(newPlayer);
+    World newModel =
+        new MockModel(log, "mansion", 40, 40, targetCharacter, pet, spaces, players, newPlayer, false);
+    StringBuffer out = new StringBuffer();
+    Reader in = new StringReader("nextTurn\n");
+    GameController controller = new GameController(in, out, 3);
+    controller.start(newModel);
+    assertEquals("The turn has been reset.\ndisplay space information: Kitchen\ncannot be seen by others\n"
+        + "make an attempt with: Gun\nnext turn\n", log.toString());
+    assertEquals(
+        "Now, the game starts.\n\n"
+        + "Please enter one of the following commands:\n"
+        + "displaySpaceInformation\n"
+        + "addComputerPlayer\n"
+        + "addHumanPlayer\n"
+        + "generateMap\n"
+        + "displayPlayerInformation\n"
+        + "nextTurn\n"
+        + "Now, it is Leon's turn\n"
+        + "space information"
+        + "The player Leon has made an attempt on the target character using Gun\n\n"
+        + "Please enter one of the following commands:\n"
+        + "displaySpaceInformation\n"
+        + "addComputerPlayer\n"
+        + "addHumanPlayer\n"
+        + "generateMap\n"
+        + "displayPlayerInformation\n"
+        + "nextTurn\n"
+        + "Game over! You have end the input manually!", out.toString());
+  }
+  
+  @Test
+  public void testHumanWin() throws IOException {
+    TargetCharacter newTargetCharacter = new TargetCharacter("Doctor", 1);
+    World newModel =
+        new MockModel(log, "mansion", 40, 40, newTargetCharacter, pet, spaces, players, player, false);
+    StringBuffer out = new StringBuffer();
+    Reader in = new StringReader("nextTurn\nmakeAnAttempt\npokeEyes\n");
+    GameController controller = new GameController(in, out, 3);
+    controller.start(newModel);
+    assertEquals("The turn has been reset.\ndisplay space information: Kitchen\nmake an attempt with: pokeEyes\nnext turn\n",
+        log.toString());
+    assertEquals(
+        "Now, the game starts.\n\n"
+        + "Please enter one of the following commands:\n"
+        + "displaySpaceInformation\n"
+        + "addComputerPlayer\n"
+        + "addHumanPlayer\n"
+        + "generateMap\n"
+        + "displayPlayerInformation\n"
+        + "nextTurn\n"
+        + "Now, it is Leo's turn\n"
+        + "space information\n"
+        + "Please enter one of the following commands:\n"
+        + "movePlayer\npickUpItem\nlookAround\nmovePet\nmakeAnAttempt\n"
+        + "Please enter the name of the item which you want to use"
+        + " (If you don't have any item, please enter \"pokeEyes\"):\n"
+        + "The player Leo has made an attempt on the target character using pokeEyes\n"
+        + "The target character Doctor has been killed by Leo. Congratulations, Leo!", out.toString());
+  }
+  
+  @Test
+  public void testComputertWin() throws IOException {
     players.remove(player);
     Player newPlayer = new ComputerControlledPlayer("Leon", space, 2, 0, 0, 0);
     players.add(newPlayer);
+    TargetCharacter newTargetCharacter = new TargetCharacter("Doctor", 1);
     World newModel =
-        new MockModel(log, "mansion", 40, 40, targetCharacter, pet, spaces, players, newPlayer);
+        new MockModel(log, "mansion", 40, 40, newTargetCharacter, pet, spaces, players, newPlayer, false);
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("nextTurn\n");
     GameController controller = new GameController(in, out, 3);
@@ -540,15 +644,8 @@ public class GameControllerTest {
         + "nextTurn\n"
         + "Now, it is Leon's turn\n"
         + "space information"
-        + "The player Leon has made an attempt on the target character using pokeEyes\n\n"
-        + "Please enter one of the following commands:\n"
-        + "displaySpaceInformation\n"
-        + "addComputerPlayer\n"
-        + "addHumanPlayer\n"
-        + "generateMap\n"
-        + "displayPlayerInformation\n"
-        + "nextTurn\n"
-        + "Game over! You have end the input manually!", out.toString());
+        + "The player Leon has made an attempt on the target character using pokeEyes\n"
+        + "The target character Doctor has been killed by Leon. Congratulations, Leon!", out.toString());
   }
   
   @Test
