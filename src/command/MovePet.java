@@ -1,9 +1,8 @@
 package command;
 
+import character.ComputerControlledPlayer;
 import java.io.IOException;
 import java.util.Scanner;
-
-import character.ComputerControlledPlayer;
 import world.World;
 
 /**

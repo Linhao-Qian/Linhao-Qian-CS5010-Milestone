@@ -803,8 +803,8 @@ public class MyWorldTest {
         + "----------------------------------------------------------------------------------\n"
         + "\n"
         + "The neighbor(s) information is as follows:\n"
-        + "The pet Fortune the Cat is in Drawing Room now, you can't get the space's information!\n\n"
-        + "----------------------------------------------------------------------------------\n"
+        + "The pet Fortune the Cat is in Drawing Room now, you can't get the space's information!\n"
+        + "\n----------------------------------------------------------------------------------\n"
         + "Space name: Kitchen;\n"
         + "The space has 0 item(s):\n"
         + "\n"
@@ -878,12 +878,14 @@ public class MyWorldTest {
   
   @Test
   public void testPetInitialSpace() {
-    assertSame(world.getSpaces().get(world.getTargetCharacterPosition()), world.getPet().getSpace());
+    assertSame(world.getSpaces().get(world.getTargetCharacterPosition()),
+        world.getPet().getSpace());
   }
   
   @Test
   public void testMovePet() {
-    assertSame(world.getSpaces().get(world.getTargetCharacterPosition()), world.getPet().getSpace());
+    assertSame(world.getSpaces().get(world.getTargetCharacterPosition()),
+        world.getPet().getSpace());
     world.movePet("Kitchen");
     assertEquals("Kitchen", world.getPet().getSpace().getName());
   }
@@ -892,7 +894,8 @@ public class MyWorldTest {
   public void testPetWandering() {
     world.addHumanPlayer("Leo", "Dining Hall");
     world.resetTurn();
-    assertSame(world.getSpaces().get(world.getTargetCharacterPosition()), world.getPet().getSpace());
+    assertSame(world.getSpaces().get(world.getTargetCharacterPosition()),
+        world.getPet().getSpace());
     world.nextTurn();
     assertEquals("Drawing Room", world.getPet().getSpace().getName());
     world.nextTurn();

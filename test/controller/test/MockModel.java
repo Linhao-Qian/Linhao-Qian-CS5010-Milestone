@@ -37,8 +37,9 @@ public class MockModel implements World {
    * @param players         the players of the world
    * @param turn            the current player
    */
-  public MockModel(StringBuilder log, String name, int rows, int cols, TargetCharacter targetCharacter,
-      Pet pet, List<Space> spaces, List<Player> players, Player turn, boolean canBeSeenByOthers) {
+  public MockModel(StringBuilder log, String name, int rows, int cols,
+      TargetCharacter targetCharacter, Pet pet, List<Space> spaces,
+      List<Player> players, Player turn, boolean canBeSeenByOthers) {
     this.log = log;
     this.name = name;
     this.rows = rows;

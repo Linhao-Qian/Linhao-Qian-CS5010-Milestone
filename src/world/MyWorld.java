@@ -256,7 +256,8 @@ public class MyWorld implements World {
     List<Player> spacePlayers = players.stream()
         .filter(player -> player.getSpace().equals(space)).collect(Collectors.toList());
     sb.append(String.format("\nThere are %d player(s) in this space:\n", spacePlayers.size()));
-    sb.append(spacePlayers.stream().map(player -> player.getName()).collect(Collectors.joining(", ")));
+    sb.append(
+        spacePlayers.stream().map(player -> player.getName()).collect(Collectors.joining(", ")));
     sb.append(separator);
     return sb.toString();
   }
@@ -360,9 +361,11 @@ public class MyWorld implements World {
     Space space = turn.getSpace();
     String name = turn.getName();
     StringBuilder sb = new StringBuilder(String.format("%s is looking around:\n", name));
-    sb.append(String.format("%s is currently in:\n%s\n", name, displaySpaceInformation(space.getName())));
-    sb.append(String.format("The neighbor(s) information is as follows:\n%s\n", space.getNeighbors().stream()
-        .map(neighbor -> getLookAroundNeighborInformation(neighbor)).collect(Collectors.joining(separator))));
+    sb.append(
+        String.format("%s is currently in:\n%s\n", name, displaySpaceInformation(space.getName())));
+    sb.append(String.format("The neighbor(s) information is as follows:\n%s\n",
+        space.getNeighbors().stream().map(neighbor -> getLookAroundNeighborInformation(neighbor))
+        .collect(Collectors.joining(separator))));
     return sb.toString();
   }
   
@@ -396,7 +399,7 @@ public class MyWorld implements World {
     } else {
       return;
     }
-    for (Space neighbor: space.getNeighbors()) {
+    for (Space neighbor : space.getNeighbors()) {
       spacesDepthFirstTraversal(neighbor, spaces);
     }
   }
@@ -427,7 +430,8 @@ public class MyWorld implements World {
   @Override
   public boolean makeAnAttempt(String itemName) {
     if (targetCharacterPosition != spaces.indexOf(turn.getSpace())) {
-      throw new UnsupportedOperationException("You are not in the same space as the target character!");
+      throw new UnsupportedOperationException(
+          "You are not in the same space as the target character!");
     }
     if (canBeSeenByOthers()) {
       return false;
