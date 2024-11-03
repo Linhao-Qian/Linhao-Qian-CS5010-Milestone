@@ -1,6 +1,7 @@
 # Linhao-Qian-CS5010-Milestone
 
 Part3: Gameplay
+
 # 
 JAR File: ./res/Milestone3.jar
 
@@ -9,6 +10,7 @@ How to use: java -jar Milestone3.jar ./Leo's_world.txt 4
 Tips:
 The first argument is the input file location, the second argument is the maximum number of turns allowed.
 You can set the second argument larger if you want to play a longer game.
+
 # 
 How to play:
 
@@ -46,6 +48,29 @@ Each time one of the above five commands is executed successfully, there may be 
 - Otherwise, the controller will exit the player insight, and ask you to input the initial 6 commands again: displaySpaceInformation, addComputerPlayer, addHumanPlayer, generateMap, displayPlayerInformation and nextTurn.
 
 Please enjoy your game in Leo's world! (You can check my world map in ./res/Leo's World.png)
+
+# 
+Game assumptions:
+- There is a mechanism similar to a 'referee' in the game.
+- After the game starts, a few non-player-commands can be entered through the initial interface.
+- Only after at least one player has been successfully created can player-commands be entered.
+- To start the next turn, you must enter the corresponding command on the referee interface.
+
+# 
+Game limitations:
+- Even if a player has already entered the game, new players can still be created.
+- Some prompt information lacks appropriate separators, which is not conducive to players reading game text.
+
+# 
+Game development citations:
+- https://en.wikipedia.org/wiki/Depth-first_search
+
+# 
+Preliminary design changes after the preliminary design submission:
+- Refactor the canBeSeenBy method in Player.java to isNeighbor and isSameSpace methods.
+- Add a removeItem method to Player.java.
+- Add a canBeSeenByOthers field to the MockModel class.
+
 # 
 Example run 1: Display target character escape
 
