@@ -70,6 +70,8 @@ Preliminary design changes after the preliminary design submission:
 - Refactor the canBeSeenBy method in Player.java to isNeighbor and isSameSpace methods.
 - Add a removeItem method to Player.java.
 - Add a canBeSeenByOthers field to the MockModel class.
+- Remove the space argument in the Pet constructor.
+- Modify the testing plan according to requirements and actual unit tests.
 
 # 
 Example run 1: Display target character escape
