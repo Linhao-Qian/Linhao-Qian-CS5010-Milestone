@@ -71,6 +71,7 @@ Preliminary design changes after the preliminary design submission:
 - Add a removeItem method to Player.java.
 - Add a canBeSeenByOthers field to the MockModel class.
 - Remove the space argument in the Pet constructor.
+- Modify the relationships of interfaces and classes in the UML diagram.
 - Modify the testing plan according to requirements and actual unit tests.
 
 # 
