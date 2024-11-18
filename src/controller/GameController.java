@@ -16,6 +16,8 @@ import command.PickUpItem;
 import command.WorldCommand;
 import view.View;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +25,10 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.function.Function;
+
+import javax.swing.JFileChooser;
+
+import world.MyWorld;
 import world.World;
 
 /**
@@ -46,10 +52,9 @@ public class GameController implements Features {
    * @param out         the output stream of the controller
    * @param turnLimit   the maximum number of turns allowed
    */
-  public GameController(Readable in, Appendable out, World model, int turnLimit) {
+  public GameController(Readable in, Appendable out, int turnLimit) {
     this.in = in;
     this.out = out;
-    this.model = model;
     this.turnLimit = turnLimit;
     // commands before adding players
     initialCommands = new HashMap<>();
@@ -82,7 +87,7 @@ public class GameController implements Features {
    * @param model the model to use.
    * @throws IOException if something goes wrong appending to out
    */
-  public void start() throws IOException {
+  public void start(World model) throws IOException {
     Objects.requireNonNull(model);
     Scanner scan = new Scanner(this.in);
     out.append(model.toString());
@@ -225,8 +230,45 @@ public class GameController implements Features {
     view.setFeatures(this);
   }
   
+  /**
+   * Mutator for the model.
+   * 
+   * @param v the view to use
+   */
+  public void setModel(World m) {
+    model = m;
+  }
+  
   @Override
   public void exitProgram() {
     System.exit(0);
+  }
+
+  @Override
+  public void selectNewWorld() {
+    JFileChooser fileChooser = new JFileChooser();
+    int returnValue = fileChooser.showOpenDialog(null);
+    if (returnValue == JFileChooser.APPROVE_OPTION) {
+      try {
+        File selectedFile = fileChooser.getSelectedFile();
+        // 假设你有一个方法可以从文件创建世界对象
+        Readable fileReader = new FileReader(selectedFile);
+        World newWorld = new MyWorld(fileReader);
+        setModel(newWorld);  // 更新模型
+        view.showGameInterface(newWorld);  // 显示游戏界面
+      } catch (Exception e) {
+        // 在视图上显示错误信息
+        view.showError("Failed to load world: " + e.getMessage());
+      }
+    }
+  }
+
+  @Override
+  public void selectCurrentWorld() {
+    if (model == null) {
+      view.showError("No current world is loaded. Please load a new world first.");
+      return;
+    }
+    view.showGameInterface(model);
   }
 }

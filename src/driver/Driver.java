@@ -37,13 +37,14 @@ public class Driver {
       Readable fileReader = new FileReader(args[0]);
       World world = new MyWorld(fileReader);
       Readable reader = new InputStreamReader(System.in);
-      GameController controller = new GameController(reader, System.out, world, turnLimit);
+      GameController controller = new GameController(reader, System.out, turnLimit);
       String mode = args[2];
       if ("text".equals(mode)) {
-        controller.start();
+        controller.start(world);
       } else if("view".equals(mode)) {
         View view = new GameWindow("Game");
         controller.setView(view);
+        controller.setModel(world);
       } else {
         System.out.println("Invalid mode. Please choose 'text' or 'view'.");
       }

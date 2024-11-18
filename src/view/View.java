@@ -1,6 +1,7 @@
 package view;
 
 import controller.Features;
+import world.World;
 
 public interface View {
   /**
@@ -9,4 +10,8 @@ public interface View {
    * @param f the set of feature callbacks as a Features object
    */
   void setFeatures(Features f);
+  
+  void showGameInterface(World model);
+  
+  void showError(String message);
 }
