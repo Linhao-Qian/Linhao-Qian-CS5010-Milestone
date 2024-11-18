@@ -9,7 +9,7 @@ import item.Item;
 import item.MyItem;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -457,10 +457,11 @@ public class MyWorld implements World {
     // Use TYPE_BYTE_BINARY instead of TYPE_INT_RGB,
     // because the world map is black and white, not colored.
     BufferedImage map = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_BINARY);
-    Graphics graphics = map.getGraphics();
+    Graphics2D graphics = map.createGraphics();
     
     // Fill the background with white color.
     graphics.setColor(Color.WHITE);
+    graphics.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING, java.awt.RenderingHints.VALUE_ANTIALIAS_ON);
     graphics.fillRect(0, 0, width, height);
     
     // Draw the space boundaries with black color.
@@ -485,7 +486,7 @@ public class MyWorld implements World {
       graphics.drawLine(x1, y2, x2, y2); // bottom line
       
       // Draw the space name string.
-      graphics.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
+      graphics.setFont(new Font("Arial Black", Font.PLAIN, 16));
       String[] nameList = space.getName().split(" ");
       for (int i = 0; i < nameList.length; i++) {
         graphics.drawString(nameList[i], x1 + 8, y1 + 16 * i + 20);
