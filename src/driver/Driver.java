@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.NoSuchElementException;
+import view.View;
+import view.GameWindow;
 import world.MyWorld;
 import world.World;
 
@@ -19,7 +21,7 @@ public class Driver {
    */  
   public static void main(String[] args) {
     try {
-      if (args.length != 2) {
+      if (args.length != 3) {
         System.out.println("Error: Invalid command arguments");
         return;
       }
@@ -35,8 +37,16 @@ public class Driver {
       Readable fileReader = new FileReader(args[0]);
       World world = new MyWorld(fileReader);
       Readable reader = new InputStreamReader(System.in);
-      GameController control = new GameController(reader, System.out, turnLimit);
-      control.start(world);  
+      GameController controller = new GameController(reader, System.out, world, turnLimit);
+      String mode = args[2];
+      if ("text".equals(mode)) {
+        controller.start();
+      } else if("view".equals(mode)) {
+        View view = new GameWindow("Game");
+        controller.setView(view);
+      } else {
+        System.out.println("Invalid mode. Please choose 'text' or 'view'.");
+      }
     } catch (IOException ioe) {
       System.out.println(String.format("IOException: %s", ioe.getMessage()));
     } catch (NumberFormatException nfe) {

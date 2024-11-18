@@ -14,6 +14,8 @@ import command.MovePet;
 import command.MovePlayer;
 import command.PickUpItem;
 import command.WorldCommand;
+import view.View;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +28,9 @@ import world.World;
 /**
  * The GameController represents the controller of the game.
  */
-public class GameController {
+public class GameController implements Features {
+  private World model;
+  private View view;
   private final Readable in;
   private final Appendable out;
   private final int turnLimit;
@@ -42,9 +46,10 @@ public class GameController {
    * @param out         the output stream of the controller
    * @param turnLimit   the maximum number of turns allowed
    */
-  public GameController(Readable in, Appendable out, int turnLimit) {
+  public GameController(Readable in, Appendable out, World model, int turnLimit) {
     this.in = in;
     this.out = out;
+    this.model = model;
     this.turnLimit = turnLimit;
     // commands before adding players
     initialCommands = new HashMap<>();
@@ -77,7 +82,7 @@ public class GameController {
    * @param model the model to use.
    * @throws IOException if something goes wrong appending to out
    */
-  public void start(World model) throws IOException {
+  public void start() throws IOException {
     Objects.requireNonNull(model);
     Scanner scan = new Scanner(this.in);
     out.append(model.toString());
@@ -207,5 +212,21 @@ public class GameController {
     scan.close();
     out.append("Reaching the maximum number of turns, and the target character escapes.\n");
     out.append("Nobody wins, game over.");
+  }
+
+  /**
+   * Mutator for the view.
+   * 
+   * @param v the view to use
+   */
+  public void setView(View v) {
+    view = v;
+    // give the feature callbacks to the view
+    view.setFeatures(this);
+  }
+  
+  @Override
+  public void exitProgram() {
+    System.exit(0);
   }
 }
