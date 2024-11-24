@@ -273,6 +273,9 @@ public class MyWorld implements World {
   
   @Override
   public void addComputerPlayer(String name, String spaceName) {
+    if (players.size() >= 10) {
+      throw new IllegalArgumentException("You cannot add more players to the game!\n");
+    }
     players.forEach(p -> {
       if (p.getName().equals(name)) {
         throw new IllegalArgumentException("Cannot have two players with the same name!\n");
@@ -285,6 +288,9 @@ public class MyWorld implements World {
   
   @Override
   public void addHumanPlayer(String name, String spaceName) {
+    if (players.size() >= 10) {
+      throw new IllegalArgumentException("You cannot add more players to the game!\n");
+    }
     players.forEach(p -> {
       if (p.getName().equals(name)) {
         throw new IllegalArgumentException("Cannot have two players with the same name!\n");

@@ -1,12 +1,14 @@
 package driver;
 
 import controller.GameController;
+
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.NoSuchElementException;
 import view.View;
-import view.GameWindow;
+import view.FrameView;
 import world.MyWorld;
 import world.World;
 
@@ -34,17 +36,18 @@ public class Driver {
         System.out.println("Error: Invalid maximum number of turns allowed");
         return;
       }
-      Readable fileReader = new FileReader(args[0]);
+      File file = new File(args[0]);
+      Readable fileReader = new FileReader(file);
       World world = new MyWorld(fileReader);
-      Readable reader = new InputStreamReader(System.in);
-      GameController controller = new GameController(reader, System.out, turnLimit);
       String mode = args[2];
       if ("text".equals(mode)) {
+        Readable reader = new InputStreamReader(System.in);
+        GameController controller = new GameController(reader, System.out, turnLimit);
         controller.start(world);
       } else if("view".equals(mode)) {
-        View view = new GameWindow("Game");
+        View view = new FrameView(world);
+        GameController controller = new GameController(world, file, turnLimit);
         controller.setView(view);
-        controller.setModel(world);
       } else {
         System.out.println("Invalid mode. Please choose 'text' or 'view'.");
       }

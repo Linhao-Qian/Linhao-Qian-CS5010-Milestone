@@ -14,9 +14,12 @@ import command.MovePet;
 import command.MovePlayer;
 import command.PickUpItem;
 import command.WorldCommand;
+import space.Space;
 import view.View;
 
+import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -34,16 +37,28 @@ import world.World;
 /**
  * The GameController represents the controller of the game.
  */
-public class GameController implements Features {
+public class GameController {
+  private File currentFile;
   private World model;
   private View view;
-  private final Readable in;
-  private final Appendable out;
-  private final int turnLimit;
-  private final Map<String, Function<Scanner, WorldCommand>> initialCommands;
-  private final Map<String, Function<Scanner, WorldCommand>> commands;
-  private final Map<String, Function<Scanner, WorldCommand>> humanCommands;
-  private final Map<String, Function<World, WorldCommand>> computerCommands;
+  private Readable in;
+  private Appendable out;
+  private int turnLimit;
+  private Map<String, Function<Scanner, WorldCommand>> initialCommands;
+  private Map<String, Function<Scanner, WorldCommand>> commands;
+  private Map<String, Function<Scanner, WorldCommand>> humanCommands;
+  private Map<String, Function<World, WorldCommand>> computerCommands;
+  
+  /**
+   * Constructor.
+   * 
+   * @param m the model to use
+   */
+  public GameController(World model, File file, int turnLimit) {
+    this.model = model;
+    this.currentFile = file;
+    this.turnLimit = turnLimit;
+  }
   
   /**
    * Constructs the controller of the game.
@@ -220,14 +235,14 @@ public class GameController implements Features {
   }
 
   /**
-   * Mutator for the view.
+   * Sets the view to use.
    * 
-   * @param v the view to use
+   * @param v the view
    */
   public void setView(View v) {
     view = v;
-    // give the feature callbacks to the view
-    view.setFeatures(this);
+    configureKeyBoardListener();
+    configureActionListener();
   }
   
   /**
@@ -239,36 +254,106 @@ public class GameController implements Features {
     model = m;
   }
   
-  @Override
-  public void exitProgram() {
-    System.exit(0);
-  }
+  private void configureKeyBoardListener() {
+    Map<Character, Runnable> keyTypes = new HashMap<>();
 
-  @Override
-  public void selectNewWorld() {
+    keyTypes.put('i', () -> {
+      
+    });
+
+    keyTypes.put('l', () -> {
+      
+    });
+    
+    keyTypes.put('a', () -> {
+      
+    });
+
+    keyTypes.put('m', () -> {
+      
+    });
+    
+    KeyboardListener kbd = new KeyboardListener();
+    kbd.setKeyTypedMap(keyTypes);
+    view.addKeyListener(kbd);
+  }
+  
+  private void configureActionListener() {
+    Map<String, Runnable> gameActions = new HashMap<>();
+    GameActionListener gameActionListener = new GameActionListener();
+    gameActions.put("Enter Game", () -> view.enterGame());
+    gameActions.put("Start a new game with a new world specification", () -> selectNewWorld());
+    gameActions.put("Start a new game with the current world specification", () -> selectCurrentWorld());
+    gameActions.put("Quit", () -> System.exit(0));
+
+    gameActionListener.setGameActionMap(gameActions);
+    view.addActionListener(gameActionListener);
+  }
+  
+  private void selectNewWorld() {
     JFileChooser fileChooser = new JFileChooser();
     int returnValue = fileChooser.showOpenDialog(null);
     if (returnValue == JFileChooser.APPROVE_OPTION) {
       try {
         File selectedFile = fileChooser.getSelectedFile();
-        // 假设你有一个方法可以从文件创建世界对象
         Readable fileReader = new FileReader(selectedFile);
         World newWorld = new MyWorld(fileReader);
-        setModel(newWorld);  // 更新模型
-        view.showGameInterface(newWorld);  // 显示游戏界面
+        setModel(newWorld);
+        view.showGameInterface(newWorld);
+        configureActionListener();
       } catch (Exception e) {
-        // 在视图上显示错误信息
         view.showError("Failed to load world: " + e.getMessage());
       }
     }
   }
 
-  @Override
-  public void selectCurrentWorld() {
+  private void selectCurrentWorld() {
     if (model == null) {
-      view.showError("No current world is loaded. Please load a new world first.");
+      view.showError("No model is loaded. Something is wrong.");
       return;
     }
-    view.showGameInterface(model);
+    try {
+      World newModel = new MyWorld(new FileReader(currentFile));
+      setModel(newModel);
+      view.showGameInterface(newModel);
+      configureActionListener();
+    } catch (Exception e) {
+      view.showError("Failed to load world: " + e.getMessage());
+    }
   }
+
+//  private void drawTarget() {
+//    int positionX = model.getSpaces().get(model.getTargetCharacterPosition()).getPosition()[3] * 20 - 50;
+//    int positionY = model.getSpaces().get(model.getTargetCharacterPosition()).getPosition()[2] * 20 + 16;
+//    view.drawCharacter(model.getTargetCharacter().getName(), positionX, positionY);
+//  }
+//  
+//  
+//  public void addComputerPlayer(String playerName, String spaceName) {
+//    model.addComputerPlayer(playerName, spaceName);
+//  }
+//
+//  
+//  public void addHumanPlayer(String playerName, String spaceName) {
+//    model.addHumanPlayer(playerName, spaceName);
+//    
+//  }
+//
+//  
+//  public void startGame() {
+//    // TODO Auto-generated method stub
+//    
+//  }
+//
+//  
+//  public void movePlayer(String spaceName) {
+//    model.movePlayer(spaceName);
+//    String playerName = model.getTurn().getName();
+//    Space space = model.getSpace(spaceName);
+//    int playerNum = model.getPlayers().stream().mapToInt(p -> p.getSpace().equals(space) ? 1 : 0).sum();
+//    int positionX = space.getPosition()[3] * 20 - 50;
+//    int positionY = space.getPosition()[0] * 20 + 20 * playerNum;
+//    view.drawCharacter(playerName, positionX, positionY);
+//  }
+
 }
