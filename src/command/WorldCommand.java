@@ -13,6 +13,7 @@ public interface WorldCommand {
    *
    * @param model  the model of the world
    * @param out    the output stream
+   * @return       the result of execution
    */
-  void execute(World model, Appendable out) throws IOException;
+  String execute(World model, Appendable out) throws IOException;
 }

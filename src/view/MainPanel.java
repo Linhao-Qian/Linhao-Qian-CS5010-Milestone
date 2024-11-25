@@ -2,23 +2,14 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-
 import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
 import world.ReadonlyWorld;
 
 public class MainPanel extends JPanel {
@@ -57,6 +48,7 @@ public class MainPanel extends JPanel {
     newWorldItem.addActionListener(actionListener);
     currentWorldItem.addActionListener(actionListener);
     quitItem.addActionListener(actionListener);
+    infoPanel.addActionListener(actionListener);
   }
   
   public void showGameInterface() {
@@ -67,5 +59,14 @@ public class MainPanel extends JPanel {
     add(scrollPaneRight, BorderLayout.EAST);
     revalidate();
     repaint();
+  }
+  
+  public void addPlayer() {
+    mapPanel.refresh();
+    infoPanel.addPlayer();
+  }
+  
+  public void startGame() {
+    infoPanel.startGame();
   }
 }

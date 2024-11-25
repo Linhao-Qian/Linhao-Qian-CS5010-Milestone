@@ -35,4 +35,12 @@ public interface View {
    * @param listener the listener to add
    */
   void addActionListener(ActionListener listener);
+
+  String getPlayerName();
+
+  String getSpaceName();
+
+  void addPlayer();
+
+  void startGame();
 }

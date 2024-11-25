@@ -19,7 +19,6 @@ import view.View;
 
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -58,6 +57,11 @@ public class GameController {
     this.model = model;
     this.currentFile = file;
     this.turnLimit = turnLimit;
+    computerCommands.put("automaticMovePlayer", m -> new MovePlayer(m));
+    computerCommands.put("automaticPickUpItem", m -> new PickUpItem(m));
+    computerCommands.put("automaticMakeAnAttempt", m -> new MakeAnAttempt(m));
+    computerCommands.put("automaticMovePet", m -> new MovePet(m));
+    computerCommands.put("lookAround", m -> new LookAround());
   }
   
   /**
@@ -169,14 +173,9 @@ public class GameController {
                   }
                 } else if (currentTurn instanceof ComputerControlledPlayer) {
                   in = ((ComputerControlledPlayer) currentTurn).getRandomOperation(model);
-                  Function<World, WorldCommand> cmd = computerCommands.getOrDefault(in, null);
-                  if (cmd == null) {
-                    throw new UnsupportedOperationException(
-                        String.format("Command %s not supported", in));
-                  } else {
-                    c = cmd.apply(model);
-                    c.execute(model, out);
-                  }
+                  Function<World, WorldCommand> cmd = computerCommands.get(in);
+                  c = cmd.apply(model);
+                  c.execute(model, out);
                 }
                 if (("makeAnAttempt".equals(in) || "automaticMakeAnAttempt".equals(in))
                     && model.getTargetCharacter().getHealth() <= 0) {
@@ -285,7 +284,9 @@ public class GameController {
     gameActions.put("Start a new game with a new world specification", () -> selectNewWorld());
     gameActions.put("Start a new game with the current world specification", () -> selectCurrentWorld());
     gameActions.put("Quit", () -> System.exit(0));
-
+    gameActions.put("Add a new computer-controlled player", () -> addComputerPlayer());
+    gameActions.put("Add a new human-controlled player", () -> addHumanPlayer());
+    gameActions.put("Start the game", () -> startGame());
     gameActionListener.setGameActionMap(gameActions);
     view.addActionListener(gameActionListener);
   }
@@ -321,39 +322,45 @@ public class GameController {
       view.showError("Failed to load world: " + e.getMessage());
     }
   }
+  
+  private void addComputerPlayer() {
+    String playerName = view.getPlayerName();
+    String spaceName = view.getSpaceName();
+    try {
+      model.addComputerPlayer(playerName, spaceName);
+    } catch (Exception e) {
+      view.showError(e.getMessage());
+    }
+    view.addPlayer();
+  }
+  
+  private void addHumanPlayer() {
+    String playerName = view.getPlayerName();
+    String spaceName = view.getSpaceName();
+    try {
+      model.addHumanPlayer(playerName, spaceName);
+    } catch (Exception e) {
+      view.showError(e.getMessage());
+    }
+    view.addPlayer();
+  }
 
-//  private void drawTarget() {
-//    int positionX = model.getSpaces().get(model.getTargetCharacterPosition()).getPosition()[3] * 20 - 50;
-//    int positionY = model.getSpaces().get(model.getTargetCharacterPosition()).getPosition()[2] * 20 + 16;
-//    view.drawCharacter(model.getTargetCharacter().getName(), positionX, positionY);
-//  }
-//  
-//  
-//  public void addComputerPlayer(String playerName, String spaceName) {
-//    model.addComputerPlayer(playerName, spaceName);
-//  }
-//
-//  
-//  public void addHumanPlayer(String playerName, String spaceName) {
-//    model.addHumanPlayer(playerName, spaceName);
-//    
-//  }
-//
-//  
-//  public void startGame() {
-//    // TODO Auto-generated method stub
-//    
-//  }
-//
-//  
-//  public void movePlayer(String spaceName) {
-//    model.movePlayer(spaceName);
-//    String playerName = model.getTurn().getName();
-//    Space space = model.getSpace(spaceName);
-//    int playerNum = model.getPlayers().stream().mapToInt(p -> p.getSpace().equals(space) ? 1 : 0).sum();
-//    int positionX = space.getPosition()[3] * 20 - 50;
-//    int positionY = space.getPosition()[0] * 20 + 20 * playerNum;
-//    view.drawCharacter(playerName, positionX, positionY);
-//  }
-
+  private void startGame() {
+    model.resetTurn();
+    view.startGame();
+  }
+  
+  private void automaticNextTurn() {
+    Player currentTurn = model.getTurn();
+    if (currentTurn instanceof ComputerControlledPlayer) {
+      String in = ((ComputerControlledPlayer) currentTurn).getRandomOperation(model);
+      Function<World, WorldCommand> cmd = computerCommands.get(in);
+      WorldCommand c = cmd.apply(model);
+      try {
+        c.execute(model, out);
+      } catch (Exception e) {
+        view.showError(e.getMessage());
+      }
+    }
+  }
 }
