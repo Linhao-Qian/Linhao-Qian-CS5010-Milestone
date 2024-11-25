@@ -57,6 +57,7 @@ public class GameController {
     this.model = model;
     this.currentFile = file;
     this.turnLimit = turnLimit;
+    computerCommands = new HashMap<>();
     computerCommands.put("automaticMovePlayer", m -> new MovePlayer(m));
     computerCommands.put("automaticPickUpItem", m -> new PickUpItem(m));
     computerCommands.put("automaticMakeAnAttempt", m -> new MakeAnAttempt(m));
@@ -173,9 +174,14 @@ public class GameController {
                   }
                 } else if (currentTurn instanceof ComputerControlledPlayer) {
                   in = ((ComputerControlledPlayer) currentTurn).getRandomOperation(model);
-                  Function<World, WorldCommand> cmd = computerCommands.get(in);
-                  c = cmd.apply(model);
-                  c.execute(model, out);
+                  Function<World, WorldCommand> cmd = computerCommands.getOrDefault(in, null);
+                  if (cmd == null) {
+                    throw new UnsupportedOperationException(
+                        String.format("Command %s not supported", in));
+                  } else {
+                    c = cmd.apply(model);
+                    c.execute(model, out);
+                  }
                 }
                 if (("makeAnAttempt".equals(in) || "automaticMakeAnAttempt".equals(in))
                     && model.getTargetCharacter().getHealth() <= 0) {
@@ -348,19 +354,51 @@ public class GameController {
   private void startGame() {
     model.resetTurn();
     view.startGame();
+    checkAutomaticExecution();
   }
   
-  private void automaticNextTurn() {
+  private void checkAutomaticExecution() {
+    boolean shouldGameContinue = shouldGameContinue();
+    if (!shouldGameContinue) {
+      selectCurrentWorld();
+      return;
+    }
     Player currentTurn = model.getTurn();
     if (currentTurn instanceof ComputerControlledPlayer) {
-      String in = ((ComputerControlledPlayer) currentTurn).getRandomOperation(model);
-      Function<World, WorldCommand> cmd = computerCommands.get(in);
-      WorldCommand c = cmd.apply(model);
       try {
-        c.execute(model, out);
+        String in = ((ComputerControlledPlayer) currentTurn).getRandomOperation(model);
+        Function<World, WorldCommand> cmd = computerCommands.getOrDefault(in, null);
+        if (cmd == null) {
+          throw new UnsupportedOperationException(String.format("Command %s not supported", in));
+        } else {
+          WorldCommand c = cmd.apply(model);
+          String result = c.execute(model, System.out);
+          view.setResult(result);
+        }
       } catch (Exception e) {
         view.showError(e.getMessage());
+        return;
       }
+      checkAutomaticExecution();
     }
+  }
+  
+  private boolean shouldGameContinue() {
+    Player currentTurn = model.getTurn();
+    if (model.getTargetCharacter().getHealth() <= 0) {
+      String result = String.format(
+          "The target character %s has been killed by %s. Congratulations, %s!",
+          model.getTargetCharacter().getName(), currentTurn.getName(), currentTurn.getName());
+      view.endGame(result);
+      return false;
+    }
+    if (model.getTurnCount() >= this.turnLimit) {
+      String result = String.format(
+          "Reaching the maximum number of turns, and the target character escapes.\nNobody wins, game over.",
+          model.getTargetCharacter().getName(), currentTurn.getName(), currentTurn.getName());
+      view.endGame(result);
+      return false;
+    }
+    return true;
   }
 }

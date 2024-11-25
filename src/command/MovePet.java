@@ -38,11 +38,13 @@ public class MovePet implements WorldCommand {
   }
   
   @Override
-  public void execute(World model, Appendable out) throws IOException {
+  public String execute(World model, Appendable out) throws IOException {
     model.movePet(spaceName);
-    out.append(String.format("The pet %s has been moved to %s\n",
-        model.getPet().getName(), spaceName));
+    String result = String.format("The pet %s has been moved to %s\n",
+        model.getPet().getName(), spaceName);
+    out.append(result);
     model.nextTurn();
+    return result;
   }
 
 }

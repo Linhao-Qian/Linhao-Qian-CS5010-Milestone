@@ -39,11 +39,13 @@ public class PickUpItem implements WorldCommand {
   }
   
   @Override
-  public void execute(World model, Appendable out) throws IOException {
+  public String execute(World model, Appendable out) throws IOException {
     model.pickUpItem(itemName);
     Player turn = model.getTurn();
-    out.append(String.format("The player %s has picked up %s from %s\n",
-        turn.getName(), itemName, turn.getSpace().getName()));
+    String result = String.format("The player %s has picked up %s from %s\n",
+        turn.getName(), itemName, turn.getSpace().getName());
+    out.append(result);
     model.nextTurn();
+    return result;
   }
 }

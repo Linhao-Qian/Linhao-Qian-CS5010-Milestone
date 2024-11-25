@@ -43,4 +43,8 @@ public interface View {
   void addPlayer();
 
   void startGame();
+
+  void setResult(String result);
+
+  void endGame(String result);
 }

@@ -41,11 +41,17 @@ public class GamePanel extends JPanel {
     add(resultLabel);
   }
   
-  public void startGame() {
+  public void setHint() {
     StringBuilder hintText = new StringBuilder(
         String.format("<html>Now, it is %s's turn<br>", model.getTurn().getName()));
     hintText.append(model.displaySpaceInformation(model.getTurn().getSpace().getName()).replace("\n", "<br>"));
     hintText.append("</html>");
     hintLabel.setText(hintText.toString());
+  }
+  
+  public void setResult(String result) {
+    setHint();
+    resultLabel.setText("<html>-----------------------<br>In last turn:<br>"
+        + result.replace("\n", "<br>") + "</html>");
   }
 }

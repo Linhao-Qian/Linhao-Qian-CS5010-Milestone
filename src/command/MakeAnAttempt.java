@@ -39,17 +39,19 @@ public class MakeAnAttempt implements WorldCommand {
   }
   
   @Override
-  public void execute(World model, Appendable out) throws IOException {
+  public String execute(World model, Appendable out) throws IOException {
     boolean isSuccessful = model.makeAnAttempt(itemName);
     String name = model.getTurn().getName();
+    String result;
     if (isSuccessful) {
-      out.append(
-          String.format("The player %s has made an attempt on the target character using %s\n",
-              name, itemName));
+      result = String.format(
+          "The player %s has made an attempt on the target character using %s\n", name, itemName);
     } else {
-      out.append(String.format("The player %s stopped attacking because it was seen by others.\n",
-          name));
+      result = String.format(
+          "The player %s stopped attacking because it was seen by others.\n", name);
     }
+    out.append(result);
     model.nextTurn();
+    return result;
   }
 }

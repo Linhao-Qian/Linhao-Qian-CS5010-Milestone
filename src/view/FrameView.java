@@ -81,4 +81,14 @@ public class FrameView extends JFrame implements View {
   public void startGame() {
     mainPanel.startGame();
   }
+
+  @Override
+  public void setResult(String result) {
+    mainPanel.setResult(result);
+  }
+
+  @Override
+  public void endGame(String result) {
+    JOptionPane.showMessageDialog(this, result, "Game over", JOptionPane.INFORMATION_MESSAGE);
+  }
 }

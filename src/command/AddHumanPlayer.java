@@ -34,8 +34,10 @@ public class AddHumanPlayer implements WorldCommand {
   }
   
   @Override
-  public void execute(World model, Appendable out) throws IOException {
+  public String execute(World model, Appendable out) throws IOException {
     model.addHumanPlayer(name, spaceName);
-    out.append(String.format("Successfully added the human-controlled player %s\n", name));
+    String result = String.format("Successfully added the human-controlled player %s\n", name);
+    out.append(result);
+    return result;
   }
 }

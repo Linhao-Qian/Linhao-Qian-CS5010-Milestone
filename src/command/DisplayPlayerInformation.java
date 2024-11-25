@@ -27,7 +27,9 @@ public class DisplayPlayerInformation implements WorldCommand {
   }
   
   @Override
-  public void execute(World model, Appendable out) throws IOException {
-    out.append(model.displayPlayerInformation(playerName));
+  public String execute(World model, Appendable out) throws IOException {
+    String result = model.displayPlayerInformation(playerName);
+    out.append(result);
+    return result;
   }
 }

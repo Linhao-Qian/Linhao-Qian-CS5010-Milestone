@@ -69,4 +69,9 @@ public class MainPanel extends JPanel {
   public void startGame() {
     infoPanel.startGame();
   }
+  
+  public void setResult(String result) {
+    mapPanel.refresh();
+    infoPanel.setResult(result);
+  }
 }

@@ -10,8 +10,10 @@ import world.World;
 public class LookAround implements WorldCommand {
 
   @Override
-  public void execute(World model, Appendable out) throws IOException {
-    out.append(model.lookAround());
+  public String execute(World model, Appendable out) throws IOException {
+    String result = model.lookAround();
+    out.append(result);
     model.nextTurn();
+    return result;
   }
 }

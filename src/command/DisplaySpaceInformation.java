@@ -27,7 +27,9 @@ public class DisplaySpaceInformation implements WorldCommand {
   }
   
   @Override
-  public void execute(World model, Appendable out) throws IOException {
-    out.append(model.displaySpaceInformation(spaceName));
+  public String execute(World model, Appendable out) throws IOException {
+    String result = model.displaySpaceInformation(spaceName);
+    out.append(result);
+    return result;
   }
 }

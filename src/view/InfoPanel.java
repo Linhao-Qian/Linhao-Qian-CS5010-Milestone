@@ -36,8 +36,12 @@ public class InfoPanel extends JPanel {
   public void startGame() {
     remove(preGamePanel);
     add(gamePanel);
-    gamePanel.startGame();
+    gamePanel.setHint();
     revalidate();
     repaint();
+  }
+  
+  public void setResult(String result) {
+    gamePanel.setResult(result);
   }
 } 
