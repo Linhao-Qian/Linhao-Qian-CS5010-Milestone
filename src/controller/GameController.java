@@ -16,8 +16,8 @@ import command.PickUpItem;
 import command.WorldCommand;
 import space.Space;
 import view.View;
-
-import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -29,6 +29,7 @@ import java.util.Scanner;
 import java.util.function.Function;
 
 import javax.swing.JFileChooser;
+import javax.swing.SwingUtilities;
 
 import world.MyWorld;
 import world.World;
@@ -53,8 +54,9 @@ public class GameController {
    * 
    * @param m the model to use
    */
-  public GameController(World model, File file, int turnLimit) {
+  public GameController(World model, View view, File file, int turnLimit) {
     this.model = model;
+    this.view = view;
     this.currentFile = file;
     this.turnLimit = turnLimit;
     computerCommands = new HashMap<>();
@@ -63,6 +65,7 @@ public class GameController {
     computerCommands.put("automaticMakeAnAttempt", m -> new MakeAnAttempt(m));
     computerCommands.put("automaticMovePet", m -> new MovePet(m));
     computerCommands.put("lookAround", m -> new LookAround());
+    configureActionListener();
   }
   
   /**
@@ -238,51 +241,22 @@ public class GameController {
     out.append("Reaching the maximum number of turns, and the target character escapes.\n");
     out.append("Nobody wins, game over.");
   }
-
-  /**
-   * Sets the view to use.
-   * 
-   * @param v the view
-   */
-  public void setView(View v) {
-    view = v;
-    configureKeyBoardListener();
-    configureActionListener();
-  }
-  
-  /**
-   * Mutator for the model.
-   * 
-   * @param v the view to use
-   */
-  public void setModel(World m) {
-    model = m;
-  }
   
   private void configureKeyBoardListener() {
     Map<Character, Runnable> keyTypes = new HashMap<>();
-
-    keyTypes.put('i', () -> {
-      
-    });
-
-    keyTypes.put('l', () -> {
-      
-    });
-    
-    keyTypes.put('a', () -> {
-      
-    });
-
-    keyTypes.put('m', () -> {
-      
-    });
-    
+    Map<Integer, Runnable> keyPresses = new HashMap<>();
+    Map<Integer, Runnable> keyReleases = new HashMap<>();
+    keyTypes.put('i', () -> pickUpItem());
+    keyTypes.put('l', () -> lookAround());    
+    keyTypes.put('a', () -> makeAnAttempt());
+    keyTypes.put('m', () -> movePet());   
     KeyboardListener kbd = new KeyboardListener();
     kbd.setKeyTypedMap(keyTypes);
+    kbd.setKeyPressedMap(keyPresses);
+    kbd.setKeyReleasedMap(keyReleases);
     view.addKeyListener(kbd);
   }
-  
+
   private void configureActionListener() {
     Map<String, Runnable> gameActions = new HashMap<>();
     GameActionListener gameActionListener = new GameActionListener();
@@ -297,6 +271,18 @@ public class GameController {
     view.addActionListener(gameActionListener);
   }
   
+  private void configureMouseListener() {
+    view.configureMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        if (SwingUtilities.isRightMouseButton(e) && model.getTurn() != null) {
+          Space space = model.getSpace(e.getX(), e.getY());
+          movePlayer(space);
+        }
+      }
+    });
+  }
+  
   private void selectNewWorld() {
     JFileChooser fileChooser = new JFileChooser();
     int returnValue = fileChooser.showOpenDialog(null);
@@ -305,9 +291,12 @@ public class GameController {
         File selectedFile = fileChooser.getSelectedFile();
         Readable fileReader = new FileReader(selectedFile);
         World newWorld = new MyWorld(fileReader);
-        setModel(newWorld);
+        this.model = newWorld;
         view.showGameInterface(newWorld);
+        configureKeyBoardListener();
         configureActionListener();
+        configureMouseListener();
+        view.resetFocus();
       } catch (Exception e) {
         view.showError("Failed to load world: " + e.getMessage());
       }
@@ -321,9 +310,12 @@ public class GameController {
     }
     try {
       World newModel = new MyWorld(new FileReader(currentFile));
-      setModel(newModel);
+      this.model = newModel;
       view.showGameInterface(newModel);
+      configureKeyBoardListener();
       configureActionListener();
+      configureMouseListener();
+      view.resetFocus();
     } catch (Exception e) {
       view.showError("Failed to load world: " + e.getMessage());
     }
@@ -355,6 +347,7 @@ public class GameController {
     model.resetTurn();
     view.startGame();
     checkAutomaticExecution();
+    view.resetFocus();
   }
   
   private void checkAutomaticExecution() {
@@ -400,5 +393,87 @@ public class GameController {
       return false;
     }
     return true;
+  }
+  
+  private void movePlayer(Space space) {
+    if (space == null) {
+      view.showError("Please choose a valid space!");
+      return;
+    }
+    try {
+      model.movePlayer(space.getName());
+      String playerName = model.getTurn().getName();
+      model.nextTurn();
+      view.setResult(String.format("The player %s has moved to %s\n", playerName, space.getName()));
+      checkAutomaticExecution();
+      view.resetFocus();
+    } catch (Exception e) {
+      view.showError(e.getMessage());
+    }
+  }
+  
+  private void pickUpItem() {
+    String itemName = view.getItemName();
+    try {
+      model.pickUpItem(itemName);
+      Player turn = model.getTurn();
+      String result = String.format("The player %s has picked up %s from %s\n",
+          turn.getName(), itemName, turn.getSpace().getName());
+      model.nextTurn();
+      view.setResult(result);
+      checkAutomaticExecution();
+      view.resetFocus();
+    } catch (Exception e) {
+      view.showError(e.getMessage());
+    }
+  }
+  
+  private void lookAround() {
+    try {
+      String result = model.lookAround();
+      model.nextTurn();
+      view.setResult(result);
+      checkAutomaticExecution();
+      view.resetFocus();
+    } catch (Exception e) {
+      view.showError(e.getMessage());
+    }
+  }
+  
+  private void makeAnAttempt() {
+    String itemName = view.getAttemptChoice();
+    try {
+      boolean isSuccessful = model.makeAnAttempt(itemName);
+      String name = model.getTurn().getName();
+      String result;
+      if (isSuccessful) {
+        result = String.format(
+            "The player %s has made an attempt on the target character using %s\n", name, itemName);
+      } else {
+        result = String.format(
+            "The player %s stopped attacking because it was seen by others.\n", name);
+      }
+      model.nextTurn();
+      view.setResult(result);
+      checkAutomaticExecution();
+      view.resetFocus();
+    } catch (Exception e) {
+      view.showError(e.getMessage());
+    }
+  }
+  
+  private void movePet() {
+    String spaceName = view.getIntendedSpace();
+    try {
+      model.movePet(spaceName);
+      String result = String.format("The pet %s has been moved to %s\n",
+          model.getPet().getName(), spaceName);
+      model.nextTurn();
+      view.setResult(result);
+      checkAutomaticExecution();
+      view.resetFocus();
+    } catch (Exception e) {
+      view.showError(e.getMessage());
+    }
   }
 }

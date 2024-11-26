@@ -3,6 +3,8 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -73,5 +75,9 @@ public class MainPanel extends JPanel {
   public void setResult(String result) {
     mapPanel.refresh();
     infoPanel.setResult(result);
+  }
+  
+  public void configureMouseListener(MouseAdapter mouseAdapter) {
+    mapPanel.configureMouseListener(mouseAdapter);
   }
 }

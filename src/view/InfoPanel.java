@@ -2,8 +2,6 @@ package view;
 
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -11,13 +9,11 @@ import world.ReadonlyWorld;
 
 public class InfoPanel extends JPanel {
   private static final long serialVersionUID = 4691417946172572337L;
-  
   private PreGamePanel preGamePanel;
   private GamePanel gamePanel;
 
   public InfoPanel(ReadonlyWorld model) {
-    BufferedImage map = model.generateMap();
-    setPreferredSize(new Dimension(500, map.getHeight()));
+    setPreferredSize(new Dimension(500, 3000));
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     add(Box.createVerticalStrut(20));
     this.preGamePanel = new PreGamePanel(model);

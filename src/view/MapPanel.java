@@ -25,6 +25,7 @@ import world.ReadonlyWorld;
 public class MapPanel extends JPanel {
   private static final long serialVersionUID = 6922738675563657970L;
   private ReadonlyWorld model;
+  private JLabel mapLabel;
   private JLayeredPane layeredPane;
   private Map<String, JLabel> characters;
   
@@ -35,11 +36,15 @@ public class MapPanel extends JPanel {
     layeredPane = new JLayeredPane();
     layeredPane.setPreferredSize(new Dimension(map.getWidth(), map.getHeight()));
     ImageIcon mapImage = new ImageIcon(map);
-    JLabel mapLabel = new JLabel(mapImage);
+    mapLabel = new JLabel(mapImage);
     mapLabel.setBounds(0, 0, map.getWidth(), map.getHeight());
     layeredPane.add(mapLabel);
     add(layeredPane, BorderLayout.CENTER);
     drawTarget();
+  }
+  
+  public void configureMouseListener(MouseAdapter mouseAdapter) {
+    mapLabel.addMouseListener(mouseAdapter);
   }
   
   private void drawCharacter(String name, int positionX, int positionY) {
@@ -47,14 +52,16 @@ public class MapPanel extends JPanel {
     layeredPane.remove(characterLabel);
     characterLabel.setBounds(positionX, positionY, 100, 30);
     characterLabel.setForeground(Color.RED);
-    characterLabel.addMouseListener(new MouseAdapter() {
-      @Override
-      public void mouseClicked(MouseEvent e) {
-        if (SwingUtilities.isLeftMouseButton(e)) {
-          JOptionPane.showMessageDialog(characterLabel, model.displayPlayerInformation(name), "Player information", JOptionPane.INFORMATION_MESSAGE);
+    if (characterLabel.getMouseListeners().length == 0 && name != model.getTargetCharacter().getName()) {
+      characterLabel.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+          if (SwingUtilities.isLeftMouseButton(e)) {
+            JOptionPane.showMessageDialog(characterLabel, model.displayPlayerInformation(name), "Player information", JOptionPane.INFORMATION_MESSAGE);
+          }
         }
-      }
-    });
+      });
+    }
     layeredPane.add(characterLabel, Integer.valueOf(1));
     characters.put(name, characterLabel);
   }
@@ -87,5 +94,7 @@ public class MapPanel extends JPanel {
   public void refresh() {
     drawTarget();
     drawPlayers();
+    revalidate();
+    repaint();
   }
 }

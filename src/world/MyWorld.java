@@ -201,6 +201,21 @@ public class MyWorld implements World {
   }
   
   @Override
+  public Space getSpace(int x, int y) {
+    for (Space space : spaces) {
+      int[] pos = space.getPosition();
+      int x1 = pos[1] * 20 + 20;
+      int y1 = pos[0] * 20 + 20;
+      int x2 = (pos[3] + 1) * 20 + 20;
+      int y2 = (pos[2] + 1) * 20 + 20;
+      if (x >= x1 && x <= x2 && y >= y1 && y <= y2) {
+          return space;
+      }
+    }
+    return null;
+  }
+  
+  @Override
   public List<Player> getPlayers() {
     return new ArrayList<>(players);
   }

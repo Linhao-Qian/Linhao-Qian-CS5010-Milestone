@@ -52,6 +52,8 @@ public interface ReadonlyWorld {
    */
   Space getSpace(String spaceName);
   
+  Space getSpace(int x, int y);
+  
   /**
    * Return the players in the world. Each world has a number of players.
    *

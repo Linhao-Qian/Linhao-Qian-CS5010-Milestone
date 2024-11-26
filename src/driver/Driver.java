@@ -46,8 +46,7 @@ public class Driver {
         controller.start(world);
       } else if("view".equals(mode)) {
         View view = new FrameView(world);
-        GameController controller = new GameController(world, file, turnLimit);
-        controller.setView(view);
+        new GameController(world, view, file, turnLimit);
       } else {
         System.out.println("Invalid mode. Please choose 'text' or 'view'.");
       }

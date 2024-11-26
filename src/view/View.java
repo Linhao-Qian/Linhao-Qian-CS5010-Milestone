@@ -2,6 +2,7 @@ package view;
 
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 
 import world.World;
 
@@ -40,6 +41,12 @@ public interface View {
 
   String getSpaceName();
 
+  String getItemName();
+  
+  String getAttemptChoice();
+  
+  String getIntendedSpace();
+  
   void addPlayer();
 
   void startGame();
@@ -47,4 +54,8 @@ public interface View {
   void setResult(String result);
 
   void endGame(String result);
+
+  void configureMouseListener(MouseAdapter mouseAdapter);
+
+  void resetFocus();
 }

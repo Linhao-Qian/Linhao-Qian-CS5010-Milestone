@@ -2,6 +2,8 @@ package view;
 
 import java.awt.CardLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import world.ReadonlyWorld;
@@ -12,7 +14,6 @@ import world.World;
  */
 public class FrameView extends JFrame implements View {
   private static final long serialVersionUID = 7425202540971385542L;
-  private ReadonlyWorld model;
   private AboutPanel aboutPanel;
   private MainPanel mainPanel;
   
@@ -55,7 +56,6 @@ public class FrameView extends JFrame implements View {
   @Override
   public void showGameInterface(World model) {
     setName(model.getName());
-    this.model = model;
     remove(mainPanel);
     this.mainPanel = new MainPanel(model);
     add(mainPanel);
@@ -70,6 +70,21 @@ public class FrameView extends JFrame implements View {
   @Override
   public String getSpaceName() {
     return JOptionPane.showInputDialog(this, "Enter the name of the initial space:");
+  }
+  
+  @Override
+  public String getItemName() {
+    return JOptionPane.showInputDialog(this, "Enter the name of the item which you want to pick up:");
+  }
+  
+  @Override
+  public String getAttemptChoice() {
+    return JOptionPane.showInputDialog(this, "Enter the name of the item which you want to use\n(If you have no any item, please enter 'pokeEyes'):");
+  }
+  
+  @Override
+  public String getIntendedSpace() {
+    return JOptionPane.showInputDialog(this, "Enter the name of the space which you want to move the pet to:");
   }
   
   @Override
@@ -90,5 +105,27 @@ public class FrameView extends JFrame implements View {
   @Override
   public void endGame(String result) {
     JOptionPane.showMessageDialog(this, result, "Game over", JOptionPane.INFORMATION_MESSAGE);
+  }
+
+  @Override
+  public void configureMouseListener(MouseAdapter mouseAdapter) {
+    mainPanel.configureMouseListener(mouseAdapter);
+  }
+  
+  /*
+   * In order to make this frame respond to keyboard events, it must be within
+   * strong focus. Since there could be multiple components on the screen that
+   * listen to keyboard events, we must set one as the "currently focused" one so
+   * that all keyboard events are passed to that component. This component is said
+   * to have "strong focus".
+   * 
+   * We do this by first making the component focusable and then requesting focus
+   * to it. Requesting focus makes the component have focus AND removes focus from
+   * whoever had it before.
+   */
+  @Override
+  public void resetFocus() {
+    setFocusable(true);
+    requestFocus();
   }
 }
