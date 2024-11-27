@@ -1,15 +1,16 @@
 package view;
 
 import java.awt.Component;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-
 import world.ReadonlyWorld;
 
+/**
+ * The panel used to show the game status after game starts.
+ */
 public class GamePanel extends JPanel {
   private static final long serialVersionUID = 1860979716621182121L;
   private ReadonlyWorld model;
@@ -17,6 +18,11 @@ public class GamePanel extends JPanel {
   private JLabel operationLabel;
   private JLabel resultLabel;
   
+  /**
+   * Constructor for the game panel.
+   * 
+   * @param model the read-only model
+   */
   public GamePanel(ReadonlyWorld model) {
     this.model = model;
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -41,6 +47,9 @@ public class GamePanel extends JPanel {
     add(resultLabel);
   }
   
+  /**
+   * Set hint text.
+   */
   public void setHint() {
     StringBuilder hintText = new StringBuilder(
         String.format("<html>Now, it is %s's turn<br>", model.getTurn().getName()));
@@ -49,6 +58,11 @@ public class GamePanel extends JPanel {
     hintLabel.setText(hintText.toString());
   }
   
+  /**
+   * Set result of last turn.
+   * 
+   * @param result the result of last turn
+   */
   public void setResult(String result) {
     setHint();
     resultLabel.setText("<html>-----------------------<br>In last turn:<br>"

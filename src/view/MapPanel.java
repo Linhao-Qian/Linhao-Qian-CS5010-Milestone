@@ -1,5 +1,6 @@
 package view;
 
+import character.Player;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,18 +11,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-
-import character.Player;
 import space.Space;
 import world.ReadonlyWorld;
 
+/**
+ * Show the map of the game.
+ */
 public class MapPanel extends JPanel {
   private static final long serialVersionUID = 6922738675563657970L;
   private ReadonlyWorld model;
@@ -29,6 +30,11 @@ public class MapPanel extends JPanel {
   private JLayeredPane layeredPane;
   private Map<String, JLabel> characters;
   
+  /**
+   * Constructor for the map panel.
+   * 
+   * @param model the read-only model
+   */
   public MapPanel(ReadonlyWorld model) {
     this.model = model;
     this.characters = new HashMap<>();
@@ -43,6 +49,11 @@ public class MapPanel extends JPanel {
     drawTarget();
   }
   
+  /**
+   * Configure the mouse listener for the map panel.
+   * 
+   * @param mouseAdapter the mouse listener
+   */
   public void configureMouseListener(MouseAdapter mouseAdapter) {
     mapLabel.addMouseListener(mouseAdapter);
   }
@@ -91,6 +102,9 @@ public class MapPanel extends JPanel {
     }
   }
   
+  /**
+   * Refresh the map.
+   */
   public void refresh() {
     drawTarget();
     drawPlayers();

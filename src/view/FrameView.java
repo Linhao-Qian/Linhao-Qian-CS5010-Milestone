@@ -3,11 +3,9 @@ package view;
 import java.awt.CardLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
-
 import world.ReadonlyWorld;
 import world.World;
 
@@ -121,17 +119,6 @@ public class FrameView extends JFrame implements View {
     mainPanel.configureMouseListener(mouseAdapter);
   }
   
-  /*
-   * In order to make this frame respond to keyboard events, it must be within
-   * strong focus. Since there could be multiple components on the screen that
-   * listen to keyboard events, we must set one as the "currently focused" one so
-   * that all keyboard events are passed to that component. This component is said
-   * to have "strong focus".
-   * 
-   * We do this by first making the component focusable and then requesting focus
-   * to it. Requesting focus makes the component have focus AND removes focus from
-   * whoever had it before.
-   */
   @Override
   public void resetFocus() {
     setFocusable(true);

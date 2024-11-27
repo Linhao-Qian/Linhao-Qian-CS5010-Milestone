@@ -2,16 +2,17 @@ package view;
 
 import java.awt.Component;
 import java.awt.event.ActionListener;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-
 import world.ReadonlyWorld;
 
+/**
+ * The panel used to show the game status before game starts.
+ */
 public class PreGamePanel extends JPanel {
   private static final long serialVersionUID = 1836177703755529352L;
   private ReadonlyWorld model;
@@ -20,6 +21,11 @@ public class PreGamePanel extends JPanel {
   private JButton addHumanPlayerButton;
   private JButton startGameButton;
   
+  /**
+   * Constructor for the pre-game panel.
+   * 
+   * @param model the read-only model
+   */
   public PreGamePanel(ReadonlyWorld model) {
     this.model = model;
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -41,12 +47,20 @@ public class PreGamePanel extends JPanel {
     add(startGameButton);
   }
   
+  /**
+   * Add action listener to the pre-game panel.
+   * 
+   * @param actionListener action listener for the pre-game panel
+   */
   public void addActionListener(ActionListener actionListener) {
     addComputerPlayerButton.addActionListener(actionListener);
     addHumanPlayerButton.addActionListener(actionListener);
     startGameButton.addActionListener(actionListener);
   }
   
+  /**
+   * Refresh the game status before game starts.
+   */
   public void refresh() {
     StringBuilder hintText = new StringBuilder("<html>Current Players:<br>");
     model.getPlayers().forEach(player -> hintText.append(player.getName()).append("<br>"));

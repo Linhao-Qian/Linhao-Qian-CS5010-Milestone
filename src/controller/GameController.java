@@ -14,8 +14,6 @@ import command.MovePet;
 import command.MovePlayer;
 import command.PickUpItem;
 import command.WorldCommand;
-import space.Space;
-import view.View;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -27,10 +25,10 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.function.Function;
-
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
-
+import space.Space;
+import view.View;
 import world.MyWorld;
 import world.World;
 
@@ -50,9 +48,12 @@ public class GameController {
   private Map<String, Function<World, WorldCommand>> computerCommands;
   
   /**
-   * Constructor.
+   * Constructor for the view-based game.
    * 
-   * @param m the model to use
+   * @param model      the model to use
+   * @param view       the view to use
+   * @param file       the world specification file
+   * @param turnLimit  the maximum number of turns allowed
    */
   public GameController(World model, View view, File file, int turnLimit) {
     this.model = model;
@@ -70,7 +71,7 @@ public class GameController {
   }
   
   /**
-   * Constructs the controller of the game.
+   * Constructor for the text-based game.
    * 
    * @param in          the input stream of the controller
    * @param out         the output stream of the controller
@@ -106,9 +107,9 @@ public class GameController {
   }
   
   /**
-   * Method that gives control to the controller.
+   * Method that gives control to the controller in the text-based game.
    * 
-   * @param model the model to use.
+   * @param  model the model to use.
    * @throws IOException if something goes wrong appending to out
    */
   public void start(World model) throws IOException {

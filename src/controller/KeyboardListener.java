@@ -23,16 +23,6 @@ public class KeyboardListener implements KeyListener {
   private Map<Integer, Runnable> keyReleasedMap;
 
   /**
-   * Default constructor.
-   */
-  public KeyboardListener() {
-    // fields get set by their mutators
-    keyTypedMap = null;
-    keyPressedMap = null;
-    keyReleasedMap = null;
-  }
-
-  /**
    * Set the map for key typed events. Key typed events in Java Swing are
    * characters.
    * 

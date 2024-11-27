@@ -1,13 +1,15 @@
 package world;
 
-import java.awt.image.BufferedImage;
-import java.util.List;
-
 import character.Pet;
 import character.Player;
 import character.TargetCharacter;
+import java.awt.image.BufferedImage;
+import java.util.List;
 import space.Space;
 
+/**
+ * The read-only world model.
+ */
 public interface ReadonlyWorld {
   /**
    * Return the name of the world.
@@ -52,6 +54,13 @@ public interface ReadonlyWorld {
    */
   Space getSpace(String spaceName);
   
+  /**
+   * Return the space in the world according to the given coordinates.
+   *
+   * @param x the x-coordinate of the space
+   * @param y the y-coordinate of the space
+   * @return the space which needs to be found
+   */
   Space getSpace(int x, int y);
   
   /**
