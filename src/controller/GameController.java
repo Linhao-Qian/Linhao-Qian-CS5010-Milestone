@@ -65,6 +65,7 @@ public class GameController {
     computerCommands.put("automaticMakeAnAttempt", m -> new MakeAnAttempt(m));
     computerCommands.put("automaticMovePet", m -> new MovePet(m));
     computerCommands.put("lookAround", m -> new LookAround());
+    configureKeyBoardListener();
     configureActionListener();
   }
   
@@ -293,7 +294,6 @@ public class GameController {
         World newWorld = new MyWorld(fileReader);
         this.model = newWorld;
         view.showGameInterface(newWorld);
-        configureKeyBoardListener();
         configureActionListener();
         configureMouseListener();
         view.resetFocus();
@@ -312,7 +312,6 @@ public class GameController {
       World newModel = new MyWorld(new FileReader(currentFile));
       this.model = newModel;
       view.showGameInterface(newModel);
-      configureKeyBoardListener();
       configureActionListener();
       configureMouseListener();
       view.resetFocus();

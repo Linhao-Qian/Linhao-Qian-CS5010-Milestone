@@ -6,6 +6,8 @@ import java.awt.event.MouseAdapter;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+
 import world.ReadonlyWorld;
 import world.World;
 
@@ -14,6 +16,8 @@ import world.World;
  */
 public class FrameView extends JFrame implements View {
   private static final long serialVersionUID = 7425202540971385542L;
+  private JScrollPane scrollAboutPane;
+  private JScrollPane scrollMainPane;
   private AboutPanel aboutPanel;
   private MainPanel mainPanel;
   
@@ -30,7 +34,8 @@ public class FrameView extends JFrame implements View {
     setLayout(new CardLayout());
     aboutPanel = new AboutPanel();
     mainPanel = new MainPanel(model);
-    add(aboutPanel);
+    scrollAboutPane = new JScrollPane(aboutPanel);
+    add(scrollAboutPane);
     setVisible(true);
   }
   
@@ -47,8 +52,9 @@ public class FrameView extends JFrame implements View {
 
   @Override
   public void enterGame() {
-    remove(aboutPanel);
-    add(mainPanel);
+    remove(scrollAboutPane);
+    scrollMainPane = new JScrollPane(mainPanel);
+    add(scrollMainPane);
     revalidate();
     repaint();
   }
@@ -56,10 +62,13 @@ public class FrameView extends JFrame implements View {
   @Override
   public void showGameInterface(World model) {
     setName(model.getName());
-    remove(mainPanel);
+    remove(scrollMainPane);
     this.mainPanel = new MainPanel(model);
-    add(mainPanel);
+    this.scrollMainPane = new JScrollPane(mainPanel);
+    add(scrollMainPane);
     mainPanel.showGameInterface();
+    revalidate();
+    repaint();
   }
 
   @Override
