@@ -84,6 +84,15 @@ public class MockModel implements World {
   }
 
   @Override
+  public Space getSpace(int x, int y) {
+    log.append("get space according to coordinates: " + x + " " + y).append("\n");
+    if (x == 0 && y == 0) {
+      return null;
+    }
+    return spaces.get(0);
+  }
+  
+  @Override
   public List<Player> getPlayers() {
     return new ArrayList<>(players);
   }

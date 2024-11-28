@@ -22,9 +22,9 @@ import space.Space;
 import world.World;
 
 /**
- * A JUnit test class for the Game Controller.
+ * A JUnit test class for the Game Controller of the text-based game.
  */
-public class GameControllerTest {
+public class ControllerTestForTextBasedGame {
   
   private StringBuilder log;
   private World model;

@@ -3,6 +3,8 @@ package view;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
+import java.io.File;
+
 import world.World;
 
 /**
@@ -13,6 +15,13 @@ public interface View {
    * Enter the game.
    */
   void enterGame();
+  
+  /**
+   * Get the new world specification file.
+   * 
+   * @return the new world specification file
+   */
+  File getNewFile();
   
   /**
    * Show the game interface.
@@ -108,12 +117,17 @@ public interface View {
   void endGame(String result);
 
   /**
-   * Configure the mouse listener for the view.
+   * Configure the space click listener for the view.
    * 
    * @param mouseAdapter the mouse listener
    */
-  void configureMouseListener(MouseAdapter mouseAdapter);
+  void configureSpaceClickListener(MouseAdapter mouseAdapter);
 
+  /**
+   * Configure the player click listener for the view.
+   */
+  void configurePlayerClickListener();
+  
   /*
    * In order to make this frame respond to keyboard events, it must be within
    * strong focus. Since there could be multiple components on the screen that

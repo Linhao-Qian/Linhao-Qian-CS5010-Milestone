@@ -102,11 +102,18 @@ public class MainPanel extends JPanel {
   }
   
   /**
-   * Configure the mouse listener for the map panel.
+   * Configure the space click listener for the map panel.
    * 
    * @param mouseAdapter the mouse listener
    */
-  public void configureMouseListener(MouseAdapter mouseAdapter) {
-    mapPanel.configureMouseListener(mouseAdapter);
+  public void configureSpaceClickListener(MouseAdapter mouseAdapter) {
+    mapPanel.configureSpaceClickListener(mouseAdapter);
+  }
+  
+  /**
+   * Configure the player click listener for the map panel.
+   */
+  public void configurePlayerClickListener() {
+    mapPanel.configurePlayerClickListener();
   }
 }

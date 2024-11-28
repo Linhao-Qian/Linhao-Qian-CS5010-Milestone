@@ -25,7 +25,6 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.function.Function;
-import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 import space.Space;
 import view.View;
@@ -46,6 +45,8 @@ public class GameController {
   private Map<String, Function<Scanner, WorldCommand>> commands;
   private Map<String, Function<Scanner, WorldCommand>> humanCommands;
   private Map<String, Function<World, WorldCommand>> computerCommands;
+  private Map<Character, Runnable> keyTypes;
+  private Map<String, Runnable> gameActions;
   
   /**
    * Constructor for the view-based game.
@@ -244,8 +245,26 @@ public class GameController {
     out.append("Nobody wins, game over.");
   }
   
+  /**
+   * Get the keyTypes of the view-based game.
+   * 
+   * @return the copy of the keyTypes of the view-based game
+   */
+  public Map<Character, Runnable> getKeyTypes() {
+    return Map.copyOf(this.keyTypes);
+  }
+  
+  /**
+   * Get the gameActions of the view-based game.
+   * 
+   * @return the copy of the gameActions of the view-based game
+   */
+  public Map<String, Runnable> getGameActions() {
+    return Map.copyOf(this.gameActions);
+  }
+  
   private void configureKeyBoardListener() {
-    Map<Character, Runnable> keyTypes = new HashMap<>();
+    keyTypes = new HashMap<>();
     Map<Integer, Runnable> keyPresses = new HashMap<>();
     Map<Integer, Runnable> keyReleases = new HashMap<>();
     keyTypes.put('i', () -> pickUpItem());
@@ -260,12 +279,12 @@ public class GameController {
   }
 
   private void configureActionListener() {
-    Map<String, Runnable> gameActions = new HashMap<>();
+    gameActions = new HashMap<>();
     GameActionListener gameActionListener = new GameActionListener();
     gameActions.put("Enter Game", () -> view.enterGame());
     gameActions.put("Start a new game with a new world specification", () -> selectNewWorld());
     gameActions.put("Start a new game with the current world specification", () -> selectCurrentWorld());
-    gameActions.put("Quit", () -> System.exit(0));
+    gameActions.put("Quit", () -> exitProgram());
     gameActions.put("Add a new computer-controlled player", () -> addComputerPlayer());
     gameActions.put("Add a new human-controlled player", () -> addHumanPlayer());
     gameActions.put("Start the game", () -> startGame());
@@ -273,52 +292,52 @@ public class GameController {
     view.addActionListener(gameActionListener);
   }
   
-  private void configureMouseListener() {
-    view.configureMouseListener(new MouseAdapter() {
+  private void configureSpaceClickListener() {
+    view.configureSpaceClickListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
         if (SwingUtilities.isRightMouseButton(e) && model.getTurn() != null) {
-          Space space = model.getSpace(e.getX(), e.getY());
-          movePlayer(space);
+          movePlayer(e.getX(), e.getY());
         }
       }
     });
   }
   
+  private void configurePlayerClickListener() {
+    view.configurePlayerClickListener();
+  }
+  
   private void selectNewWorld() {
-    JFileChooser fileChooser = new JFileChooser();
-    int returnValue = fileChooser.showOpenDialog(null);
-    if (returnValue == JFileChooser.APPROVE_OPTION) {
-      try {
-        File selectedFile = fileChooser.getSelectedFile();
-        Readable fileReader = new FileReader(selectedFile);
-        World newWorld = new MyWorld(fileReader);
-        this.model = newWorld;
-        view.showGameInterface(newWorld);
-        configureActionListener();
-        configureMouseListener();
-        view.resetFocus();
-      } catch (Exception e) {
-        view.showError("Failed to load world: " + e.getMessage());
-      }
+    try {
+      File selectedFile = view.getNewFile();
+      Readable fileReader = new FileReader(selectedFile);
+      World newWorld = new MyWorld(fileReader);
+      this.model = newWorld;
+      view.showGameInterface(newWorld);
+      configureActionListener();
+      configureSpaceClickListener();
+      view.resetFocus();
+      this.currentFile = selectedFile;
+    } catch (Exception e) {
+      view.showError("Failed to load world: " + e.getMessage());
     }
   }
 
   private void selectCurrentWorld() {
-    if (model == null) {
-      view.showError("No model is loaded. Something is wrong.");
-      return;
-    }
     try {
       World newModel = new MyWorld(new FileReader(currentFile));
       this.model = newModel;
       view.showGameInterface(newModel);
       configureActionListener();
-      configureMouseListener();
+      configureSpaceClickListener();
       view.resetFocus();
     } catch (Exception e) {
       view.showError("Failed to load world: " + e.getMessage());
     }
+  }
+  
+  private void exitProgram() {
+    System.exit(0);
   }
   
   private void addComputerPlayer() {
@@ -326,10 +345,11 @@ public class GameController {
     String spaceName = view.getSpaceName();
     try {
       model.addComputerPlayer(playerName, spaceName);
+      view.addPlayer();
+      configurePlayerClickListener();
     } catch (Exception e) {
       view.showError(e.getMessage());
     }
-    view.addPlayer();
   }
   
   private void addHumanPlayer() {
@@ -337,10 +357,11 @@ public class GameController {
     String spaceName = view.getSpaceName();
     try {
       model.addHumanPlayer(playerName, spaceName);
+      view.addPlayer();
+      configurePlayerClickListener();
     } catch (Exception e) {
       view.showError(e.getMessage());
     }
-    view.addPlayer();
   }
 
   private void startGame() {
@@ -395,7 +416,14 @@ public class GameController {
     return true;
   }
   
-  private void movePlayer(Space space) {
+  /**
+   * Move the player according to the given coordinates.
+   *
+   * @param x the x-coordinate of the space
+   * @param y the y-coordinate of the space
+   */
+  public void movePlayer(int x, int y) {
+    Space space = model.getSpace(x, y);
     if (space == null) {
       view.showError("Please choose a valid space!");
       return;

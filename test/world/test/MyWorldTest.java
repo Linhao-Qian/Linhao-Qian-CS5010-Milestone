@@ -3,6 +3,7 @@ package world.test;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
@@ -617,6 +618,51 @@ public class MyWorldTest {
     assertSame(player2.getSpace(), world.getSpaces().get(1));
   }
   
+  @Test(expected = UnsupportedOperationException.class)
+  public void testAddHumanPlayersExceedingLimit() {
+    world.addHumanPlayer("a", "Dining Hall");
+    world.addHumanPlayer("b", "Dining Hall");
+    world.addHumanPlayer("c", "Dining Hall");
+    world.addHumanPlayer("d", "Dining Hall");
+    world.addHumanPlayer("e", "Dining Hall");
+    world.addHumanPlayer("f", "Dining Hall");
+    world.addHumanPlayer("g", "Dining Hall");
+    world.addHumanPlayer("h", "Dining Hall");
+    world.addHumanPlayer("i", "Dining Hall");
+    world.addHumanPlayer("j", "Dining Hall");
+    world.addHumanPlayer("k", "Dining Hall");
+  }
+  
+  @Test(expected = UnsupportedOperationException.class)
+  public void testAddComputerPlayersExceedingLimit() {
+    world.addComputerPlayer("a", "Dining Hall");
+    world.addComputerPlayer("b", "Dining Hall");
+    world.addComputerPlayer("c", "Dining Hall");
+    world.addComputerPlayer("d", "Dining Hall");
+    world.addComputerPlayer("e", "Dining Hall");
+    world.addComputerPlayer("f", "Dining Hall");
+    world.addComputerPlayer("g", "Dining Hall");
+    world.addComputerPlayer("h", "Dining Hall");
+    world.addComputerPlayer("i", "Dining Hall");
+    world.addComputerPlayer("j", "Dining Hall");
+    world.addComputerPlayer("k", "Dining Hall");
+  }
+  
+  @Test(expected = UnsupportedOperationException.class)
+  public void testAddMixedPlayersExceedingLimit() {
+    world.addHumanPlayer("a", "Dining Hall");
+    world.addHumanPlayer("b", "Dining Hall");
+    world.addHumanPlayer("c", "Dining Hall");
+    world.addHumanPlayer("d", "Dining Hall");
+    world.addHumanPlayer("e", "Dining Hall");
+    world.addHumanPlayer("f", "Dining Hall");
+    world.addComputerPlayer("g", "Dining Hall");
+    world.addComputerPlayer("h", "Dining Hall");
+    world.addComputerPlayer("i", "Dining Hall");
+    world.addComputerPlayer("j", "Dining Hall");
+    world.addComputerPlayer("k", "Dining Hall");
+  }
+  
   @Test
   public void testDisplayHumanPlayer() {
     assertEquals(0, world.getPlayers().size());
@@ -1057,5 +1103,13 @@ public class MyWorldTest {
     world.resetTurn();
     world.pickUpItem("Revolver");
     world.makeAnAttempt("pokeEyes");
+  }
+  
+  @Test
+  public void testGetSpace() {
+    Space space1 = world.getSpace(0, 0);
+    assertNull(space1);
+    Space space2 = world.getSpace(100, 30);
+    assertEquals(space2, world.getSpace("Lancaster Room"));
   }
 }

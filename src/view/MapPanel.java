@@ -50,11 +50,31 @@ public class MapPanel extends JPanel {
   }
   
   /**
-   * Configure the mouse listener for the map panel.
+   * Configure the player click listener for the map panel.
+   */
+  public void configurePlayerClickListener() {
+    for (Map.Entry<String, JLabel> entries : characters.entrySet()) {
+      String name = entries.getKey();
+      JLabel characterLabel = entries.getValue();
+      if (characterLabel.getMouseListeners().length == 0 && name != model.getTargetCharacter().getName()) {
+        characterLabel.addMouseListener(new MouseAdapter() {
+          @Override
+          public void mouseClicked(MouseEvent e) {
+            if (SwingUtilities.isLeftMouseButton(e)) {
+              JOptionPane.showMessageDialog(characterLabel, model.displayPlayerInformation(name), "Player information", JOptionPane.INFORMATION_MESSAGE);
+            }
+          }
+        });
+      }
+    }
+  }
+  
+  /**
+   * Configure the space click listener for the map panel.
    * 
    * @param mouseAdapter the mouse listener
    */
-  public void configureMouseListener(MouseAdapter mouseAdapter) {
+  public void configureSpaceClickListener(MouseAdapter mouseAdapter) {
     mapLabel.addMouseListener(mouseAdapter);
   }
   
@@ -63,16 +83,6 @@ public class MapPanel extends JPanel {
     layeredPane.remove(characterLabel);
     characterLabel.setBounds(positionX, positionY, 100, 30);
     characterLabel.setForeground(Color.RED);
-    if (characterLabel.getMouseListeners().length == 0 && name != model.getTargetCharacter().getName()) {
-      characterLabel.addMouseListener(new MouseAdapter() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-          if (SwingUtilities.isLeftMouseButton(e)) {
-            JOptionPane.showMessageDialog(characterLabel, model.displayPlayerInformation(name), "Player information", JOptionPane.INFORMATION_MESSAGE);
-          }
-        }
-      });
-    }
     layeredPane.add(characterLabel, Integer.valueOf(1));
     characters.put(name, characterLabel);
   }

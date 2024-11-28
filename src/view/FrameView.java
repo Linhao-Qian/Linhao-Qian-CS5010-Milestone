@@ -3,6 +3,8 @@ package view;
 import java.awt.CardLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
+import java.io.File;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -57,6 +59,16 @@ public class FrameView extends JFrame implements View {
     repaint();
   }
  
+  @Override
+  public File getNewFile() {
+    JFileChooser fileChooser = new JFileChooser();
+    int returnValue = fileChooser.showOpenDialog(null);
+    if (returnValue == JFileChooser.APPROVE_OPTION) {
+      return fileChooser.getSelectedFile();
+    }
+    return null;
+  }
+  
   @Override
   public void showGameInterface(World model) {
     setName(model.getName());
@@ -115,8 +127,13 @@ public class FrameView extends JFrame implements View {
   }
 
   @Override
-  public void configureMouseListener(MouseAdapter mouseAdapter) {
-    mainPanel.configureMouseListener(mouseAdapter);
+  public void configureSpaceClickListener(MouseAdapter mouseAdapter) {
+    mainPanel.configureSpaceClickListener(mouseAdapter);
+  }
+  
+  @Override
+  public void configurePlayerClickListener() {
+    mainPanel.configurePlayerClickListener();
   }
   
   @Override
