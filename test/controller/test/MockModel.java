@@ -10,7 +10,7 @@ import space.Space;
 import world.World;
 
 /**
- * A MockModel represents the mock model for the GameControllerTest.
+ * Mock implementation of the model for testing.
  */
 public class MockModel implements World {
   private StringBuilder log;
@@ -26,7 +26,7 @@ public class MockModel implements World {
   private boolean canBeSeenByOthers;
   
   /**
-   * Constructs a MockModel object for the GameControllerTest.
+   * Constructs a MockModel object.
    * 
    * @param log             the logger for the input values
    * @param name            the name of the world

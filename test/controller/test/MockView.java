@@ -15,9 +15,9 @@ public class MockView implements View {
   private final StringBuilder log;
   
   /**
-   * Constructs a MockView.
+   * Constructs a MockView object.
    *
-   * @param log   the log to record actions
+   * @param log the log to record actions
    */
   public MockView(StringBuilder log) {
     this.log = log;

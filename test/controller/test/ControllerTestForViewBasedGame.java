@@ -2,6 +2,7 @@ package controller.test;
 
 import static org.junit.Assert.assertTrue;
 
+import character.ComputerControlledPlayer;
 import character.HumanControlledPlayer;
 import character.Pet;
 import character.Player;
@@ -103,6 +104,7 @@ public class ControllerTestForViewBasedGame {
   @Test
   public void testStartGame() {
     controller.getGameActions().get("Start the game").run();
+    assertTrue(modelLog.toString().contains("The turn has been reset."));
     assertTrue(viewLog.toString().contains("startGame called"));
     assertTrue(viewLog.toString().contains("resetFocus called"));
   }
@@ -176,5 +178,136 @@ public class ControllerTestForViewBasedGame {
     assertTrue(viewLog.toString().contains(
         "setResult called with result: The pet cat has been moved to TargetSpace"));
     assertTrue(viewLog.toString().contains("resetFocus called"));
+  }
+  
+  @Test
+  public void testAutomaticMovePlayer() {
+    players.remove(player);
+    Space newSpace = new MySpace(0, 4, 3, 6, "Foyer");
+    newSpace.addNeighbor(space);
+    Player newPlayer = new ComputerControlledPlayer("Leon", newSpace, 2, 0, 0, 0);
+    players.add(newPlayer);
+    Space neighbor = new MySpace(0, 4, 3, 6, "Foyer");
+    space.addNeighbor(neighbor);
+    World newModel = new MockModel(modelLog, "mansion", 40, 40, targetCharacter,
+        pet, spaces, players, newPlayer, false);
+    this.controller = new GameController(newModel, view, file, 4);
+    controller.getGameActions().get("Start the game").run();
+    assertTrue(modelLog.toString().contains("move player to: Kitchen"));
+    assertTrue(modelLog.toString().contains("next turn"));
+    assertTrue(viewLog.toString().contains("setResult called with result: The player Leon has moved to Kitchen"));
+    assertTrue(viewLog.toString().contains("resetFocus called"));
+  }
+  
+  @Test
+  public void testAutomaticPickUpItem() {
+    players.remove(player);
+    Space newSpace = new MySpace(0, 4, 3, 6, "Foyer");
+    newSpace.addItem(new MyItem("Revolver", 3));
+    Player newPlayer = new ComputerControlledPlayer("Leon", newSpace, 2, 0, 0, 0);
+    players.add(newPlayer);
+    World newModel = new MockModel(modelLog, "mansion", 40, 40, targetCharacter, pet,
+        spaces, players, newPlayer, false);
+    this.controller = new GameController(newModel, view, file, 4);
+    controller.getGameActions().get("Start the game").run();
+    assertTrue(modelLog.toString().contains("pick up item: Revolver"));
+    assertTrue(modelLog.toString().contains("next turn"));
+    assertTrue(viewLog.toString().contains("setResult called with result: The player Leon has picked up Revolver from Foyer"));
+    assertTrue(viewLog.toString().contains("resetFocus called"));
+  }
+  
+  @Test
+  public void testAutomaticLookAround() {
+    players.remove(player);
+    Space newSpace = new MySpace(0, 4, 3, 6, "Foyer");
+    Player newPlayer = new ComputerControlledPlayer("Leon", newSpace, 0, 0, 0, 3);
+    players.add(newPlayer);
+    World newModel = new MockModel(modelLog, "mansion", 40, 40, targetCharacter, pet,
+        spaces, players, newPlayer, false);
+    this.controller = new GameController(newModel, view, file, 4);
+    controller.getGameActions().get("Start the game").run();
+    assertTrue(modelLog.toString().contains("next turn"));
+    assertTrue(viewLog.toString().contains("setResult called with result: look around"));
+    assertTrue(viewLog.toString().contains("resetFocus called"));
+  }
+  
+  @Test
+  public void testAutomaticMovePet() {
+    players.remove(player);
+    Space newSpace = new MySpace(0, 4, 3, 6, "Foyer");
+    newSpace.addItem(new MyItem("Revolver", 3));
+    Player newPlayer = new ComputerControlledPlayer("Leon", newSpace, 1, 0, 0, 0);
+    players.add(newPlayer);
+    World newModel = new MockModel(modelLog, "mansion", 40, 40, targetCharacter, pet,
+        spaces, players, newPlayer, false);
+    this.controller = new GameController(newModel, view, file, 4);
+    controller.getGameActions().get("Start the game").run();
+    assertTrue(modelLog.toString().contains("move pet to: Kitchen"));
+    assertTrue(modelLog.toString().contains("next turn"));
+    assertTrue(viewLog.toString().contains(
+        "setResult called with result: The pet cat has been moved to Kitchen"));
+    assertTrue(viewLog.toString().contains("resetFocus called"));
+  }
+  
+  @Test
+  public void testAutomaticMakeAnAttemptWithMostPowerfulItem() {
+    players.remove(player);
+    Player newPlayer = new ComputerControlledPlayer("Leon", space, 2, 0, 0, 0);
+    newPlayer.addItem(new MyItem("Knife", 4));
+    newPlayer.addItem(new MyItem("Gun", 5));
+    players.add(newPlayer);
+    World newModel = new MockModel(modelLog, "mansion", 40, 40, targetCharacter, pet,
+        spaces, players, newPlayer, false);
+    this.controller = new GameController(newModel, view, file, 4);
+    controller.getGameActions().get("Start the game").run();
+    assertTrue(modelLog.toString().contains("make an attempt with: Gun"));
+    assertTrue(modelLog.toString().contains("next turn"));
+    assertTrue(viewLog.toString().contains(
+        "setResult called with result: The player Leon has made an attempt on the target character using Gun"));
+    assertTrue(viewLog.toString().contains("resetFocus called"));
+  }
+  
+  @Test
+  public void testHumanWin() {
+    TargetCharacter newTargetCharacter = new TargetCharacter("Doctor", 1);
+    World newModel = new MockModel(modelLog, "mansion", 40, 40, newTargetCharacter, pet,
+        spaces, players, player, false);
+    this.controller = new GameController(newModel, view, file, 4);
+    controller.getKeyTypes().get('a').run();
+    assertTrue(viewLog.toString().contains("getAttemptChoice called"));
+    assertTrue(modelLog.toString().contains("make an attempt with: TestWeapon"));
+    assertTrue(modelLog.toString().contains("next turn"));
+    assertTrue(viewLog.toString().contains(
+        "setResult called with result: The player Leo has made an attempt on the target character using TestWeapon"));
+    assertTrue(viewLog.toString().contains(
+        "endGame called with result: The target character Doctor has been killed by Leo. Congratulations, Leo!"));
+  }
+  
+  @Test
+  public void testComputertWin() {
+    players.remove(player);
+    Player newPlayer = new ComputerControlledPlayer("Leon", space, 2, 0, 0, 0);
+    players.add(newPlayer);
+    TargetCharacter newTargetCharacter = new TargetCharacter("Doctor", 1);
+    World newModel = new MockModel(modelLog, "mansion", 40, 40, newTargetCharacter, pet,
+        spaces, players, newPlayer, false);
+    this.controller = new GameController(newModel, view, file, 4);
+    controller.getGameActions().get("Start the game").run();
+    assertTrue(modelLog.toString().contains("make an attempt with: pokeEyes"));
+    assertTrue(modelLog.toString().contains("next turn"));
+    assertTrue(viewLog.toString().contains(
+        "setResult called with result: The player Leon has made an attempt on the target character using pokeEyes"));
+    assertTrue(viewLog.toString().contains(
+        "endGame called with result: The target character Doctor has been killed by Leon. Congratulations, Leon!"));
+  }
+  
+  @Test
+  public void testEndAfterMaximumTurn() {
+    this.controller = new GameController(model, view, file, 0);
+    controller.getGameActions().get("Start the game").run();
+    System.out.println(modelLog);
+    System.out.println(viewLog);
+    assertTrue(viewLog.toString().contains(
+        "endGame called with result: Reaching the maximum number of turns, and the target character escapes.\nNobody wins, game over."));
   }
 }
