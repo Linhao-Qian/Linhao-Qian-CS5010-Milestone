@@ -19,7 +19,7 @@ public class GamePanel extends JPanel {
   private JLabel resultLabel;
   
   /**
-   * Constructor for the game panel.
+   * Constructor of the game panel.
    * 
    * @param model the read-only model
    */
@@ -53,7 +53,8 @@ public class GamePanel extends JPanel {
   public void setHint() {
     StringBuilder hintText = new StringBuilder(
         String.format("<html>Now, it is %s's turn<br>", model.getTurn().getName()));
-    hintText.append(model.displaySpaceInformation(model.getTurn().getSpace().getName()).replace("\n", "<br>"));
+    hintText.append(model.displaySpaceInformation(
+        model.getTurn().getSpace().getName()).replace("\n", "<br>"));
     hintText.append("</html>");
     hintLabel.setText(hintText.toString());
   }

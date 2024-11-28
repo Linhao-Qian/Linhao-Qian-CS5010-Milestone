@@ -1,14 +1,14 @@
 package driver;
 
 import controller.GameController;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Locale;
 import java.util.NoSuchElementException;
-import view.View;
 import view.FrameView;
+import view.View;
 import world.MyWorld;
 import world.World;
 
@@ -22,6 +22,7 @@ public class Driver {
    * @param args the arguments list of the entry method
    */  
   public static void main(String[] args) {
+    Locale.setDefault(Locale.ENGLISH);
     try {
       if (args.length != 3) {
         System.out.println("Error: Invalid command arguments");
@@ -44,7 +45,7 @@ public class Driver {
         Readable reader = new InputStreamReader(System.in);
         GameController controller = new GameController(reader, System.out, turnLimit);
         controller.start(world);
-      } else if("view".equals(mode)) {
+      } else if ("view".equals(mode)) {
         View view = new FrameView(world);
         new GameController(world, view, file, turnLimit);
       } else {

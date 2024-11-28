@@ -265,14 +265,14 @@ public class GameController {
   
   private void configureKeyBoardListener() {
     keyTypes = new HashMap<>();
-    Map<Integer, Runnable> keyPresses = new HashMap<>();
-    Map<Integer, Runnable> keyReleases = new HashMap<>();
     keyTypes.put('i', () -> pickUpItem());
     keyTypes.put('l', () -> lookAround());    
     keyTypes.put('a', () -> makeAnAttempt());
     keyTypes.put('m', () -> movePet());   
     KeyboardListener kbd = new KeyboardListener();
     kbd.setKeyTypedMap(keyTypes);
+    Map<Integer, Runnable> keyPresses = new HashMap<>();
+    Map<Integer, Runnable> keyReleases = new HashMap<>();
     kbd.setKeyPressedMap(keyPresses);
     kbd.setKeyReleasedMap(keyReleases);
     view.addKeyListener(kbd);
@@ -280,14 +280,15 @@ public class GameController {
 
   private void configureActionListener() {
     gameActions = new HashMap<>();
-    GameActionListener gameActionListener = new GameActionListener();
     gameActions.put("Enter Game", () -> view.enterGame());
     gameActions.put("Start a new game with a new world specification", () -> selectNewWorld());
-    gameActions.put("Start a new game with the current world specification", () -> selectCurrentWorld());
+    gameActions.put("Start a new game with the current world specification",
+        () -> selectCurrentWorld());
     gameActions.put("Quit", () -> exitProgram());
     gameActions.put("Add a new computer-controlled player", () -> addComputerPlayer());
     gameActions.put("Add a new human-controlled player", () -> addHumanPlayer());
     gameActions.put("Start the game", () -> startGame());
+    GameActionListener gameActionListener = new GameActionListener();
     gameActionListener.setGameActionMap(gameActions);
     view.addActionListener(gameActionListener);
   }
@@ -318,8 +319,20 @@ public class GameController {
       configureSpaceClickListener();
       view.resetFocus();
       this.currentFile = selectedFile;
-    } catch (Exception e) {
-      view.showError("Failed to load world: " + e.getMessage());
+    } catch (IOException ioe) {
+      view.showError("Failed to load world: " + ioe.getMessage());
+    } catch (NumberFormatException nfe) {
+      view.showError("Failed to load world: " + nfe.getMessage());
+    } catch (UnsupportedOperationException uoe) {
+      view.showError("Failed to load world: " + uoe.getMessage());
+    } catch (IllegalArgumentException iae) {
+      view.showError("Failed to load world: " + iae.getMessage());
+    } catch (NoSuchElementException nee) {
+      view.showError("Failed to load world: " + nee.getMessage());
+    } catch (IllegalStateException ise) {
+      view.showError("Failed to load world: " + ise.getMessage());
+    } catch (NullPointerException npe) {
+      view.showError("Failed to load world: " + npe.getMessage());
     }
   }
 
@@ -331,8 +344,20 @@ public class GameController {
       configureActionListener();
       configureSpaceClickListener();
       view.resetFocus();
-    } catch (Exception e) {
-      view.showError("Failed to load world: " + e.getMessage());
+    } catch (IOException ioe) {
+      view.showError("Failed to load world: " + ioe.getMessage());
+    } catch (NumberFormatException nfe) {
+      view.showError("Failed to load world: " + nfe.getMessage());
+    } catch (UnsupportedOperationException uoe) {
+      view.showError("Failed to load world: " + uoe.getMessage());
+    } catch (IllegalArgumentException iae) {
+      view.showError("Failed to load world: " + iae.getMessage());
+    } catch (NoSuchElementException nee) {
+      view.showError("Failed to load world: " + nee.getMessage());
+    } catch (IllegalStateException ise) {
+      view.showError("Failed to load world: " + ise.getMessage());
+    } catch (NullPointerException npe) {
+      view.showError("Failed to load world: " + npe.getMessage());
     }
   }
   
@@ -347,8 +372,18 @@ public class GameController {
       model.addComputerPlayer(playerName, spaceName);
       view.addPlayer();
       configurePlayerClickListener();
-    } catch (Exception e) {
-      view.showError(e.getMessage());
+    } catch (NumberFormatException nfe) {
+      view.showError(nfe.getMessage());
+    } catch (UnsupportedOperationException uoe) {
+      view.showError(uoe.getMessage());
+    } catch (IllegalArgumentException iae) {
+      view.showError(iae.getMessage());
+    } catch (NoSuchElementException nee) {
+      view.showError(nee.getMessage());
+    } catch (IllegalStateException ise) {
+      view.showError(ise.getMessage());
+    } catch (NullPointerException npe) {
+      view.showError(npe.getMessage());
     }
   }
   
@@ -359,8 +394,18 @@ public class GameController {
       model.addHumanPlayer(playerName, spaceName);
       view.addPlayer();
       configurePlayerClickListener();
-    } catch (Exception e) {
-      view.showError(e.getMessage());
+    } catch (NumberFormatException nfe) {
+      view.showError(nfe.getMessage());
+    } catch (UnsupportedOperationException uoe) {
+      view.showError(uoe.getMessage());
+    } catch (IllegalArgumentException iae) {
+      view.showError(iae.getMessage());
+    } catch (NoSuchElementException nee) {
+      view.showError(nee.getMessage());
+    } catch (IllegalStateException ise) {
+      view.showError(ise.getMessage());
+    } catch (NullPointerException npe) {
+      view.showError(npe.getMessage());
     }
   }
 
@@ -389,8 +434,26 @@ public class GameController {
           String result = c.execute(model, System.out);
           view.setResult(result);
         }
-      } catch (Exception e) {
-        view.showError(e.getMessage());
+      } catch (IOException ioe) {
+        view.showError(ioe.getMessage());
+        return;
+      } catch (NumberFormatException nfe) {
+        view.showError(nfe.getMessage());
+        return;
+      } catch (UnsupportedOperationException uoe) {
+        view.showError(uoe.getMessage());
+        return;
+      } catch (IllegalArgumentException iae) {
+        view.showError(iae.getMessage());
+        return;
+      } catch (NoSuchElementException nee) {
+        view.showError(nee.getMessage());
+        return;
+      } catch (IllegalStateException ise) {
+        view.showError(ise.getMessage());
+        return;
+      } catch (NullPointerException npe) {
+        view.showError(npe.getMessage());
         return;
       }
       checkAutomaticExecution();
@@ -407,8 +470,8 @@ public class GameController {
       return false;
     }
     if (model.getTurnCount() >= this.turnLimit) {
-      String result = String.format(
-          "Reaching the maximum number of turns, and the target character escapes.\nNobody wins, game over.",
+      String result = String.format("Reaching the maximum number of turns, "
+          + "and the target character escapes.\nNobody wins, game over.",
           model.getTargetCharacter().getName(), currentTurn.getName(), currentTurn.getName());
       view.endGame(result);
       return false;
@@ -435,8 +498,18 @@ public class GameController {
       view.setResult(String.format("The player %s has moved to %s\n", playerName, space.getName()));
       checkAutomaticExecution();
       view.resetFocus();
-    } catch (Exception e) {
-      view.showError(e.getMessage());
+    } catch (NumberFormatException nfe) {
+      view.showError(nfe.getMessage());
+    } catch (UnsupportedOperationException uoe) {
+      view.showError(uoe.getMessage());
+    } catch (IllegalArgumentException iae) {
+      view.showError(iae.getMessage());
+    } catch (NoSuchElementException nee) {
+      view.showError(nee.getMessage());
+    } catch (IllegalStateException ise) {
+      view.showError(ise.getMessage());
+    } catch (NullPointerException npe) {
+      view.showError(npe.getMessage());
     }
   }
   
@@ -451,8 +524,18 @@ public class GameController {
       view.setResult(result);
       checkAutomaticExecution();
       view.resetFocus();
-    } catch (Exception e) {
-      view.showError(e.getMessage());
+    } catch (NumberFormatException nfe) {
+      view.showError(nfe.getMessage());
+    } catch (UnsupportedOperationException uoe) {
+      view.showError(uoe.getMessage());
+    } catch (IllegalArgumentException iae) {
+      view.showError(iae.getMessage());
+    } catch (NoSuchElementException nee) {
+      view.showError(nee.getMessage());
+    } catch (IllegalStateException ise) {
+      view.showError(ise.getMessage());
+    } catch (NullPointerException npe) {
+      view.showError(npe.getMessage());
     }
   }
   
@@ -463,8 +546,18 @@ public class GameController {
       view.setResult(result);
       checkAutomaticExecution();
       view.resetFocus();
-    } catch (Exception e) {
-      view.showError(e.getMessage());
+    } catch (NumberFormatException nfe) {
+      view.showError(nfe.getMessage());
+    } catch (UnsupportedOperationException uoe) {
+      view.showError(uoe.getMessage());
+    } catch (IllegalArgumentException iae) {
+      view.showError(iae.getMessage());
+    } catch (NoSuchElementException nee) {
+      view.showError(nee.getMessage());
+    } catch (IllegalStateException ise) {
+      view.showError(ise.getMessage());
+    } catch (NullPointerException npe) {
+      view.showError(npe.getMessage());
     }
   }
   
@@ -485,8 +578,18 @@ public class GameController {
       view.setResult(result);
       checkAutomaticExecution();
       view.resetFocus();
-    } catch (Exception e) {
-      view.showError(e.getMessage());
+    } catch (NumberFormatException nfe) {
+      view.showError(nfe.getMessage());
+    } catch (UnsupportedOperationException uoe) {
+      view.showError(uoe.getMessage());
+    } catch (IllegalArgumentException iae) {
+      view.showError(iae.getMessage());
+    } catch (NoSuchElementException nee) {
+      view.showError(nee.getMessage());
+    } catch (IllegalStateException ise) {
+      view.showError(ise.getMessage());
+    } catch (NullPointerException npe) {
+      view.showError(npe.getMessage());
     }
   }
   
@@ -500,8 +603,18 @@ public class GameController {
       view.setResult(result);
       checkAutomaticExecution();
       view.resetFocus();
-    } catch (Exception e) {
-      view.showError(e.getMessage());
+    } catch (NumberFormatException nfe) {
+      view.showError(nfe.getMessage());
+    } catch (UnsupportedOperationException uoe) {
+      view.showError(uoe.getMessage());
+    } catch (IllegalArgumentException iae) {
+      view.showError(iae.getMessage());
+    } catch (NoSuchElementException nee) {
+      view.showError(nee.getMessage());
+    } catch (IllegalStateException ise) {
+      view.showError(ise.getMessage());
+    } catch (NullPointerException npe) {
+      view.showError(npe.getMessage());
     }
   }
 }

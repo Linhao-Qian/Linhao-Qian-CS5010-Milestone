@@ -209,7 +209,7 @@ public class MyWorld implements World {
       int x2 = (pos[3] + 1) * 20 + 20;
       int y2 = (pos[2] + 1) * 20 + 20;
       if (x >= x1 && x <= x2 && y >= y1 && y <= y2) {
-          return space;
+        return space;
       }
     }
     return null;
@@ -482,7 +482,8 @@ public class MyWorld implements World {
     
     // Fill the background with white color.
     graphics.setColor(Color.WHITE);
-    graphics.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING, java.awt.RenderingHints.VALUE_ANTIALIAS_ON);
+    graphics.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING,
+        java.awt.RenderingHints.VALUE_ANTIALIAS_ON);
     graphics.fillRect(0, 0, width, height);
     
     // Draw the space boundaries with black color.

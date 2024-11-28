@@ -16,7 +16,7 @@ public class InfoPanel extends JPanel {
   private GamePanel gamePanel;
 
   /**
-   * Constructor for the info panel.
+   * Constructor of the info panel.
    * 
    * @param model the read-only model
    */

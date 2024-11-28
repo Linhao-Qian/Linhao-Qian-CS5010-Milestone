@@ -58,7 +58,6 @@ public class KeyboardListener implements KeyListener {
    * 
    * @param e information on the key event that triggered this callback
    */
-
   @Override
   public void keyTyped(KeyEvent e) {
     if (keyTypedMap.containsKey(e.getKeyChar())) {
@@ -72,7 +71,6 @@ public class KeyboardListener implements KeyListener {
    * 
    * @param e information on the key event that triggered this callback
    */
-
   @Override
   public void keyPressed(KeyEvent e) {
     if (keyPressedMap.containsKey(e.getKeyCode())) {
@@ -86,7 +84,6 @@ public class KeyboardListener implements KeyListener {
    * 
    * @param e information on the key event that triggered this callback
    */
-
   @Override
   public void keyReleased(KeyEvent e) {
     if (keyReleasedMap.containsKey(e.getKeyCode())) {

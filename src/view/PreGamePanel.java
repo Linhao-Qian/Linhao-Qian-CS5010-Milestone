@@ -22,7 +22,7 @@ public class PreGamePanel extends JPanel {
   private JButton startGameButton;
   
   /**
-   * Constructor for the pre-game panel.
+   * Constructor of the pre-game panel.
    * 
    * @param model the read-only model
    */

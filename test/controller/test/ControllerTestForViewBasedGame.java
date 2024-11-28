@@ -37,6 +37,9 @@ public class ControllerTestForViewBasedGame {
   private View view;
   private File file;
 
+  /**
+   * Set up the pre-defined fields of the unit test.
+   */
   @Before
   public void setUp() {
     this.targetCharacter = new TargetCharacter("Doctor", 50);
@@ -115,7 +118,8 @@ public class ControllerTestForViewBasedGame {
     assertTrue(modelLog.toString().contains("get space according to coordinates: 1 1"));
     assertTrue(modelLog.toString().contains("move player to: Kitchen"));
     assertTrue(modelLog.toString().contains("next turn"));
-    assertTrue(viewLog.toString().contains("setResult called with result: The player Leo has moved to Kitchen"));
+    assertTrue(viewLog.toString().contains(
+        "setResult called with result: The player Leo has moved to Kitchen"));
     assertTrue(viewLog.toString().contains("resetFocus called"));
   }
   
@@ -132,7 +136,8 @@ public class ControllerTestForViewBasedGame {
     assertTrue(viewLog.toString().contains("getItemName called"));
     assertTrue(modelLog.toString().contains("pick up item: TestItem"));
     assertTrue(modelLog.toString().contains("next turn"));
-    assertTrue(viewLog.toString().contains("setResult called with result: The player Leo has picked up TestItem from Kitchen"));
+    assertTrue(viewLog.toString().contains(
+        "setResult called with result: The player Leo has picked up TestItem from Kitchen"));
     assertTrue(viewLog.toString().contains("resetFocus called"));
   }
   
@@ -150,8 +155,8 @@ public class ControllerTestForViewBasedGame {
     assertTrue(viewLog.toString().contains("getAttemptChoice called"));
     assertTrue(modelLog.toString().contains("make an attempt with: TestWeapon"));
     assertTrue(modelLog.toString().contains("next turn"));
-    assertTrue(viewLog.toString().contains(
-        "setResult called with result: The player Leo has made an attempt on the target character using TestWeapon"));
+    assertTrue(viewLog.toString().contains("setResult called with result: "
+        + "The player Leo has made an attempt on the target character using TestWeapon"));
     assertTrue(viewLog.toString().contains("resetFocus called"));
   }
   
@@ -164,8 +169,8 @@ public class ControllerTestForViewBasedGame {
     assertTrue(viewLog.toString().contains("getAttemptChoice called"));
     assertTrue(modelLog.toString().contains("make an attempt with: TestWeapon"));
     assertTrue(modelLog.toString().contains("next turn"));
-    assertTrue(viewLog.toString().contains(
-        "setResult called with result: The player Leo stopped attacking because it was seen by others."));
+    assertTrue(viewLog.toString().contains("setResult called with result: "
+        + "The player Leo stopped attacking because it was seen by others."));
     assertTrue(viewLog.toString().contains("resetFocus called"));
   }
   
@@ -195,7 +200,8 @@ public class ControllerTestForViewBasedGame {
     controller.getGameActions().get("Start the game").run();
     assertTrue(modelLog.toString().contains("move player to: Kitchen"));
     assertTrue(modelLog.toString().contains("next turn"));
-    assertTrue(viewLog.toString().contains("setResult called with result: The player Leon has moved to Kitchen"));
+    assertTrue(viewLog.toString().contains(
+        "setResult called with result: The player Leon has moved to Kitchen"));
     assertTrue(viewLog.toString().contains("resetFocus called"));
   }
   
@@ -212,7 +218,8 @@ public class ControllerTestForViewBasedGame {
     controller.getGameActions().get("Start the game").run();
     assertTrue(modelLog.toString().contains("pick up item: Revolver"));
     assertTrue(modelLog.toString().contains("next turn"));
-    assertTrue(viewLog.toString().contains("setResult called with result: The player Leon has picked up Revolver from Foyer"));
+    assertTrue(viewLog.toString().contains(
+        "setResult called with result: The player Leon has picked up Revolver from Foyer"));
     assertTrue(viewLog.toString().contains("resetFocus called"));
   }
   
@@ -262,8 +269,8 @@ public class ControllerTestForViewBasedGame {
     controller.getGameActions().get("Start the game").run();
     assertTrue(modelLog.toString().contains("make an attempt with: Gun"));
     assertTrue(modelLog.toString().contains("next turn"));
-    assertTrue(viewLog.toString().contains(
-        "setResult called with result: The player Leon has made an attempt on the target character using Gun"));
+    assertTrue(viewLog.toString().contains("setResult called with result: "
+        + "The player Leon has made an attempt on the target character using Gun"));
     assertTrue(viewLog.toString().contains("resetFocus called"));
   }
   
@@ -277,10 +284,10 @@ public class ControllerTestForViewBasedGame {
     assertTrue(viewLog.toString().contains("getAttemptChoice called"));
     assertTrue(modelLog.toString().contains("make an attempt with: TestWeapon"));
     assertTrue(modelLog.toString().contains("next turn"));
-    assertTrue(viewLog.toString().contains(
-        "setResult called with result: The player Leo has made an attempt on the target character using TestWeapon"));
-    assertTrue(viewLog.toString().contains(
-        "endGame called with result: The target character Doctor has been killed by Leo. Congratulations, Leo!"));
+    assertTrue(viewLog.toString().contains("setResult called with result: "
+        + "The player Leo has made an attempt on the target character using TestWeapon"));
+    assertTrue(viewLog.toString().contains("endGame called with result: "
+        + "The target character Doctor has been killed by Leo. Congratulations, Leo!"));
   }
   
   @Test
@@ -295,10 +302,10 @@ public class ControllerTestForViewBasedGame {
     controller.getGameActions().get("Start the game").run();
     assertTrue(modelLog.toString().contains("make an attempt with: pokeEyes"));
     assertTrue(modelLog.toString().contains("next turn"));
-    assertTrue(viewLog.toString().contains(
-        "setResult called with result: The player Leon has made an attempt on the target character using pokeEyes"));
-    assertTrue(viewLog.toString().contains(
-        "endGame called with result: The target character Doctor has been killed by Leon. Congratulations, Leon!"));
+    assertTrue(viewLog.toString().contains("setResult called with result: "
+        + "The player Leon has made an attempt on the target character using pokeEyes"));
+    assertTrue(viewLog.toString().contains("endGame called with result: "
+        + "The target character Doctor has been killed by Leon. Congratulations, Leon!"));
   }
   
   @Test
@@ -307,7 +314,7 @@ public class ControllerTestForViewBasedGame {
     controller.getGameActions().get("Start the game").run();
     System.out.println(modelLog);
     System.out.println(viewLog);
-    assertTrue(viewLog.toString().contains(
-        "endGame called with result: Reaching the maximum number of turns, and the target character escapes.\nNobody wins, game over."));
+    assertTrue(viewLog.toString().contains("endGame called with result: Reaching the maximum"
+        + " number of turns, and the target character escapes.\nNobody wins, game over."));
   }
 }

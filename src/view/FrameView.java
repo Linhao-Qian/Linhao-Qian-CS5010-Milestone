@@ -22,12 +22,12 @@ public class FrameView extends JFrame implements View {
   private MainPanel mainPanel;
   
   /**
-   * Constructor.
+   * Constructor of the view.
    * 
    * @param model the read-only model
    */
   public FrameView(ReadonlyWorld model) {
-    super(model.getName()); 
+    super(model.getName());
     setSize(1200, 800);
     setLocation(180, 16);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -93,17 +93,20 @@ public class FrameView extends JFrame implements View {
   
   @Override
   public String getItemName() {
-    return JOptionPane.showInputDialog(this, "Enter the name of the item which you want to pick up:");
+    return JOptionPane.showInputDialog(this,
+        "Enter the name of the item which you want to pick up:");
   }
   
   @Override
   public String getAttemptChoice() {
-    return JOptionPane.showInputDialog(this, "Enter the name of the item which you want to use\n(If you have no any item, please enter 'pokeEyes'):");
+    return JOptionPane.showInputDialog(this, "Enter the name of the item which you want to use"
+        + "\n(If you have no any item, please enter 'pokeEyes'):");
   }
   
   @Override
   public String getIntendedSpace() {
-    return JOptionPane.showInputDialog(this, "Enter the name of the space which you want to move the pet to:");
+    return JOptionPane.showInputDialog(this,
+        "Enter the name of the space which you want to move the pet to:");
   }
   
   @Override

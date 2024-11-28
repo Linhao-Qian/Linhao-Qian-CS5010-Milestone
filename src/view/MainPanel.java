@@ -28,7 +28,7 @@ public class MainPanel extends JPanel {
   private InfoPanel infoPanel;
   
   /**
-   * Constructor for the main panel.
+   * Constructor of the main panel.
    * 
    * @param model the read-only model
    */

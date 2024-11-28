@@ -52,6 +52,7 @@ public class ComputerControlledPlayer extends Player {
   /**
    * Return a random operation.
    *
+   * @param model the model of the game
    * @return a random operation
    */
   public String getRandomOperation(World model) {

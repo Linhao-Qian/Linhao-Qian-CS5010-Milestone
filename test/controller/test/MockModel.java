@@ -28,14 +28,16 @@ public class MockModel implements World {
   /**
    * Constructs a MockModel object.
    * 
-   * @param log             the logger for the input values
-   * @param name            the name of the world
-   * @param rows            the rows of the world
-   * @param cols            the cols of the world
-   * @param targetCharacter the target character of the world
-   * @param spaces          the spaces of the world
-   * @param players         the players of the world
-   * @param turn            the current player
+   * @param log               the logger for the input values
+   * @param name              the name of the world
+   * @param rows              the rows of the world
+   * @param cols              the cols of the world
+   * @param targetCharacter   the target character of the world
+   * @param pet               the pet of the world
+   * @param spaces            the spaces of the world
+   * @param players           the players of the world
+   * @param turn              the current player
+   * @param canBeSeenByOthers can current player be seen by others
    */
   public MockModel(StringBuilder log, String name, int rows, int cols,
       TargetCharacter targetCharacter, Pet pet, List<Space> spaces,

@@ -31,7 +31,7 @@ public class MapPanel extends JPanel {
   private Map<String, JLabel> characters;
   
   /**
-   * Constructor for the map panel.
+   * Constructor of the map panel.
    * 
    * @param model the read-only model
    */
@@ -56,12 +56,14 @@ public class MapPanel extends JPanel {
     for (Map.Entry<String, JLabel> entries : characters.entrySet()) {
       String name = entries.getKey();
       JLabel characterLabel = entries.getValue();
-      if (characterLabel.getMouseListeners().length == 0 && name != model.getTargetCharacter().getName()) {
+      if (characterLabel.getMouseListeners().length == 0
+          && name != model.getTargetCharacter().getName()) {
         characterLabel.addMouseListener(new MouseAdapter() {
           @Override
           public void mouseClicked(MouseEvent e) {
             if (SwingUtilities.isLeftMouseButton(e)) {
-              JOptionPane.showMessageDialog(characterLabel, model.displayPlayerInformation(name), "Player information", JOptionPane.INFORMATION_MESSAGE);
+              JOptionPane.showMessageDialog(characterLabel, model.displayPlayerInformation(name),
+                  "Player information", JOptionPane.INFORMATION_MESSAGE);
             }
           }
         });
@@ -88,8 +90,10 @@ public class MapPanel extends JPanel {
   }
   
   private void drawTarget() {
-    int positionX = model.getSpaces().get(model.getTargetCharacterPosition()).getPosition()[3] * 20 - 50;
-    int positionY = model.getSpaces().get(model.getTargetCharacterPosition()).getPosition()[2] * 20 + 16;
+    int positionX = 
+        model.getSpaces().get(model.getTargetCharacterPosition()).getPosition()[3] * 20 - 50;
+    int positionY = 
+        model.getSpaces().get(model.getTargetCharacterPosition()).getPosition()[2] * 20 + 16;
     drawCharacter(model.getTargetCharacter().getName(), positionX, positionY);
   }
   
