@@ -1,18 +1,17 @@
 # Linhao-Qian-CS5010-Milestone
 
-Part3: Gameplay
-
 # 
-JAR File: ./res/Milestone3.jar
+JAR File: ./res/Milestone.jar
 
-How to use: java -jar Milestone3.jar ./Leo's_world.txt 4
+How to use: java -jar Milestone.jar ./Leo's_world.txt 4 view
 
 Tips:
-The first argument is the input file location, the second argument is the maximum number of turns allowed.
-You can set the second argument larger if you want to play a longer game.
+- The first argument is the input file location.
+- The second argument is the maximum number of turns allowed. You can set the second argument larger if you want to play a longer game.
+- The third argument is the game mode. If you input "view", the game will be view-based. If you input "text", the game will be text-based.
 
 # 
-How to play:
+How to play a text-based game:
 
 After you enter the game through my jar file, you will see the world's information on the top, including the world's name, size, and the information of spaces and items. In the last few lines, the controller will indicate that you can input 4 different commands: displaySpaceInformation, addComputerPlayer, addHumanPlayer and generateMap.
 
@@ -50,32 +49,44 @@ Each time one of the above five commands is executed successfully, there may be 
 Please enjoy your game in Leo's world! (You can check my world map in ./res/Leo's World.png)
 
 # 
+How to play a view-based game:
+
+After you enter the game through my jar file, you will see an about screen. Press the "Enter Game" button, then choose an option from the game menu.
+
+If you choose a new world, a File Chooser will pop up. Please choose the world specification file which you want to play. Or if you choose the current world, you will enter the game interface directly.
+
+After you enter the game interface, Please add players firstly. If there is no players in the game, you cannot start it.
+
+After you add at least one player, you can start the game. Please remember following the game's instructions while playing.
+
+Wish you a pleasant game experience!
+
+# 
 Game assumptions:
-- There is a mechanism similar to a 'referee' in the game.
-- After the game starts, a few non-player-commands can be entered through the initial interface.
-- Only after at least one player has been successfully created can player-commands be entered.
-- To start the next turn, you must enter the corresponding command on the referee interface.
+- The view part consists of many JPanel components.
+- Only after at least one player has been successfully created can you start the game.
+- You can play the game either in text mode or in view mode.
 
 # 
 Game limitations:
-- Even if a player has already entered the game, new players can still be created.
-- Some prompt information lacks appropriate separators, which is not conducive to players reading game text.
+- The UI of the game is rough and primitive, not beautiful enough.
+- In text mode, some prompt information lacks appropriate separators, which is not convenient for players to read game text.
 
 # 
 Game development citations:
-- https://en.wikipedia.org/wiki/Depth-first_search
+- https://www.javatpoint.com/java-jpanel
 
 # 
-Preliminary design changes after the preliminary design submission:
-- Refactor the canBeSeenBy method in Player.java to isNeighbor and isSameSpace methods.
-- Add a removeItem method to Player.java.
-- Add a canBeSeenByOthers field to the MockModel class.
-- Remove the space argument in the Pet constructor.
-- Modify the relationships of interfaces and classes in the UML diagram.
-- Modify the testing plan according to requirements and actual unit tests.
+Preliminary design changes comparing to Milestone 3:
+- Add a getSpace method to the model.
+- Add the View part to the game.
+- Add the view-related constructor and methods to the controller.
+- Add a MockView class to the design, which makes it possible to test controller isolating from the view.
+
+To get more details, please check my Preliminary Design PDF file in the res directory.
 
 # 
-Example run 1: Display target character escape
+Text-based example run 1: Display target character escape
 
 Input file: ./res/Leo's_world.txt
 
@@ -90,7 +101,7 @@ Please use these commands to validate these functionalities of my project:
 - the target character escaping with his life and the game ending
 
 # 
-Example run 2: Display computer player win
+Text-based example run 2: Display computer player win
 
 Input file: ./res/Leo's_world.txt
 
@@ -103,7 +114,7 @@ Please use these commands to validate these functionalities of my project:
 - a computer-controlled player winning the game by killing the target character
 
 # 
-Example run 3: Display human player win
+Text-based example run 3: Display human player win
 
 Input file: ./res/Leo's_world.txt
 
@@ -114,3 +125,8 @@ Output file: ./res/example_run_human_player_win.txt (line 63 - 291)
 Please use these commands to validate these functionalities of my project:
 - a human-player making an attempt on the target character's life
 - a human-player winning the game by killing the target character
+
+# 
+View-based game demonstration:
+
+I will show you how to play the view-based game during the code walk.
