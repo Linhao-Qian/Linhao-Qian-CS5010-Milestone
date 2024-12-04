@@ -7,6 +7,7 @@ import character.HumanControlledPlayer;
 import character.Pet;
 import character.Player;
 import character.TargetCharacter;
+import controller.Controller;
 import controller.GameController;
 import item.Item;
 import item.MyItem;
@@ -24,7 +25,7 @@ import world.World;
  * A JUnit test class for the Game Controller of the view-based game.
  */
 public class ControllerTestForViewBasedGame {
-  private GameController controller;
+  private Controller controller;
   private StringBuilder modelLog;
   private World model;
   private TargetCharacter targetCharacter;
@@ -72,6 +73,8 @@ public class ControllerTestForViewBasedGame {
     controller.getGameActions().get("Start a new game with a new world specification").run();
     assertTrue(viewLog.toString().contains("getNewFile called"));
     assertTrue(viewLog.toString().contains("showGameInterface called with model: Leo's World"));
+    assertTrue(viewLog.toString().contains(
+        "The target character graphical representation is drawn in the Dining Hall"));
     assertTrue(viewLog.toString().contains("addActionListener called"));
     assertTrue(viewLog.toString().contains("configureSpaceClickListener called"));
     assertTrue(viewLog.toString().contains("resetFocus called"));
@@ -81,6 +84,8 @@ public class ControllerTestForViewBasedGame {
   public void testCurrentWorld() {
     controller.getGameActions().get("Start a new game with the current world specification").run();
     assertTrue(viewLog.toString().contains("showGameInterface called with model: Leo's World"));
+    assertTrue(viewLog.toString().contains(
+        "The target character graphical representation is drawn in the Dining Hall"));
     assertTrue(viewLog.toString().contains("addActionListener called"));
     assertTrue(viewLog.toString().contains("configureSpaceClickListener called"));
     assertTrue(viewLog.toString().contains("resetFocus called"));

@@ -1,5 +1,6 @@
 package driver;
 
+import controller.Controller;
 import controller.GameController;
 import java.io.File;
 import java.io.FileReader;
@@ -43,7 +44,7 @@ public class Driver {
       String mode = args[2];
       if ("text".equals(mode)) {
         Readable reader = new InputStreamReader(System.in);
-        GameController controller = new GameController(reader, System.out, turnLimit);
+        Controller controller = new GameController(reader, System.out, turnLimit);
         controller.start(world);
       } else if ("view".equals(mode)) {
         View view = new FrameView(world);

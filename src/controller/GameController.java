@@ -34,7 +34,7 @@ import world.World;
 /**
  * The GameController represents the controller of the game.
  */
-public class GameController {
+public class GameController implements Controller {
   private File currentFile;
   private World model;
   private View view;
@@ -107,12 +107,7 @@ public class GameController {
     computerCommands.put("lookAround", m -> new LookAround());
   }
   
-  /**
-   * Method that gives control to the controller in the text-based game.
-   * 
-   * @param  model the model to use.
-   * @throws IOException if something goes wrong appending to out
-   */
+  @Override
   public void start(World model) throws IOException {
     Objects.requireNonNull(model);
     Scanner scan = new Scanner(this.in);
@@ -245,20 +240,12 @@ public class GameController {
     out.append("Nobody wins, game over.");
   }
   
-  /**
-   * Get the keyTypes of the view-based game.
-   * 
-   * @return the copy of the keyTypes of the view-based game
-   */
+  @Override
   public Map<Character, Runnable> getKeyTypes() {
     return Map.copyOf(this.keyTypes);
   }
   
-  /**
-   * Get the gameActions of the view-based game.
-   * 
-   * @return the copy of the gameActions of the view-based game
-   */
+  @Override
   public Map<String, Runnable> getGameActions() {
     return Map.copyOf(this.gameActions);
   }
@@ -479,12 +466,7 @@ public class GameController {
     return true;
   }
   
-  /**
-   * Move the player according to the given coordinates.
-   *
-   * @param x the x-coordinate of the space
-   * @param y the y-coordinate of the space
-   */
+  @Override
   public void movePlayer(int x, int y) {
     Space space = model.getSpace(x, y);
     if (space == null) {

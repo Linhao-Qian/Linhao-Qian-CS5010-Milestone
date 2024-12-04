@@ -36,6 +36,8 @@ public class MockView implements View {
   @Override
   public void showGameInterface(World model) {
     log.append("showGameInterface called with model: ").append(model.getName()).append("\n");
+    log.append("The target character graphical representation is drawn in the ")
+    .append(model.getSpaces().get(model.getTargetCharacterPosition()).getName()).append("\n");
   }
 
   @Override

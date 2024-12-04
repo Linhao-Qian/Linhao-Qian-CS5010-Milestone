@@ -7,6 +7,7 @@ import character.HumanControlledPlayer;
 import character.Pet;
 import character.Player;
 import character.TargetCharacter;
+import controller.Controller;
 import controller.GameController;
 import item.Item;
 import item.MyItem;
@@ -60,7 +61,7 @@ public class ControllerTestForTextBasedGame {
     players.remove(player);
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("");
-    GameController controller = new GameController(in, out, 3);
+    Controller controller = new GameController(in, out, 3);
     controller.start(model);
     assertEquals("", log.toString());
     assertEquals(
@@ -78,7 +79,7 @@ public class ControllerTestForTextBasedGame {
     players.remove(player);
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("displaySpaceInformation\nFoyer\n");
-    GameController controller = new GameController(in, out, 3);
+    Controller controller = new GameController(in, out, 3);
     controller.start(model);
     assertEquals("display space information: Foyer\n", log.toString());
     assertEquals(
@@ -103,7 +104,7 @@ public class ControllerTestForTextBasedGame {
     players.remove(player);
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("addComputerPlayer\nLeon\nFoyer\n");
-    GameController controller = new GameController(in, out, 3);
+    Controller controller = new GameController(in, out, 3);
     controller.start(model);
     assertEquals("add player: Leon\ninitial space name: Foyer\n", log.toString());
     assertEquals(
@@ -129,7 +130,7 @@ public class ControllerTestForTextBasedGame {
     players.remove(player);
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("addHumanPlayer\nLeon\nFoyer\n");
-    GameController controller = new GameController(in, out, 3);
+    Controller controller = new GameController(in, out, 3);
     controller.start(model);
     assertEquals("add player: Leon\ninitial space name: Foyer\n", log.toString());
     assertEquals(
@@ -179,7 +180,7 @@ public class ControllerTestForTextBasedGame {
   public void testDisplayPlayerInformation() throws IOException {
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("displayPlayerInformation\nLeo\n");
-    GameController controller = new GameController(in, out, 3);
+    Controller controller = new GameController(in, out, 3);
     controller.start(model);
     assertEquals("The turn has been reset.\ndisplay player information: Leo\n", log.toString());
     assertEquals(
@@ -207,7 +208,7 @@ public class ControllerTestForTextBasedGame {
   public void testMovePlayer() throws IOException {
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("nextTurn\nmovePlayer\nDrawing Room\n");
-    GameController controller = new GameController(in, out, 3);
+    Controller controller = new GameController(in, out, 3);
     controller.start(model);
     assertEquals("The turn has been reset.\ndisplay space information: Kitchen\n"
         + "move player to: Drawing Room\nnext turn\n", log.toString());
@@ -240,7 +241,7 @@ public class ControllerTestForTextBasedGame {
   public void testPickUpItem() throws IOException {
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("nextTurn\npickUpItem\nRevolver\n");
-    GameController controller = new GameController(in, out, 3);
+    Controller controller = new GameController(in, out, 3);
     controller.start(model);
     assertEquals("The turn has been reset.\ndisplay space information: Kitchen\n"
         + "pick up item: Revolver\nnext turn\n", log.toString());
@@ -273,7 +274,7 @@ public class ControllerTestForTextBasedGame {
   public void testLookAround() throws IOException {
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("nextTurn\nlookAround\n");
-    GameController controller = new GameController(in, out, 3);
+    Controller controller = new GameController(in, out, 3);
     controller.start(model);
     assertEquals("The turn has been reset.\ndisplay space information: Kitchen\nnext turn\n",
         log.toString());
@@ -305,7 +306,7 @@ public class ControllerTestForTextBasedGame {
   public void testMovePet() throws IOException {
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("nextTurn\nmovePet\nFoyer\n");
-    GameController controller = new GameController(in, out, 3);
+    Controller controller = new GameController(in, out, 3);
     controller.start(model);
     assertEquals("The turn has been reset.\ndisplay space information: Kitchen\n"
         + "move pet to: Foyer\nnext turn\n", log.toString());
@@ -338,7 +339,7 @@ public class ControllerTestForTextBasedGame {
   public void testMakeAnAttemptSuccessfully() throws IOException {
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("nextTurn\nmakeAnAttempt\nRevolver\n");
-    GameController controller = new GameController(in, out, 3);
+    Controller controller = new GameController(in, out, 3);
     controller.start(model);
     assertEquals("The turn has been reset.\ndisplay space information: Kitchen\n"
         + "make an attempt with: Revolver\nnext turn\n", log.toString());
@@ -374,7 +375,7 @@ public class ControllerTestForTextBasedGame {
         new MockModel(log, "mansion", 40, 40, targetCharacter, pet, spaces, players, player, true);
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("nextTurn\nmakeAnAttempt\nRevolver\n");
-    GameController controller = new GameController(in, out, 3);
+    Controller controller = new GameController(in, out, 3);
     controller.start(newModel);
     assertEquals("The turn has been reset.\ndisplay space information: Kitchen\n"
         + "make an attempt with: Revolver\nnext turn\n", log.toString());
@@ -417,7 +418,7 @@ public class ControllerTestForTextBasedGame {
         pet, spaces, players, newPlayer, false);
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("nextTurn\n");
-    GameController controller = new GameController(in, out, 3);
+    Controller controller = new GameController(in, out, 3);
     controller.start(newModel);
     assertEquals("The turn has been reset.\ndisplay space information: Foyer\n"
         + "move player to: Kitchen\nnext turn\n", log.toString());
@@ -454,7 +455,7 @@ public class ControllerTestForTextBasedGame {
         spaces, players, newPlayer, false);
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("nextTurn\n");
-    GameController controller = new GameController(in, out, 3);
+    Controller controller = new GameController(in, out, 3);
     controller.start(newModel);
     assertEquals("The turn has been reset.\ndisplay space information: Foyer\n"
         + "pick up item: Revolver\nnext turn\n", log.toString());
@@ -490,7 +491,7 @@ public class ControllerTestForTextBasedGame {
         spaces, players, newPlayer, false);
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("nextTurn\n");
-    GameController controller = new GameController(in, out, 3);
+    Controller controller = new GameController(in, out, 3);
     controller.start(newModel);
     assertEquals("The turn has been reset.\ndisplay space information: Foyer\n"
         + "next turn\n", log.toString());
@@ -527,7 +528,7 @@ public class ControllerTestForTextBasedGame {
         spaces, players, newPlayer, false);
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("nextTurn\n");
-    GameController controller = new GameController(in, out, 3);
+    Controller controller = new GameController(in, out, 3);
     controller.start(newModel);
     assertEquals("The turn has been reset.\ndisplay space information: Foyer\n"
         + "move pet to: Kitchen\nnext turn\n", log.toString());
@@ -564,7 +565,7 @@ public class ControllerTestForTextBasedGame {
         spaces, players, newPlayer, false);
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("nextTurn\n");
-    GameController controller = new GameController(in, out, 3);
+    Controller controller = new GameController(in, out, 3);
     controller.start(newModel);
     assertEquals("The turn has been reset.\ndisplay space information: Kitchen\n"
         + "cannot be seen by others\nmake an attempt with: Gun\nnext turn\n", log.toString());
@@ -597,7 +598,7 @@ public class ControllerTestForTextBasedGame {
         spaces, players, player, false);
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("nextTurn\nmakeAnAttempt\npokeEyes\n");
-    GameController controller = new GameController(in, out, 3);
+    Controller controller = new GameController(in, out, 3);
     controller.start(newModel);
     assertEquals("The turn has been reset.\ndisplay space information: Kitchen\n"
         + "make an attempt with: pokeEyes\nnext turn\n", log.toString());
@@ -631,7 +632,7 @@ public class ControllerTestForTextBasedGame {
         spaces, players, newPlayer, false);
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("nextTurn\n");
-    GameController controller = new GameController(in, out, 3);
+    Controller controller = new GameController(in, out, 3);
     controller.start(newModel);
     assertEquals("The turn has been reset.\ndisplay space information: Kitchen\n"
         + "cannot be seen by others\nmake an attempt with: pokeEyes\nnext turn\n", log.toString());
@@ -655,7 +656,7 @@ public class ControllerTestForTextBasedGame {
   public void testEndAfterMaximumTurn() throws IOException {
     StringBuffer out = new StringBuffer();
     Reader in = new StringReader("");
-    GameController controller = new GameController(in, out, 0);
+    Controller controller = new GameController(in, out, 0);
     controller.start(model);
     assertEquals("The turn has been reset.\n", log.toString());
     assertEquals(
